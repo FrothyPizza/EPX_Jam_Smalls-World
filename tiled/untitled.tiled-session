@@ -1,10 +1,14 @@
 {
-    "activeFile": "levels/underworld_level.tmx",
+    "activeFile": "levels/saloon.tmx",
     "expandedProjectPaths": [
         "levels",
         "."
     ],
     "fileStates": {
+        "CowboyTilemap.tsx": {
+            "scaleInDock": 4,
+            "scaleInEditor": 5.5
+        },
         "GameJamSpriteSheet.tsx": {
             "dynamicWrapping": false,
             "scaleInDock": 8,
@@ -50,11 +54,11 @@
             "expandedObjectLayers": [
                 7
             ],
-            "scale": 0.25,
+            "scale": 1.5,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 1200,
-                "y": 90
+                "x": 311.66666666666663,
+                "y": 152.33333333333331
             }
         },
         "levels/level_1.tmx": {
@@ -251,11 +255,11 @@
             }
         },
         "levels/saloon.tmx": {
-            "scale": 3.518958333333333,
-            "selectedLayer": 0,
+            "scale": 8,
+            "selectedLayer": 6,
             "viewCenter": {
-                "x": 120.20602687821918,
-                "y": 88.23633887869279
+                "x": 116.625,
+                "y": 131.125
             }
         },
         "levels/styx_level.tmx": {
@@ -265,8 +269,8 @@
             "scale": 0.125,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 1456,
-                "y": 92
+                "x": 1840,
+                "y": 84
             }
         },
         "levels/tower-tileset.tsx": {
@@ -291,26 +295,25 @@
     },
     "last.imagePath": "C:/Users/froth/Documents/GitHub/EPX_Jam_Smalls-World/tiled",
     "openFiles": [
-        "GameJamSpriteSheet.tsx",
         "levels/styx_level.tmx",
         "levels/hades.tmx",
-        "levels/harpy.tmx",
-        "levels/underworld_level.tmx"
+        "CowboyTilemap.tsx",
+        "levels/saloon.tmx"
     ],
     "project": "untitled.tiled-project",
     "recentFiles": [
-        "levels/charon.tmx",
-        "levels/underworld_level.tmx",
-        "levels/saloon.tmx",
-        "GameJamSpriteSheet.tsx",
         "levels/styx_level.tmx",
         "levels/hades.tmx",
+        "CowboyTilemap.tsx",
+        "levels/saloon.tmx",
         "levels/harpy.tmx",
+        "levels/charon.tmx",
+        "levels/underworld_level.tmx",
+        "GameJamSpriteSheet.tsx",
         "levels/level_7.tmx",
         "levels/level_run_1.tmx",
         "levels/level_run_2.tmx",
-        "tower-tileset.tsx",
-        "levels/level_blank.tmx"
+        "tower-tileset.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {

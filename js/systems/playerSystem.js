@@ -68,6 +68,9 @@ ECS.Systems.playerJumpSystem = function(entities, map) {
             velocity.y *= jump.jumpReleaseMultiplier;
             jump.hasCutJumpVelocity = true;
         }
+
+
+
     });
 }
 
@@ -99,6 +102,16 @@ ECS.Systems.playerMovementSystem = function(entities) {
 
         if (!moved && Math.abs(velocity.x) <= movement.speed) {
             velocity.x = 0;
+        }
+
+        if(entity.has('MapCollisionState')) {
+            const collision = entity.MapCollisionState;
+            // If touching one-way platform from above, allow fall through
+            if (collision.bottomTouchingOneWay && Inputs.down) {
+                entity.Position.y += 1;
+                entity.Position.lastPos.y += 1;
+                console.log("Falling through one-way platform");
+            }
         }
     });
 }

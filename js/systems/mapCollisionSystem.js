@@ -11,17 +11,36 @@ ECS.Systems.mapCollisionSystem = function(entities, map) {
         const velocity = entity.Velocity;
         const dimensions = entity.Dimensions;
 
+
         // Update collision state if entity has MapCollisionState component
         if (entity.has('MapCollisionState')) {
             const state = entity.MapCollisionState;
             state.topHit = map.pointIsCollidingWithWall(position.x, position.y - 1) || 
                           map.pointIsCollidingWithWall(position.x + dimensions.width - 1, position.y - 1);
             state.bottomHit = map.pointIsCollidingWithWall(position.x, position.y + dimensions.height) || 
-                             map.pointIsCollidingWithWall(position.x + dimensions.width - 1, position.y + dimensions.height);
+                             map.pointIsCollidingWithWall(position.x + dimensions.width - 1, position.y + dimensions.height)
+
+                             || map.pointIsCollidingWithOneWayWall(position.x, position.y + dimensions.height) || 
+                                  map.pointIsCollidingWithOneWayWall(position.x + dimensions.width - 1, position.y + dimensions.height);
+
+            state.bottomTouchingOneWay =map.pointIsCollidingWithOneWayWall(position.x, position.y + dimensions.height) || 
+                                  map.pointIsCollidingWithOneWayWall(position.x + dimensions.width - 1, position.y + dimensions.height);
+
+                                  
+        // // log one way bottom touching st
+        // console.log("Entity", entity.id, "bottomTouchingOneWay:", state.bottomTouchingOneWay);
+
+
+                            //  || (map.pointIsCollidingWithOneWayWall(position.x, position.y + dimensions.height) && !map.pointIsCollidingWithOneWayWall(position.x, position.y + dimensions.height - 1)) || 
+                            //       (map.pointIsCollidingWithOneWayWall(position.x + dimensions.width - 1, position.y + dimensions.height) && !map.pointIsCollidingWithOneWayWall(position.x + dimensions.width - 1, position.y + dimensions.height - 1));
+
             state.leftHit = map.pointIsCollidingWithWall(position.x - 1, position.y) || 
                            map.pointIsCollidingWithWall(position.x - 1, position.y + dimensions.height - 1);
             state.rightHit = map.pointIsCollidingWithWall(position.x + dimensions.width, position.y) || 
                             map.pointIsCollidingWithWall(position.x + dimensions.width, position.y + dimensions.height - 1);
+
+
+            // state.bottomHit = 
         }
 
         // Revert to last position and apply movement with collision detection
@@ -88,7 +107,11 @@ function moveV(entity, map, value) {
     let iterations = 0;
     while (round(position.y, value) != desiredY) {
         if (!map.pointIsCollidingWithWall(position.x, position.y + sign + modifier) && 
-            !map.pointIsCollidingWithWall(position.x + dimensions.width - 1, position.y + sign + modifier)) {
+            !map.pointIsCollidingWithWall(position.x + dimensions.width - 1, position.y + sign + modifier)
+
+            && !(sign > 0 && map.pointIsCollidingWithOneWayWall(position.x, position.y + sign + modifier) && !map.pointIsCollidingWithOneWayWall(position.x, position.y + modifier))
+            && !(sign > 0 && map.pointIsCollidingWithOneWayWall(position.x + dimensions.width - 1, position.y + sign + modifier) && !map.pointIsCollidingWithOneWayWall(position.x + dimensions.width - 1, position.y + modifier))
+        ) {
             position.y += sign;
         } else {
             velocity.y = 0;

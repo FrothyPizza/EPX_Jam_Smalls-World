@@ -31,5 +31,6 @@ ECS.Components.MapCollisionState = class MapCollisionState {
         this.topHit = false;    // hitting ceiling
         this.leftHit = false;   // touching left wall
         this.rightHit = false;  // touching right wall
+        this.bottomTouchingOneWay = false; // touching one-way platform
     }
 }
