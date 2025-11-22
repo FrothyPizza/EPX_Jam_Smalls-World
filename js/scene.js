@@ -74,6 +74,17 @@ class LevelScene extends Scene {
             // const testEnemy = ECS.Blueprints.testCharonEnemy(this.map.playerSpawn.x, this.map.playerSpawn.y - 20);
             // this.addEntity(testEnemy);
         }
+
+        // Spawn enemies from map data
+        this.map.enemies.forEach(spawn => {
+            let enemyEntity = null;
+            if (spawn.name === "SaloonOutlaw") {
+                enemyEntity = ECS.Blueprints.createSaloonOutlaw(spawn.x, spawn.y);
+            }
+            if (enemyEntity) {
+                this.addEntity(enemyEntity);
+            }
+        });
     }
 
     update() {

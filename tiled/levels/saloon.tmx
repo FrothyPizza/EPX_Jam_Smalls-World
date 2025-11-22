@@ -54,9 +54,6 @@
 </data>
  </layer>
  <objectgroup id="9" name="Enemies">
-  <object id="44" name="CharonEnemy" x="82.3333" y="43.6667">
-   <point/>
-  </object>
   <object id="47" name="SaloonOutlaw" x="24" y="104">
    <point/>
   </object>
@@ -90,14 +87,14 @@
   <object id="57" name="SaloonOutlaw" x="88.3636" y="128.364">
    <point/>
   </object>
-  <object id="58" name="SaloonOutlaw" x="162.182" y="126.545">
+  <object id="58" name="SaloonOutlaw" x="160" y="128.364">
    <point/>
   </object>
  </objectgroup>
  <objectgroup id="11" name="CrateLocations"/>
  <objectgroup id="10" name="BossCues"/>
  <objectgroup id="7" name="Spawns">
-  <object id="2" name="PlayerSpawn" x="96.5" y="112">
+  <object id="2" name="PlayerSpawn" x="103.955" y="127.818">
    <point/>
   </object>
  </objectgroup>
