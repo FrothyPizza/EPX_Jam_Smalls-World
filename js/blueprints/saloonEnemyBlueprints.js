@@ -18,10 +18,11 @@ ECS.Blueprints.createSaloonOutlaw = function(x, y) {
     entity.addComponent(new ECS.Components.Hurtbox([{x: 0, y: 0, w: 8, h: 8}]));
 
     const sprite = new ECS.Components.AnimatedSprite(
-        Loader.spriteSheets.Theo, 
-        "Idle", 
-        8
+        Loader.spriteSheets.KnifeOutlaw, 
+        "Background", 
+        12
     );
+    sprite.paused = true;
 
     
 

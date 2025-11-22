@@ -5,6 +5,15 @@
   "actions": [
     { "type": "wait", "duration": 60 },
     { "type": "setVelocity", "entity": "OutlawLeft", "amount": { "x": 0, "y": -2 } },
+    {
+      "type": "setAnimation",
+      "entity": "OutlawLeft",
+      "animation": "Idle",
+      "speedMultiplier": 0.5,
+      "direction": "right",
+      "restart": true,
+      "pause": false
+    },
     { "type": "wait", "duration": 60 },
     {
       "type": "dialogue",
@@ -15,6 +24,14 @@
       "box": { "x": 10, "y": 40, "width": 120, "height": 40 }
     },
     { "type": "setVelocity", "entity": "OutlawRight", "amount": { "x": 0, "y": -2 } },
+    {
+      "type": "setAnimation",
+      "entity": "OutlawRight",
+      "animation": "Idle",
+      "direction": "left",
+      "pause": false,
+      "restart": true
+    },
     { "type": "wait", "duration": 60 },
     {
       "type": "dialogue",

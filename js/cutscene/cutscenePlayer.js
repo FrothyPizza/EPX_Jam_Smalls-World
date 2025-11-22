@@ -228,6 +228,59 @@ const Cutscene = (() => {
                 }
             };
         },
+        setAnimation: (player, action) => {
+            const entity = getEntity(player, action.entity);
+            if (!entity || !entity.AnimatedSprite) {
+                return noopHandler();
+            }
+            const sprite = entity.AnimatedSprite;
+            return {
+                update() {
+                    const animationName = action.animation || action.anim || action.state;
+                    if (animationName) {
+                        sprite.setAnimation(animationName);
+                        if (action.restart) {
+                            sprite.restartAnimation?.();
+                        }
+                    }
+
+                    const baseFps = typeof APP_FPS === 'number' && APP_FPS > 0 ? APP_FPS : 60;
+                    const toNumber = (value) => (isFiniteNumber(value) ? value : null);
+                    const explicitSpeed = toNumber(action.speed ?? action.frameDelay ?? action.delay);
+                    const fpsTarget = toNumber(action.fps ?? action.framesPerSecond);
+                    const multiplier = toNumber(action.speedMultiplier ?? action.playbackRate ?? action.rate);
+
+                    if (fpsTarget !== null && fpsTarget > 0) {
+                        sprite.animationSpeed = Math.max(0.1, baseFps / fpsTarget);
+                    }
+
+                    if (explicitSpeed !== null) {
+                        sprite.animationSpeed = Math.max(0.1, explicitSpeed);
+                    }
+
+                    if (multiplier !== null && multiplier !== 0) {
+                        sprite.animationSpeed = Math.max(0.1, sprite.animationSpeed / multiplier);
+                    }
+
+                    if (action.pause === true) {
+                        sprite.paused = true;
+                    } else if (action.pause === false || action.resume === true) {
+                        sprite.paused = false;
+                    }
+
+                    if (action.direction !== undefined) {
+                        const dir = action.direction;
+                        if (dir === 'left' || dir === -1) {
+                            sprite.direction = -1;
+                        } else if (dir === 'right' || dir === 1) {
+                            sprite.direction = 1;
+                        }
+                    }
+
+                    return true;
+                }
+            };
+        },
         shakeOnce: (player, action) => ({
             fired: false,
             update() {

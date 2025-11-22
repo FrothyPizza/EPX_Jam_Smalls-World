@@ -46,8 +46,8 @@
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 120,
-                "y": 880
+                "x": 119.75,
+                "y": 879.25
             }
         },
         "levels/harpy.tmx": {
@@ -57,8 +57,8 @@
             "scale": 1.5,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 311.66666666666663,
-                "y": 152.33333333333331
+                "x": 311,
+                "y": 117.66666666666663
             }
         },
         "levels/level_1.tmx": {
@@ -255,11 +255,14 @@
             }
         },
         "levels/saloon.tmx": {
+            "expandedObjectLayers": [
+                9
+            ],
             "scale": 5.5,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 90.72727272727273,
-                "y": 86.27272727272728
+                "x": 97.54545454545455,
+                "y": 116.63636363636363
             }
         },
         "levels/styx_level.tmx": {
@@ -269,8 +272,8 @@
             "scale": 0.125,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 2176,
-                "y": 192
+                "x": 1452,
+                "y": -332
             }
         },
         "levels/tower-tileset.tsx": {
@@ -302,11 +305,11 @@
     ],
     "project": "untitled.tiled-project",
     "recentFiles": [
+        "levels/harpy.tmx",
         "levels/styx_level.tmx",
         "levels/hades.tmx",
         "CowboyTilemap.tsx",
         "levels/saloon.tmx",
-        "levels/harpy.tmx",
         "levels/charon.tmx",
         "levels/underworld_level.tmx",
         "GameJamSpriteSheet.tsx",

@@ -374,20 +374,11 @@ document.body.onload = () => {
       "assets/images/aseprite/cowboy/Smalls.json",
 
 
-      "assets/images/enemies/fly.json",
-      "assets/images/enemies/Demon.json",
-      "assets/images/enemies/Hades.json",
-      "assets/images/enemies/Harpy.json",
-      "assets/images/enemies/Hellhound.json",
-
-      "assets/images/enemies/Flag.json",
-
-      "assets/images/enemies/spirit_walker.json",
-      // "assets/images/enemies/Charon.json",
       "assets/images/enemies/CharonSequenced01.json",
-      "assets/images/enemies/waterfall.json",
-      "assets/images/enemies/waterfall_background.json",
-      "assets/images/enemies/MushroomSpore.json",
+
+
+      "assets/images/cowboy/KnifeOutlaw.json",
+      
 
       "assets/cutscenes/saloon.cutscene",
 

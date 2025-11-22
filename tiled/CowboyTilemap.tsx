@@ -10,6 +10,8 @@
  <tile id="90" type="onewaywall"/>
  <tile id="91" type="onewaywall"/>
  <tile id="93" type="wall"/>
+ <tile id="202" type="wall"/>
+ <tile id="204" type="onewaywall"/>
  <tile id="320" type="wall"/>
  <tile id="321" type="wall"/>
  <tile id="322" type="wall"/>
@@ -38,6 +40,8 @@
  <tile id="369" type="wall"/>
  <tile id="370" type="wall"/>
  <tile id="371" type="wall"/>
+ <tile id="378" type="wall"/>
+ <tile id="383" type="wall"/>
  <tile id="402" type="wall"/>
  <tile id="403" type="wall"/>
  <tile id="406" type="wall"/>
