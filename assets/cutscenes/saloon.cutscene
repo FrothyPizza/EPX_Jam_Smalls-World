@@ -5,7 +5,7 @@
   "actions": [
     { "type": "wait", "duration": 60 },
     { "type": "setVelocity", "entity": "OutlawLeft", "amount": { "x": 0, "y": -2 } },
-    { "type": "wait", "duration": 30 },
+    { "type": "wait", "duration": 60 },
     {
       "type": "dialogue",
       "speaker": "Outlaw Jimbo",
@@ -15,7 +15,7 @@
       "box": { "x": 10, "y": 40, "width": 120, "height": 40 }
     },
     { "type": "setVelocity", "entity": "OutlawRight", "amount": { "x": 0, "y": -2 } },
-    { "type": "wait", "duration": 30 },
+    { "type": "wait", "duration": 60 },
     {
       "type": "dialogue",
       "speaker": "Outlaw Timothy",
