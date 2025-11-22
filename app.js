@@ -44,7 +44,7 @@ function startGameloop() {
 function init() {
     // Load the styx_level
     if (Loader.levels['saloon']) {
-        const styxLevel = new LevelScene(Loader.levels['saloon'].xml);
+        const styxLevel = new SaloonScene(Loader.levels['saloon'].xml);
         styxLevel.init();
         GlobalState.currentScene = styxLevel;
     } else {

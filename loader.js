@@ -389,6 +389,8 @@ document.body.onload = () => {
       "assets/images/enemies/waterfall_background.json",
       "assets/images/enemies/MushroomSpore.json",
 
+      "assets/cutscenes/saloon.cutscene",
+
       // "tiled/GameJamSpriteSheet.tsx",
       // "tiled/new-tiles.png",
       // "tiled/GameJamSpriteSheet.png",

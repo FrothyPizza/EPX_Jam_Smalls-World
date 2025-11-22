@@ -7,9 +7,10 @@ ECS.Blueprints.createSaloonOutlaw = function(x, y) {
 
     entity.addComponent(new ECS.Components.Position(x, y));
     entity.addComponent(new ECS.Components.Velocity(0, 0));
+    entity.addComponent(new ECS.Components.Gravity());
 
 
-    entity.addComponent(new ECS.Components.Dimensions(32, 24));
+    entity.addComponent(new ECS.Components.Dimensions(8, 8));
 
     entity.addComponent(new ECS.Components.CollidesWithMap(true));
     entity.addComponent(new ECS.Components.MapCollisionState());
