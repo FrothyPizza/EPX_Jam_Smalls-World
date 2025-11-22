@@ -1,0 +1,6 @@
+
+
+const GlobalState = {
+    currentScene: null,
+    
+};

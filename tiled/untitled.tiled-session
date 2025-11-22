@@ -1,0 +1,306 @@
+{
+    "activeFile": "levels/underworld_level.tmx",
+    "expandedProjectPaths": [
+        "levels",
+        "."
+    ],
+    "fileStates": {
+        "GameJamSpriteSheet.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 8,
+            "scaleInEditor": 5.5
+        },
+        "complete-tileset.tsx": {
+            "scaleInDock": 5.5,
+            "scaleInEditor": 8
+        },
+        "level_1.tmx": {
+            "scale": 3,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 89.49999999999999,
+                "y": 77.16666666666666
+            }
+        },
+        "levels/blank_level.tmx": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 89.25,
+                "y": 127.25
+            }
+        },
+        "levels/charon.tmx": {
+            "scale": 3.518958333333333,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 120.20602687821918,
+                "y": 88.23633887869279
+            }
+        },
+        "levels/hades.tmx": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 111,
+                "y": 90.25
+            }
+        },
+        "levels/harpy.tmx": {
+            "expandedObjectLayers": [
+                7
+            ],
+            "scale": 0.25,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": 1440,
+                "y": 810
+            }
+        },
+        "levels/level_1.tmx": {
+            "expandedObjectLayers": [
+                10,
+                11,
+                9,
+                7
+            ],
+            "scale": 0.75,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 117.33333333333337,
+                "y": 87.33333333333331
+            }
+        },
+        "levels/level_2.tmx": {
+            "expandedObjectLayers": [
+                9,
+                7
+            ],
+            "scale": 0.75,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 117.33333333333337,
+                "y": 85.99999999999994
+            }
+        },
+        "levels/level_3-5.tmx": {
+            "expandedObjectLayers": [
+                9,
+                7
+            ],
+            "scale": 1,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 238,
+                "y": -40.5
+            }
+        },
+        "levels/level_3.5.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 345,
+                "y": -25
+            }
+        },
+        "levels/level_3.tmx": {
+            "expandedObjectLayers": [
+                7
+            ],
+            "scale": 3,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 158.66666666666666,
+                "y": 87.49999999999999
+            }
+        },
+        "levels/level_4.tmx": {
+            "expandedObjectLayers": [
+                7
+            ],
+            "scale": 0.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 116,
+                "y": 85
+            }
+        },
+        "levels/level_5.tmx": {
+            "expandedObjectLayers": [
+                9,
+                7
+            ],
+            "scale": 0.75,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": -1372,
+                "y": -60.666666666666686
+            }
+        },
+        "levels/level_6.tmx": {
+            "expandedObjectLayers": [
+                7
+            ],
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": -323.33333333333326,
+                "y": 265
+            }
+        },
+        "levels/level_7.tmx": {
+            "expandedObjectLayers": [
+                9,
+                10,
+                7
+            ],
+            "scale": 8,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 79.1875,
+                "y": 23.9375
+            }
+        },
+        "levels/level_8.tmx": {
+            "expandedObjectLayers": [
+                9
+            ],
+            "scale": 0.33,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": -787.8787878787879,
+                "y": 313.6363636363635
+            }
+        },
+        "levels/level_9.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 195.5,
+                "y": 217.5
+            }
+        },
+        "levels/level_blank.tmx": {
+            "expandedObjectLayers": [
+                7
+            ],
+            "scale": 3,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 109.66666666666669,
+                "y": 129.16666666666669
+            }
+        },
+        "levels/level_corgi.tmx": {
+            "expandedObjectLayers": [
+                11,
+                9
+            ],
+            "scale": 3,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 120,
+                "y": 87.83333333333334
+            }
+        },
+        "levels/level_hoopoe.tmx": {
+            "expandedObjectLayers": [
+                10,
+                11,
+                9,
+                7
+            ],
+            "scale": 3,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": 120,
+                "y": 175.83333333333331
+            }
+        },
+        "levels/level_run_1.tmx": {
+            "expandedObjectLayers": [
+                9,
+                10,
+                11
+            ],
+            "scale": 0.5,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 547,
+                "y": 19
+            }
+        },
+        "levels/level_run_2.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": -736.3636363636365,
+                "y": 431.81818181818187
+            }
+        },
+        "levels/main_map.tmx": {
+            "expandedObjectLayers": [
+                3,
+                4
+            ],
+            "scale": 0.33,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 663.6363636363636,
+                "y": -207.5757575757575
+            }
+        },
+        "levels/styx_level.tmx": {
+            "expandedObjectLayers": [
+                9
+            ],
+            "scale": 0.125,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": 512,
+                "y": -420
+            }
+        },
+        "levels/tower-tileset.tsx": {
+            "scaleInDock": 1
+        },
+        "levels/underworld_level.tmx": {
+            "expandedObjectLayers": [
+                9
+            ],
+            "scale": 5.5,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 352,
+                "y": 175.72727272727275
+            }
+        },
+        "tower-tileset.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 5.5,
+            "scaleInEditor": 5.5
+        }
+    },
+    "openFiles": [
+        "GameJamSpriteSheet.tsx",
+        "levels/styx_level.tmx",
+        "levels/hades.tmx",
+        "levels/harpy.tmx",
+        "levels/underworld_level.tmx"
+    ],
+    "project": "untitled.tiled-project",
+    "recentFiles": [
+        "GameJamSpriteSheet.tsx",
+        "levels/styx_level.tmx",
+        "levels/hades.tmx",
+        "levels/harpy.tmx",
+        "levels/underworld_level.tmx",
+        "levels/level_7.tmx",
+        "levels/level_run_1.tmx",
+        "levels/level_run_2.tmx",
+        "tower-tileset.tsx",
+        "levels/level_blank.tmx",
+        "levels/level_3-5.tmx",
+        "levels/level_1.tmx"
+    ]
+}
