@@ -23,7 +23,7 @@ ECS.Components.PlayerState = class PlayerState {
 ECS.Components.PlayerMovement = class PlayerMovement {
     constructor() {
         this.defaultSpeed = 0.666;
-        this.speed = 1;
+        this.speed = 0.66666666666;
         this.friction = 0.94;
         this.xVelLowerThreshold = 0.3;
     }
