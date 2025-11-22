@@ -46,8 +46,8 @@
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 119.75,
-                "y": 879.25
+                "x": 120,
+                "y": 880
             }
         },
         "levels/harpy.tmx": {
@@ -272,8 +272,8 @@
             "scale": 0.125,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 1452,
-                "y": -332
+                "x": 1392,
+                "y": 2352
             }
         },
         "levels/tower-tileset.tsx": {

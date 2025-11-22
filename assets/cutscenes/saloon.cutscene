@@ -39,7 +39,7 @@
       "text": "No, I am the GREATEREST cowboy in the North Sourtherly East!",
       "hold": 180,
       "charsPerFrame": 2.5,
-      "box": { "x": 120, "y": 40, "width": 120, "height": 40 }
+      "box": { "x": 100, "y": 40, "width": 120, "height": 40 }
     },
     {
       "type": "move",

@@ -89,6 +89,15 @@ ECS.Components.Sprite = class Sprite {
     }
 }
 
+
+ECS.Components.LooksBackAndForthIntermittently = class LooksBackAndForthIntermittently {
+    constructor(everyXFrames = 45) {
+        this.everyXFrames = everyXFrames;
+        
+    }
+}
+
+
 /*
 sequencerData example:{
     "0": {
