@@ -196,6 +196,10 @@ class Map {
         return this.pointIsCollidingWithType(x, y, "damage");
     }
 
+    pointIsCollidingWithOneWayWall(x, y) {
+        return this.pointIsCollidingWithType(x, y, "onewaywall");
+    }
+
     // Loops over blocks in the specified area and finds ground blocks.
     findAllGroundBlocksInScreenBounds(x, y) {
         let blocks = [];

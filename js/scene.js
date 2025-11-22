@@ -71,8 +71,8 @@ class LevelScene extends Scene {
             this.addEntity(player);
             this.player = player;
 
-            const testEnemy = ECS.Blueprints.testCharonEnemy(this.map.playerSpawn.x, this.map.playerSpawn.y - 20);
-            this.addEntity(testEnemy);
+            // const testEnemy = ECS.Blueprints.testCharonEnemy(this.map.playerSpawn.x, this.map.playerSpawn.y - 20);
+            // this.addEntity(testEnemy);
         }
     }
 

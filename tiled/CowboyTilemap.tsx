@@ -7,8 +7,8 @@
  <tile id="11" type="wall"/>
  <tile id="12" type="wall"/>
  <tile id="13" type="wall"/>
- <tile id="90" type="wall"/>
- <tile id="91" type="wall"/>
+ <tile id="90" type="onewaywall"/>
+ <tile id="91" type="onewaywall"/>
  <tile id="93" type="wall"/>
  <tile id="320" type="wall"/>
  <tile id="321" type="wall"/>
