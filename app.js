@@ -43,8 +43,8 @@ function startGameloop() {
 
 function init() {
     // Load the styx_level
-    if (Loader.levels['styx_level']) {
-        const styxLevel = new LevelScene(Loader.levels['underworld_level'].xml);
+    if (Loader.levels['charon']) {
+        const styxLevel = new LevelScene(Loader.levels['charon'].xml);
         styxLevel.init();
         GlobalState.currentScene = styxLevel;
     } else {

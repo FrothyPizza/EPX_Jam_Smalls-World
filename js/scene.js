@@ -1,4 +1,3 @@
-
 // Base Scene class for managing game scenes
 
 class Scene {
@@ -97,6 +96,7 @@ class LevelScene extends Scene {
         
         // Run other systems
         ECS.Systems.entityCollisionSystem(this.entities);
+        ECS.Systems.bossSystem(this.entities);
         
         // Update player state and animation
         ECS.Systems.playerStateMachineSystem(this.entities);
