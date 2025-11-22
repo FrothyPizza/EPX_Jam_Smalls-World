@@ -25,9 +25,9 @@ ECS.Components.Velocity = class Velocity extends Vectory {
 }
 
 ECS.Components.Gravity = class Gravity {
-    static defaultGravity = 0.2;
+    static defaultGravity = 0.133333333;
     
-    constructor(gravity = 0.2) {
+    constructor(gravity = Gravity.defaultGravity) {
         this.gravity = {x: 0, y: gravity};
     }
 }

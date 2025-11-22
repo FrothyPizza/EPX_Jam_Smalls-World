@@ -31,7 +31,7 @@ ECS.Components.PlayerMovement = class PlayerMovement {
 
 ECS.Components.PlayerJump = class PlayerJump {
     constructor() {
-        this.jumpSpeed = 2.3;
+        this.jumpSpeed = 1.9;
         this.maxJumpHoldTime = 11;
         this.jumpHoldTimer = new Clock();
         this.jumpHoldTimer.add(this.maxJumpHoldTime + 6);
