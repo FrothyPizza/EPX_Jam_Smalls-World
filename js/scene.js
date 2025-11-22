@@ -79,25 +79,21 @@ class LevelScene extends Scene {
 
     update() {
         // Run player systems first (order matters!)
-        ECS.Systems.playerPhysicsSystem(this.entities);
-        ECS.Systems.playerDashSystem(this.entities);
-        ECS.Systems.playerJumpSystem(this.entities, this.map);
-        ECS.Systems.playerWallSystem(this.entities, this.map);
-        ECS.Systems.playerMovementSystem(this.entities);
-        ECS.Systems.playerGlideSystem(this.entities, this.map);
-        ECS.Systems.playerFlyingSystem(this.entities);
-        
-        // Run core ECS systems
         ECS.Systems.physicsSystem(this.entities);
+
+        ECS.Systems.ComposedPlayerPhysicsSystem(this.entities, this.map);
+
+        // Run core ECS systems
         ECS.Systems.mapCollisionSystem(this.entities, this.map);
-        
-        // Reset wall jump flag after physics is done
-        ECS.Systems.playerResetWallJumpSystem(this.entities);
-        
+
+
         // Run player collision systems
         ECS.Systems.playerSpikeDamageSystem(this.entities, this.map);
         ECS.Systems.playerOffMapSystem(this.entities, this.map);
         ECS.Systems.playerInvincibilitySystem(this.entities);
+
+
+
         
         // Run other systems
         ECS.Systems.entityCollisionSystem(this.entities);

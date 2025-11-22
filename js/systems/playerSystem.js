@@ -48,7 +48,7 @@ ECS.Systems.playerJumpSystem = function(entities, map) {
 
         // Initiate jump
         if ((collision.bottomHit || jump.jumpGracePeriodTimer.getTime() < jump.jumpGracePeriodFrames) 
-            && Inputs.jump && jump.canJump) {
+            && Inputs.jump && jump.canJump && velocity.y >= -0.1) {
             velocity.y = -jump.jumpSpeed;
             jump.hasCutJumpVelocity = false;
             jump.jumpHoldTimer.restart();
@@ -71,56 +71,6 @@ ECS.Systems.playerJumpSystem = function(entities, map) {
     });
 }
 
-// Player wall mechanics system
-ECS.Systems.playerWallSystem = function(entities, map) {
-    Object.values(entities).forEach(entity => {
-        if (!entity.has('PlayerWallMechanics', 'PlayerJump', 'Velocity', 
-                        'MapCollisionState', 'AnimatedSprite', 'Gravity')) return;
-
-        const wall = entity.PlayerWallMechanics;
-        const jump = entity.PlayerJump;
-        const velocity = entity.Velocity;
-        const collision = entity.MapCollisionState;
-        const sprite = entity.AnimatedSprite;
-        const gravity = entity.Gravity;
-
-        if (!wall.canWallJump) return;
-
-        // Wall jump from right wall
-        if (!collision.bottomHit && collision.rightHit && Inputs.jump && jump.canJump && !wall.isWallJumping) {
-            jump.canJump = false;
-            velocity.y = -jump.jumpSpeed;
-            velocity.x = -wall.wallJumpSpeed;
-            if (entity.has('Position')) entity.Position.x -= 1;
-            sprite.direction = -1;
-            Loader.playSound("jump.wav", 0.1);
-            wall.isWallJumping = true;
-        }
-
-        // Wall jump from left wall
-        if (!collision.bottomHit && collision.leftHit && Inputs.jump && jump.canJump && !wall.isWallJumping) {
-            jump.canJump = false;
-            velocity.y = -jump.jumpSpeed;
-            velocity.x = wall.wallJumpSpeed;
-            if (entity.has('Position')) entity.Position.x += 1;
-            sprite.direction = 1;
-            Loader.playSound("jump.wav", 0.1);
-            wall.isWallJumping = true;
-        }
-
-        // Wall sliding
-        if (!collision.bottomHit && collision.rightHit && Inputs.right) {
-            if (velocity.y > 0) velocity.y -= gravity.gravity.y / 2;
-            if (velocity.y > wall.wallSlideDownSpeed) velocity.y = wall.wallSlideDownSpeed;
-            sprite.direction = 1;
-        }
-        if (!collision.bottomHit && collision.leftHit && Inputs.left) {
-            if (velocity.y > 0) velocity.y -= gravity.gravity.y / 2;
-            if (velocity.y > wall.wallSlideDownSpeed) velocity.y = wall.wallSlideDownSpeed;
-            sprite.direction = -1;
-        }
-    });
-}
 
 // Player movement system
 ECS.Systems.playerMovementSystem = function(entities) {
@@ -131,11 +81,6 @@ ECS.Systems.playerMovementSystem = function(entities) {
         const velocity = entity.Velocity;
         const sprite = entity.AnimatedSprite;
         const position = entity.Position;
-
-        // Don't override velocity during wall jump
-        if (entity.has('PlayerWallMechanics') && entity.PlayerWallMechanics.isWallJumping) {
-            return;
-        }
 
         let moved = false;
         // Move left
@@ -204,29 +149,6 @@ ECS.Systems.playerDashSystem = function(entities) {
 
 
         
-    });
-}
-
-// Player glide system
-ECS.Systems.playerGlideSystem = function(entities, map) {
-    Object.values(entities).forEach(entity => {
-        if (!entity.has('PlayerGlide', 'Velocity', 'MapCollisionState', 'Position', 'Dimensions')) return;
-
-        const glide = entity.PlayerGlide;
-        const velocity = entity.Velocity;
-        const collision = entity.MapCollisionState;
-        const position = entity.Position;
-        const dimensions = entity.Dimensions;
-
-        if (!glide.canGlide) return;
-
-        // Glide when holding jump in air
-        if (!collision.bottomHit && Inputs.jump && 
-            !map.pointIsCollidingWithWall(position.x + dimensions.width / 2, position.y + 2)) {
-            if (velocity.y > 0) {
-                velocity.y = glide.glideFallSpeed;
-            }
-        }
     });
 }
 
@@ -318,13 +240,6 @@ ECS.Systems.playerInvincibilitySystem = function(entities) {
     });
 }
 
-// Reset wall jumping flag system (run after all movement)
-ECS.Systems.playerResetWallJumpSystem = function(entities) {
-    Object.values(entities).forEach(entity => {
-        if (!entity.has('PlayerWallMechanics')) return;
-        entity.PlayerWallMechanics.isWallJumping = false;
-    });
-}
 
 // Player state machine system
 ECS.Systems.playerStateMachineSystem = function(entities) {
@@ -429,4 +344,19 @@ ECS.Helpers.playerTakeDamage = function(entity, shake) {
             entity.AnimatedSprite.paused = true;
         }
     }
+}
+
+
+/**
+ * To be run before any physics or movement systems
+ * @param {*} entities 
+ * @param {*} map 
+ */
+ECS.Systems.ComposedPlayerPhysicsSystem = function(entities, map) {
+    ECS.Systems.playerPhysicsSystem(entities);
+    ECS.Systems.playerDashSystem(entities);
+    ECS.Systems.playerJumpSystem(entities, map);
+    ECS.Systems.playerMovementSystem(entities);
+    // ECS.Systems.playerGlideSystem(entities, map);
+    ECS.Systems.playerFlyingSystem(entities);
 }

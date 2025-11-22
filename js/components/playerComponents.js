@@ -43,14 +43,6 @@ ECS.Components.PlayerJump = class PlayerJump {
     }
 }
 
-ECS.Components.PlayerWallMechanics = class PlayerWallMechanics {
-    constructor() {
-        this.canWallJump = true;
-        this.wallJumpSpeed = 1.6;
-        this.isWallJumping = false;
-        this.wallSlideDownSpeed = 0.5;
-    }
-}
 
 ECS.Components.PlayerDash = class PlayerDash {
     constructor() {
@@ -64,12 +56,7 @@ ECS.Components.PlayerDash = class PlayerDash {
     }
 }
 
-ECS.Components.PlayerGlide = class PlayerGlide {
-    constructor() {
-        this.canGlide = true;
-        this.glideFallSpeed = 0.2;
-    }
-}
+
 
 ECS.Components.PlayerLives = class PlayerLives {
     constructor(maxLives = 3) {

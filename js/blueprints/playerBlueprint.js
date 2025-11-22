@@ -29,9 +29,7 @@ ECS.Blueprints.createPlayer = function(x, y) {
     player.addComponent(new ECS.Components.PlayerState());
     player.addComponent(new ECS.Components.PlayerMovement());
     player.addComponent(new ECS.Components.PlayerJump());
-    player.addComponent(new ECS.Components.PlayerWallMechanics());
     player.addComponent(new ECS.Components.PlayerDash());
-    player.addComponent(new ECS.Components.PlayerGlide());
     player.addComponent(new ECS.Components.PlayerLives(CONSTANTS.playerMaxLives));
     player.addComponent(new ECS.Components.PlayerInvincibility());
     player.addComponent(new ECS.Components.PlayerSpawn(x, y));
