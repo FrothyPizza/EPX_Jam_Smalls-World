@@ -474,6 +474,7 @@ class SaloonScene extends LevelScene {
             let enemyEntity = null;
             if (spawn.name === "SaloonOutlaw") {
                 enemyEntity = ECS.Blueprints.createSaloonOutlaw(spawn.x, spawn.y);
+                enemyEntity.addComponent(new ECS.Components.LooksBackAndForthIntermittently(60 + Math.floor(Math.random() * 60)));
             }
             if (spawn.name === "SaloonOutlawInitial") {
                 enemyEntity = ECS.Blueprints.createSaloonOutlaw(spawn.x, spawn.y);
