@@ -52,6 +52,7 @@ const Loader = {
         .then((data) => {
           let parser = new DOMParser();
           let xml = parser.parseFromString(data, "text/xml");
+          console.log("Loaded map:", xml);
           let map = new Map(xml);
           this.levels[src.split("/").pop().split(".")[0]] = map;
           resolve();
@@ -388,9 +389,11 @@ document.body.onload = () => {
       "assets/images/enemies/waterfall_background.json",
       "assets/images/enemies/MushroomSpore.json",
 
-      "tiled/GameJamSpriteSheet.tsx",
-      "tiled/new-tiles.png",
-      "tiled/GameJamSpriteSheet.png",
+      // "tiled/GameJamSpriteSheet.tsx",
+      // "tiled/new-tiles.png",
+      // "tiled/GameJamSpriteSheet.png",
+      "tiled/CowboyTilemap.tsx",
+      "tiled/CowboyTilemap.png",
       "tiled/levels/game_world.world",
 
 
@@ -413,7 +416,7 @@ document.body.onload = () => {
       for (let i = 0; i < Loader.gameWorld.maps.length; i++) {
         levels.push("tiled/levels/" + Loader.gameWorld.maps[i].fileName);
       }
-      Loader.tilesetImage = Loader.images["GameJamSpriteSheet.png"];
+      Loader.tilesetImage = Loader.images["CowboyTilemap.png"];
 
       Loader.load(...levels).then(() => {
         init();

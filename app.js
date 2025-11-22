@@ -43,8 +43,8 @@ function startGameloop() {
 
 function init() {
     // Load the styx_level
-    if (Loader.levels['charon']) {
-        const styxLevel = new LevelScene(Loader.levels['charon'].xml);
+    if (Loader.levels['saloon']) {
+        const styxLevel = new LevelScene(Loader.levels['saloon'].xml);
         styxLevel.init();
         GlobalState.currentScene = styxLevel;
     } else {
@@ -56,7 +56,7 @@ function init() {
 
 // Main Game Loop
 function update() {
-    context.fillStyle = '#151515';
+    context.fillStyle = CONSTANTS.BACKGROUND_COLOR;
     context.fillRect(0, 0, WIDTH, HEIGHT);
 
     
