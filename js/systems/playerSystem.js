@@ -104,7 +104,7 @@ ECS.Systems.playerMovementSystem = function(entities) {
 }
 
 // Player dash system
-ECS.Systems.playerDashSystem = function(entities) {
+ECS.Systems.playerDashSystem = function(entities, map) {
     Object.values(entities).forEach(entity => {
         if (!entity.has('PlayerDash', 'Velocity', 'AnimatedSprite', 'Gravity')) return;
 
@@ -114,6 +114,13 @@ ECS.Systems.playerDashSystem = function(entities) {
         const gravity = entity.Gravity;
 
         if (!dash.canDash) return;
+
+        // let isOnGroundOrWithin6pxOfGroundWithDownVelocity = false;
+        // if (entity.has('MapCollisionState') && map) {
+        //     const collision = entity.MapCollisionState;
+        //     isOnGroundOrWithin6pxOfGroundWithDownVelocity = collision.bottomHit ||
+        //         (collision.nextBottomHit && velocity.y >= 0 && collision.nextBottomHitDistance <= 6);
+        // }
 
         // Initiate dash
         if (!dash.isDashing && Inputs.dash && dash.dashClock.getTime() > dash.dashCooldown) {
@@ -125,9 +132,15 @@ ECS.Systems.playerDashSystem = function(entities) {
 
         // While dashing
         if (dash.isDashing) {
-            velocity.y = 0;
+            // velocity.y = 0;
             velocity.x = sprite.direction * dash.dashSpeed;
-            gravity.gravity.y = 0;
+            // gravity.gravity.y = entity.Gravity.constructor.defaultGravity / 2;
+
+            // set is jumping to false to prevent contiuation of upward jump
+            if (entity.has('PlayerJump') && velocity.y < 0) {
+                entity.PlayerJump.jumpHoldTimer.add(10000);
+                velocity.y = 0;
+            }
 
             // End dash after duration
             if (dash.dashTimer.getTime() > dash.dashDuration) {
@@ -137,8 +150,9 @@ ECS.Systems.playerDashSystem = function(entities) {
                 gravity.gravity.y = entity.Gravity.constructor.defaultGravity || 0.12;
             }
 
-            // Cancel dash on opposite input
-            if ((velocity.x > 0 && Inputs.left) || (velocity.x < 0 && Inputs.right)) {
+            // Cancel dash on opposite input or if trying to jump and on ground
+            if ((velocity.x > 0 && Inputs.left) || (velocity.x < 0 && Inputs.right)
+            || (Inputs.jump && entity.has('MapCollisionState') && entity.MapCollisionState.bottomHit)) {
                 dash.isDashing = false;
                 dash.dashClock.restart();
                 velocity.x = 0;
@@ -297,7 +311,7 @@ ECS.Systems.playerAnimationSystem = function(entities) {
                 sprite.setAnimation("Fall");
                 break;
             case PLAYER_STATES.DASHING:
-                sprite.setAnimation("Run");
+                sprite.setAnimation("Roll");
                 break;
             case PLAYER_STATES.WALL_SLIDING:
                 sprite.setAnimation("Wall Grab");
@@ -354,7 +368,7 @@ ECS.Helpers.playerTakeDamage = function(entity, shake) {
  */
 ECS.Systems.ComposedPlayerPhysicsSystem = function(entities, map) {
     ECS.Systems.playerPhysicsSystem(entities);
-    ECS.Systems.playerDashSystem(entities);
+    ECS.Systems.playerDashSystem(entities, map);
     ECS.Systems.playerJumpSystem(entities, map);
     ECS.Systems.playerMovementSystem(entities);
     // ECS.Systems.playerGlideSystem(entities, map);

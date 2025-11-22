@@ -131,7 +131,7 @@ const Loader = {
 
           // load the frame-by-frame collision data if present
           data.sequencerData = data.meta.sequencerData || {};
-          console.log("Sequencer data loaded for spritesheet:", src, data.sequencerData);
+          // console.log("Sequencer data loaded for spritesheet:", src, data.sequencerData);
 
 
 
@@ -370,6 +370,8 @@ document.body.onload = () => {
       "assets/fonts/font4x8.png",
 
       "assets/images/player/Theo.json",
+      "assets/images/aseprite/cowboy/Smalls.json",
+
 
       "assets/images/enemies/fly.json",
       "assets/images/enemies/Demon.json",

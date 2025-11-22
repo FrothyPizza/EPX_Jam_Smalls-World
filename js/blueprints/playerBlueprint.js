@@ -18,9 +18,9 @@ ECS.Blueprints.createPlayer = function(x, y) {
 
     // Sprite
     const sprite = new ECS.Components.AnimatedSprite(
-        Loader.spriteSheets.Theo, 
+        Loader.spriteSheets.Smalls, 
         "Run", 
-        10
+        6
     );
     player.addComponent(sprite);
     player.addComponent(new ECS.Components.ViewLock(true));

@@ -47,8 +47,8 @@ ECS.Components.PlayerJump = class PlayerJump {
 ECS.Components.PlayerDash = class PlayerDash {
     constructor() {
         this.canDash = true;
-        this.dashSpeed = 3.5;
-        this.dashDuration = 9;
+        this.dashSpeed = 2;
+        this.dashDuration = 15;
         this.dashCooldown = 20;
         this.isDashing = false;
         this.dashTimer = new Clock();
