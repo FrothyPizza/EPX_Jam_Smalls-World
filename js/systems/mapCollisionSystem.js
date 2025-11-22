@@ -11,6 +11,7 @@ ECS.Systems.mapCollisionSystem = function(entities, map) {
         const velocity = entity.Velocity;
         const dimensions = entity.Dimensions;
 
+
         // Update collision state if entity has MapCollisionState component
         if (entity.has('MapCollisionState')) {
             const state = entity.MapCollisionState;
@@ -21,6 +22,14 @@ ECS.Systems.mapCollisionSystem = function(entities, map) {
 
                              || map.pointIsCollidingWithOneWayWall(position.x, position.y + dimensions.height) || 
                                   map.pointIsCollidingWithOneWayWall(position.x + dimensions.width - 1, position.y + dimensions.height);
+
+            state.bottomTouchingOneWay =map.pointIsCollidingWithOneWayWall(position.x, position.y + dimensions.height) || 
+                                  map.pointIsCollidingWithOneWayWall(position.x + dimensions.width - 1, position.y + dimensions.height);
+
+                                  
+        // // log one way bottom touching st
+        // console.log("Entity", entity.id, "bottomTouchingOneWay:", state.bottomTouchingOneWay);
+
 
                             //  || (map.pointIsCollidingWithOneWayWall(position.x, position.y + dimensions.height) && !map.pointIsCollidingWithOneWayWall(position.x, position.y + dimensions.height - 1)) || 
                             //       (map.pointIsCollidingWithOneWayWall(position.x + dimensions.width - 1, position.y + dimensions.height) && !map.pointIsCollidingWithOneWayWall(position.x + dimensions.width - 1, position.y + dimensions.height - 1));

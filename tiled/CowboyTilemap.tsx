@@ -10,52 +10,22 @@
  <tile id="90" type="onewaywall"/>
  <tile id="91" type="onewaywall"/>
  <tile id="93" type="wall"/>
- <tile id="320" type="wall"/>
- <tile id="321" type="wall"/>
+ <tile id="320" type="onewaywall"/>
+ <tile id="321" type="onewaywall"/>
  <tile id="322" type="wall"/>
  <tile id="323" type="wall"/>
- <tile id="326" type="wall"/>
- <tile id="327" type="wall"/>
- <tile id="328" type="wall"/>
- <tile id="329" type="wall"/>
- <tile id="330" type="wall"/>
- <tile id="331" type="wall"/>
+ <tile id="326" type="onewaywall"/>
+ <tile id="327" type="onewaywall"/>
+ <tile id="328" type="onewaywall"/>
+ <tile id="329" type="onewaywall"/>
+ <tile id="330" type="onewaywall"/>
+ <tile id="331" type="onewaywall"/>
  <tile id="360" type="wall"/>
  <tile id="361" type="wall"/>
  <tile id="362" type="wall"/>
  <tile id="363" type="wall"/>
- <tile id="366" type="wall"/>
- <tile id="367" type="wall"/>
- <tile id="368" type="wall"/>
- <tile id="369" type="wall"/>
- <tile id="370" type="wall"/>
- <tile id="371" type="wall"/>
  <tile id="402" type="wall"/>
  <tile id="403" type="wall"/>
- <tile id="406" type="wall"/>
- <tile id="407" type="wall"/>
- <tile id="408" type="wall"/>
- <tile id="409" type="wall"/>
- <tile id="410" type="wall"/>
- <tile id="411" type="wall"/>
  <tile id="442" type="wall"/>
  <tile id="443" type="wall"/>
- <tile id="446" type="wall"/>
- <tile id="447" type="wall"/>
- <tile id="448" type="wall"/>
- <tile id="449" type="wall"/>
- <tile id="450" type="wall"/>
- <tile id="451" type="wall"/>
- <tile id="486" type="wall"/>
- <tile id="487" type="wall"/>
- <tile id="488" type="wall"/>
- <tile id="489" type="wall"/>
- <tile id="490" type="wall"/>
- <tile id="491" type="wall"/>
- <tile id="526" type="wall"/>
- <tile id="527" type="wall"/>
- <tile id="528" type="wall"/>
- <tile id="529" type="wall"/>
- <tile id="530" type="wall"/>
- <tile id="531" type="wall"/>
 </tileset>
