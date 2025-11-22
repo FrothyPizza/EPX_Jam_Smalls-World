@@ -19,6 +19,8 @@ ECS.Components.AnimatedSprite = class AnimatedSprite {
         this.width = jsonData.frames[0].frame.w;
         this.height = jsonData.frames[0].frame.h;
 
+
+
         this.tint = null;
         this.currentAnimationFrom = 0;
         this.currentAnimationTo = 0;

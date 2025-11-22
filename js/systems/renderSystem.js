@@ -25,7 +25,7 @@ ECS.Systems.renderSystem = function(entities, context) {
             if (entity.has('Dead') && entity.Dead.dead) {
                 sprite.tint = "rgba(255, 0, 0, 0.5)";
             } else {
-                sprite.tint = null;
+                // sprite.tint = null;
             }
 
             // Cull off-screen
@@ -45,6 +45,7 @@ ECS.Systems.renderSystem = function(entities, context) {
             
             if (sprite.tint) {
                 sprite.offscreenContext.fillStyle = sprite.tint;
+
                 sprite.offscreenContext.globalCompositeOperation = 'source-atop';
                 sprite.offscreenContext.fillRect(0, 0, frame.frame.w, frame.frame.h);
                 sprite.offscreenContext.globalCompositeOperation = 'source-over';
