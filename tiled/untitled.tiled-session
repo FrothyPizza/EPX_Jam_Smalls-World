@@ -1,8 +1,8 @@
 {
     "activeFile": "levels/saloon.tmx",
     "expandedProjectPaths": [
-        ".",
-        "levels"
+        "levels",
+        "."
     ],
     "fileStates": {
         "CowboyTilemap.tsx": {
@@ -49,7 +49,7 @@
             "scale": 4.243333333333333,
             "selectedLayer": 7,
             "viewCenter": {
-                "x": 119.95286724273369,
+                "x": 119.9528672427337,
                 "y": 88.13825608798115
             }
         },
@@ -270,7 +270,7 @@
                 9
             ],
             "scale": 4,
-            "selectedLayer": 7,
+            "selectedLayer": 8,
             "viewCenter": {
                 "x": 120,
                 "y": 88

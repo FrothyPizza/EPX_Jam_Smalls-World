@@ -261,6 +261,60 @@ const Cutscene = (() => {
                 }
             };
         },
+        moveOverride: (player, action) => {
+            const entity = getEntity(player, action.entity);
+            if (!entity || !entity.Position) {
+                return noopHandler();
+            }
+            let path = action.path || [];
+            
+            // Handle single-point path (implicit start at t=0)
+            if (path.length === 1) {
+                if (action.relative) {
+                    path = [{ x: 0, y: 0, t: 0 }, path[0]];
+                } else {
+                    path = [{ x: entity.Position.x, y: entity.Position.y, t: 0 }, path[0]];
+                }
+            }
+
+            if (path.length < 2) {
+                return noopHandler();
+            }
+            const origin = action.relative
+                ? { x: entity.Position.x, y: entity.Position.y }
+                : { x: 0, y: 0 };
+            const adjustedPath = path
+                .map((point) => ({
+                    x: point.x + origin.x,
+                    y: point.y + origin.y,
+                    t: point.t || 0
+                }))
+                .sort((a, b) => (a.t || 0) - (b.t || 0));
+            const totalDuration = adjustedPath[adjustedPath.length - 1].t || action.duration;
+            if (!totalDuration) {
+                console.warn('[Cutscene] MoveOverride action missing duration/path timing.');
+                return noopHandler();
+            }
+            return {
+                elapsed: 0,
+                update(delta) {
+                    this.elapsed = Math.min(totalDuration, this.elapsed + delta);
+                    const sample = samplePath(adjustedPath, this.elapsed);
+                    if (!sample) {
+                        return true;
+                    }
+                    entity.Position.x = sample.x;
+                    entity.Position.y = sample.y;
+                    entity.Position.lastPos.x = sample.x;
+                    entity.Position.lastPos.y = sample.y;
+                    if (entity.Velocity) {
+                        entity.Velocity.x = 0;
+                        entity.Velocity.y = 0;
+                    }
+                    return this.elapsed >= totalDuration;
+                }
+            };
+        },
         setVelocity: (player, action) => {
             const entity = getEntity(player, action.entity);
             if (!entity || !entity.Velocity) {

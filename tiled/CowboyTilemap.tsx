@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.10" tiledversion="1.10.1" name="CowboyTilemap" tilewidth="8" tileheight="8" tilecount="4000" columns="40">
  <image source="CowboyTilemap.png" width="320" height="800"/>
+ <tile id="7" type="wall"/>
  <tile id="8" type="wall"/>
  <tile id="9" type="wall"/>
  <tile id="10" type="wall"/>
  <tile id="11" type="wall"/>
  <tile id="12" type="wall"/>
  <tile id="13" type="wall"/>
+ <tile id="47" type="wall"/>
  <tile id="62" type="wall"/>
  <tile id="63" type="wall"/>
  <tile id="90" type="onewaywall"/>
@@ -56,6 +58,9 @@
  <tile id="387" type="wall"/>
  <tile id="388" type="wall"/>
  <tile id="390" type="wall"/>
+ <tile id="391" type="wall"/>
+ <tile id="392" type="wall"/>
+ <tile id="393" type="wall"/>
  <tile id="402" type="wall"/>
  <tile id="403" type="wall"/>
  <tile id="406" type="wall"/>
@@ -64,6 +69,8 @@
  <tile id="409" type="wall"/>
  <tile id="410" type="wall"/>
  <tile id="411" type="wall"/>
+ <tile id="418" type="wall"/>
+ <tile id="423" type="wall"/>
  <tile id="425" type="wall"/>
  <tile id="426" type="wall"/>
  <tile id="427" type="wall"/>

@@ -380,10 +380,13 @@ document.body.onload = () => {
       "assets/images/cowboy/KnifeOutlaw.json",
       "assets/images/cowboy/StunnedBirds.json",
       "assets/images/cowboy/Exclamation.json",
+      "assets/images/cowboy/MadSheriff.json",
+
       
 
       "assets/cutscenes/saloon.cutscene",
       "assets/cutscenes/saloon_abridged.cutscene",
+      "assets/cutscenes/saloon_boss.cutscene",
 
       // "tiled/GameJamSpriteSheet.tsx",
       // "tiled/new-tiles.png",
