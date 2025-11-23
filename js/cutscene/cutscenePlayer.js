@@ -132,6 +132,29 @@ const Cutscene = (() => {
     };
 
     const actionFactories = {
+        addStunnedBirds: (player, action) => {
+            const helper = ECS?.Helpers?.addStunnedBirdsToEntity;
+            if (typeof helper !== 'function') {
+                console.warn('[Cutscene] addStunnedBirds action requires ECS.Helpers.addStunnedBirdsToEntity.');
+                return noopHandler();
+            }
+            const entity = getEntity(player, action.entity);
+            if (!entity) {
+                return noopHandler();
+            }
+            const scene = player.options?.scene || null;
+            return {
+                fired: false,
+                update() {
+                    if (this.fired) {
+                        return true;
+                    }
+                    helper(entity, scene);
+                    this.fired = true;
+                    return true;
+                }
+            };
+        },
         wait: (player, action) => {
             const duration = Math.max(0, action.duration || action.frames || 0);
             return {

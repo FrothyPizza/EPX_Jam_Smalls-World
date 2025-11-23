@@ -39,7 +39,46 @@
       "text": "No, I am the GREATEREST cowboy in the North Sourtherly East!",
       "hold": 180,
       "charsPerFrame": 2.5,
-      "box": { "x": 100, "y": 40, "width": 120, "height": 60 }
-    }
+      "box": { "x": 100, "y": 40, "width": 120, "height": 48 }
+    },
+    { "type": "wait", "duration": 60 },
+
+
+    { "type": "setVelocity", "entity": "OutlawRight", "amount": { "x": -1, "y": 0 } },
+    { "type": "setVelocity", "entity": "OutlawLeft", "amount": { "x": 1, "y": 0 } },
+    {
+      "type": "setAnimation",
+      "entity": "OutlawLeft",
+      "animation": "Lunge",
+      "speedMultiplier": 1,
+      "direction": "right",
+      "restart": true,
+      "pause": false
+    },
+    {
+      "type": "setAnimation",
+      "entity": "OutlawRight",
+      "animation": "Lunge",
+      "speedMultiplier": 1,
+      "direction": "left",
+      "restart": true,
+      "pause": false
+    },
+    { "type": "wait", "duration": 72 },
+
+
+    { "type": "shakeOnce", "amount": 5 },
+    { "type": "setVelocity", "entity": "OutlawRight", "amount": { "x": 0.25, "y": -1 } },
+    { "type": "setVelocity", "entity": "OutlawLeft", "amount": { "x": -0.25, "y": -1 } },
+    { "type": "wait", "duration": 20 },
+    { "type": "setVelocity", "entity": "OutlawRight", "amount": { "x": 0, "y": 0 } },
+    { "type": "setVelocity", "entity": "OutlawLeft", "amount": { "x": 0, "y": 0 } },
+    { "type": "addStunnedBirds", "entity": "OutlawLeft" },
+    { "type": "addStunnedBirds", "entity": "OutlawRight" }
+
+
+
+
+
   ]
 }

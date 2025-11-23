@@ -20,5 +20,11 @@ const ECS = {
 		this.entities[id].destroy();
 		delete this.entities[id];
 		//console.log("Entities: " + Object.entries(this.entities).length);
+	},
+
+	getEntitiesWithComponents: function(...components) {
+		return Object.values(this.entities).filter(entity => {
+			return components.every(comp => entity.has(comp));
+		});
 	}
 };

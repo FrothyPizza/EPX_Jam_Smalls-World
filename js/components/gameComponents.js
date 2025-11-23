@@ -34,3 +34,20 @@ ECS.Components.MapCollisionState = class MapCollisionState {
         this.bottomTouchingOneWay = false; // touching one-way platform
     }
 }
+
+
+/**
+ * Bound Entities Component; entities stored in this component will have their positions
+ * bound to the parent entity's position.
+ * 
+ * Pass in entitiesWithOffsets as an array of objects with the following structure:
+ * [
+ *   { entity: <ECS.Entity>, offsetX: <number>, offsetY: <number> },
+ *   ...
+ * ]
+ */
+ECS.Components.BoundEntities = class BoundEntities {
+    constructor(entitiesWithOffsets = []) {
+        this.entitiesWithOffsets = entitiesWithOffsets;
+    }
+}

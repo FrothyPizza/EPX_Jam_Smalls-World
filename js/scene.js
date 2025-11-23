@@ -290,7 +290,7 @@ Scene.prototype.drawDialogueBox = function(context, overlay) {
 };
 
 Scene.prototype.createBitmapFontMap = function() {
-    const chars = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,''''\"?!@_*:$%+-/:;<=>";
+    const chars = ` ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,'''''"?!@_*:$%+-/:;<=>`;
     const charArray = chars.split('');
     const fontMap = {};
     for (let i = 0; i < charArray.length; i++) {
@@ -354,9 +354,10 @@ class LevelScene extends Scene {
     }
 
     playCutscene(keyOrScript, entityRefs = {}, options = {}) {
+        const runtimeOptions = { scene: this, ...options };
         const player = typeof keyOrScript === 'string'
-            ? Cutscene.fromKey(keyOrScript, entityRefs, options)
-            : Cutscene.create(keyOrScript, entityRefs, options);
+            ? Cutscene.fromKey(keyOrScript, entityRefs, runtimeOptions)
+            : Cutscene.create(keyOrScript, entityRefs, runtimeOptions);
         if (!player) {
             return null;
         }
@@ -406,6 +407,8 @@ class LevelScene extends Scene {
         // Run other systems
         ECS.Systems.entityCollisionSystem(this.entities);
         ECS.Systems.bossSystem(this.entities);
+
+        ECS.Systems.boundEntitySystem(this.entities, this.map);
         
         // Update player state and animation
         ECS.Systems.playerStateMachineSystem(this.entities);
@@ -492,6 +495,14 @@ class SaloonScene extends LevelScene {
                 this.addEntity(enemyEntity);
             }
         });
+
+        // // find player in ECS entittes and add stunned birds to him
+        // ECS.getEntitiesWithComponents('PlayerState').forEach(playerEntity => {
+        //     console.log("Adding stunned birds to player");
+            
+        //     ECS.Helpers.addStunnedBirdsToEntity(playerEntity, this);
+        //     console.log("Added stunned birds to player"); 
+        // });
 
 
         if (Loader.cutscenes && Loader.cutscenes.saloon) {
