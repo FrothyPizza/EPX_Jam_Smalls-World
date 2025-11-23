@@ -6,15 +6,29 @@ class SaloonScene extends LevelScene {
     init() {
         super.init();
 
+        this.bossSpawned = false;
+        this.outlawsActive = false;
+
         let outlawLeft = null;
         let outlawRight = null;
     
+        let OVERRIDE_ENTITIY_COUNT=100;
+        let spawned = 0;
+        if(CONSTANTS.SPEEDY_MODE) {
+            OVERRIDE_ENTITIY_COUNT=0;
+            spawned = 0;
+        }
+
         // Spawn enemies from map data
         this.map.enemies.forEach(spawn => {
             let enemyEntity = null;
             if (spawn.name === "SaloonOutlaw") {
+
+                if(spawned >= OVERRIDE_ENTITIY_COUNT) return;
                 enemyEntity = ECS.Blueprints.createSaloonOutlaw(spawn.x, spawn.y);
                 enemyEntity.addComponent(new ECS.Components.LooksBackAndForthIntermittently(60 + Math.floor(Math.random() * 60)));
+                                spawned++;
+
             }
             if (spawn.name === "SaloonOutlawInitial") {
                 enemyEntity = ECS.Blueprints.createSaloonOutlaw(spawn.x, spawn.y);
@@ -43,7 +57,7 @@ class SaloonScene extends LevelScene {
 
 
         if (Loader.cutscenes && Loader.cutscenes.saloon) {
-            this.playCutscene('saloon_abridged', { Player: this.player, OutlawLeft: outlawLeft, OutlawRight: outlawRight }, {
+            this.playCutscene(CONSTANTS.SPEEDY_MODE ? 'saloon_abridged' : 'saloon', { Player: this.player, OutlawLeft: outlawLeft, OutlawRight: outlawRight }, {
                 onComplete: () => {
                     // GlobalState.sceneManager.switchScene(new DesertScene(Loader.levels['desert'].xml));
 
@@ -54,8 +68,60 @@ class SaloonScene extends LevelScene {
                             index++;
                         }
                     });
+                    this.outlawsActive = true;
                 }
             });
         }
+    }
+
+    update() {
+        super.update();
+
+        if (this.outlawsActive && !this.bossSpawned) {
+            let outlawCount = 0;
+            this.getEntities().forEach(entity => {
+                if (entity.isSaloonOutlaw && !entity.dead) { // Assuming dead flag or removal
+                    outlawCount++;
+                }
+            });
+
+            if (outlawCount === 0) {
+                this.spawnBoss();
+            }
+        }
+    }
+
+    spawnBoss() {
+        this.bossSpawned = true;
+        console.log("Spawning Boss!");
+
+        let bossX = 0;
+        let bossY = 0;
+        this.map.enemies.forEach(spawn => {
+            if(spawn.name === "MadSheriff") {
+                bossX = spawn.x;
+                bossY = spawn.y;
+            }
+        });
+        
+        // Spawn Boss
+        // Position should probably be defined in map or hardcoded for now
+        let boss = ECS.Blueprints.CrazedCowboy(bossX, bossY, "INACTIVE"); 
+        this.addEntity(boss);
+        
+
+        // Play Boss Intro Cutscene if available
+        
+        if (Loader.cutscenes && Loader.cutscenes.saloon_boss) {
+            this.playCutscene('saloon_boss', { Sheriff: boss }, {
+                onComplete: () => {
+                    // Boss fight starts
+                    if (boss.CrazedCowboy) {
+                        boss.CrazedCowboy.state = "IDLE";
+                    }
+                }
+            });
+        }
+        
     }
 }

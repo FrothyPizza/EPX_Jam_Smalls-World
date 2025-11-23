@@ -68,7 +68,16 @@ ECS.Systems.saloonOutlawSystem = function(entities, map, scene) {
             }
 
 
-
+            let leftHit = false;
+            // query the map for wall collisions using map.pointIsCollidingWithWall(x, y)
+            if (map) {
+                // Check left side
+                leftHit = map.pointIsCollidingWithWall(position.x - 1, position.y + 4);
+                // Check right side
+                const rightHit = map.pointIsCollidingWithWall(position.x + entity.Dimensions.width, position.y + 4);
+                collision.leftHit = leftHit;
+                collision.rightHit = rightHit;
+            }
             
             // Check for wall collision to stop dashing
             if (collision.leftHit || collision.rightHit) {
