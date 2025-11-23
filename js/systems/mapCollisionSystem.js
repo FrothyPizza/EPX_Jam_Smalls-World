@@ -77,7 +77,17 @@ function moveH(entity, map, value) {
             !map.pointIsCollidingWithWall(position.x + sign + modifier, position.y + dimensions.height - 1)) {
             position.x += sign;
         } else {
-            velocity.x = 0;
+            // velocity.x = 0;
+
+            if(entity.has('BouncesOffWalls')) {
+                const bounceComp = entity.BouncesOffWalls;
+                // bounceComp.numberOfBounces += 1;
+                velocity.x = -(velocity.x) * 0.9; // Reverse and reduce vertical velocity
+                position.x += sign > 0 ? -1 : 1;
+                return;
+            } else {
+                velocity.x = 0;
+            }
             return;
         }
         if (++iterations > 200) {
@@ -114,7 +124,17 @@ function moveV(entity, map, value) {
         ) {
             position.y += sign;
         } else {
-            velocity.y = 0;
+
+            if(entity.has('BouncesOffWalls')) {
+                const bounceComp = entity.BouncesOffWalls;
+                bounceComp.numberOfBounces += 1;
+                velocity.y = -Math.abs(velocity.y) * 0.7; // Reverse and reduce vertical velocity
+                // Slightly adjust position to avoid sticking
+                position.y += sign > 0 ? -1 : 1;
+                return;
+            } else {
+                velocity.y = 0;
+            }
             return;
         }
         if (++iterations > 200) {

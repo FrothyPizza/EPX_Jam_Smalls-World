@@ -127,3 +127,20 @@ ECS.Systems.saloonOutlawSystem = function(entities, map, scene) {
         }
     });
 }
+
+
+ECS.Systems.saloonBottleSystem = function(entities, map, scene) {
+    Object.values(entities).forEach(entity => {
+        if (!entity.has('SaloonBottle')) return;
+        
+        if (entity.has('BouncesOffWalls')) {
+
+            if(entity.BouncesOffWalls.numberOfBounces >= 2) {
+                // Remove bottle from scene
+                if (scene && typeof scene.removeEntity === 'function') {
+                    scene.removeEntity(entity.id);
+                }
+            }
+        }
+    });
+}

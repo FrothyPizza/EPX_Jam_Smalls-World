@@ -24,6 +24,7 @@ ECS.Components.IsEnemy = class IsEnemy {
     }
 }
 
+
 ECS.Components.CollidesWithMap = class CollidesWithMap {
     constructor(collides = true) {
         this.collides = collides;
@@ -37,6 +38,12 @@ ECS.Components.MapCollisionState = class MapCollisionState {
         this.leftHit = false;   // touching left wall
         this.rightHit = false;  // touching right wall
         this.bottomTouchingOneWay = false; // touching one-way platform
+    }
+}
+
+ECS.Components.BouncesOffWalls = class BouncesOffWalls {
+    constructor() {
+        this.numberOfBounces = 0;
     }
 }
 

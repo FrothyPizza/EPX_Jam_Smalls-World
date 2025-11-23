@@ -77,6 +77,8 @@ class SaloonScene extends LevelScene {
     update() {
         super.update();
 
+        ECS.Systems.saloonBottleSystem(this.getEntities(), this.map, this);
+
         if (this.outlawsActive && !this.bossSpawned) {
             let outlawCount = 0;
             this.getEntities().forEach(entity => {

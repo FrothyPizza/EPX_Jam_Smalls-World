@@ -14,9 +14,14 @@
  <tile id="90" type="onewaywall"/>
  <tile id="91" type="onewaywall"/>
  <tile id="93" type="wall"/>
+ <tile id="102" type="wall"/>
+ <tile id="103" type="wall"/>
+ <tile id="142" type="wall"/>
+ <tile id="143" type="wall"/>
  <tile id="201" type="wall"/>
  <tile id="202" type="wall"/>
  <tile id="204" type="onewaywall"/>
+ <tile id="281" type="wall"/>
  <tile id="320" type="wall"/>
  <tile id="321" type="wall"/>
  <tile id="322" type="wall"/>

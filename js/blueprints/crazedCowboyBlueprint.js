@@ -4,6 +4,8 @@ ECS.Blueprints.CrazedCowboy = function(x, y, initialState = "IDLE") {
     entity.addComponent(new ECS.Components.Velocity(0, 0));
     entity.addComponent(new ECS.Components.Gravity());
     entity.addComponent(new ECS.Components.Dimensions(16, 16)); // Placeholder dimensions
+    entity.addComponent(new ECS.Components.Hitbox([{x: 0, y: 0, w: 16, h: 16}]));
+    entity.addComponent(new ECS.Components.Hurtbox([{x: 2, y: 2, w: 12, h: 12}]));
     entity.addComponent(new ECS.Components.BossState());
     entity.addComponent(new ECS.Components.BossHealth(15));
     entity.addComponent(new ECS.Components.CrazedCowboy({
@@ -18,7 +20,7 @@ ECS.Blueprints.CrazedCowboy = function(x, y, initialState = "IDLE") {
     entity.addComponent(new ECS.Components.AnimatedSprite(
         Loader.spriteSheets.MadSheriff, 
         "Idle", 
-        6
+        12
     ));
     
     return entity;

@@ -19,3 +19,10 @@ ECS.Components.SaloonKnifeOutlaw = class SaloonKnifeOutlaw {
         this.dashSpeed = 1;
     }
 }
+
+
+ECS.Components.SaloonBottle = class SaloonBottle {
+    constructor() {
+
+    }
+}

@@ -15,11 +15,12 @@ function handleCrazedCowboy(entity) {
     let cowboy = entity.CrazedCowboy;
     let position = entity.Position;
     let velocity = entity.Velocity;
+    let sprite = entity.AnimatedSprite;
 
     // Update Phase based on Health
-    if (entity.BossHealth.value <= 5) {
+    if (entity.BossHealth.value <= 3) {
         cowboy.phase = 3;
-    } else if (entity.BossHealth.value <= 10) {
+    } else if (entity.BossHealth.value <= 1) {
         cowboy.phase = 2;
     } else {
         cowboy.phase = 1;
@@ -32,16 +33,20 @@ function handleCrazedCowboy(entity) {
     if (cowboy.state === "IDLE") {
         velocity.x = 0;
         state.timer++;
+        sprite.setAnimation("BottleFlip");
+
         if (state.timer > 60) {
             cowboy.state = "STRAFE";
             state.timer = 0;
             // Pick a random direction or flip current
-            cowboy.strafeDirection = Math.random() > 0.5 ? 1 : -1;
+            cowboy.strafeDirection *= -1;
             cowboy.strafeTimer = 0;
         }
     } else if (cowboy.state === "STRAFE") {
         velocity.x = cowboy.strafeDirection * 0.5; // Speed
         cowboy.strafeTimer++;
+
+        sprite.setAnimation("Run");
 
         // Simple bounds check (adjust as needed for the map)
         // Assuming map width is roughly known or we check collisions
@@ -66,9 +71,21 @@ function handleCrazedCowboy(entity) {
 
         if (cowboy.attackTimer > cowboy.throwCooldown) {
             if (cowboy.bottlesThrown < cowboy.bottlesToThrow) {
-                spawnBottle(entity);
+
+                let backfire = false;
+                if(cowboy.totalBottlesThrown > 0 && cowboy.totalBottlesThrown % cowboy.bottlesToThrowBeforeBackfire === 0) {
+                    backfire = true;                    
+                }
+                setFrameTimeout(() => {
+                    spawnBottle(entity, backfire);
+                }, 5);
                 cowboy.bottlesThrown++;
                 cowboy.attackTimer = 0;
+                cowboy.totalBottlesThrown++;
+                
+
+                sprite.setAnimation("Throw");
+
             } else {
                 cowboy.state = "IDLE";
                 state.timer = 0;
@@ -77,42 +94,44 @@ function handleCrazedCowboy(entity) {
     }
 }
 
-function spawnBottle(bossEntity) {
+function spawnBottle(bossEntity, backfire = false) {
     // Create a bottle projectile
     // We need a blueprint for this, or just create it here
     let bottle = new ECS.Entity();
-    let startX = bossEntity.Position.x;
-    let startY = bossEntity.Position.y;
+    let startX = bossEntity.Position.x + (bossEntity.Dimensions.width - 4);
+    let startY = bossEntity.Position.y + 4;
     
-    // Aim at player if possible, or just random arc
-    let player = null;
-    if (GlobalState.sceneManager && GlobalState.sceneManager.currentScene) {
-        player = GlobalState.sceneManager.currentScene.player;
-    }
-    
-    let targetX = startX + (bossEntity.CrazedCowboy.strafeDirection * 100); // Default target
-    let targetY = startY;
+    // "Mostly up and some to the right"
 
-    if (player) {
-        targetX = player.Position.x;
-        targetY = player.Position.y;
+    let speed = 2.2 + (Math.random() * 0.2);
+    let angle = (-25 - (Math.random() * 20)) * (Math.PI / 180); // -75 degrees (Up is -90, Right is 0)
+    
+    if(Math.random() < 0.5) {
+        angle = (-60 - (Math.random() * 10)) * (Math.PI / 180); // 75 degrees
+        speed = 1.5 + (Math.random() * 0.3);
     }
 
-    let dx = targetX - startX;
-    let dy = targetY - startY;
-    
-    // Simple arc physics
-    let speed = 4;
-    let angle = Math.atan2(dy, dx);
-    
+    if(backfire) {
+        speed = 2.2 + (Math.random() * 0.2);
+        angle = (-75 - (Math.random() * 5)) * (Math.PI / 180); // -75 degrees (Up is -90, Right is 0)
+    }
+
     bottle.addComponent(new ECS.Components.Position(startX, startY));
-    bottle.addComponent(new ECS.Components.Velocity(Math.cos(angle) * speed, Math.sin(angle) * speed - 3)); // Upward arc
-    bottle.addComponent(new ECS.Components.Gravity());
-    bottle.addComponent(new ECS.Components.Dimensions(16, 16));
+    bottle.addComponent(new ECS.Components.Velocity(Math.cos(angle) * speed, Math.sin(angle) * speed)); 
+    bottle.addComponent(new ECS.Components.Gravity(0.05));
+    bottle.addComponent(new ECS.Components.Dimensions(8, 8));
+    bottle.addComponent(new ECS.Components.Hitbox([{x: 0, y: 0, w: 8, h: 8}]));
+    bottle.addComponent(new ECS.Components.Hurtbox([{x: 1, y: 1, w: 6, h: 6}]));
+
+    bottle.addComponent(new ECS.Components.MapCollisionState());
+    bottle.addComponent(new ECS.Components.CollidesWithMap(true));
+    bottle.addComponent(new ECS.Components.BouncesOffWalls());
+    bottle.addComponent(new ECS.Components.SaloonBottle());
+    bottle.addComponent(new ECS.Components.DamagesPlayer(true));
     bottle.addComponent(new ECS.Components.AnimatedSprite(
-        Loader.spriteSheets.StunnedBirds,
-        "Idle",
-        12
+        Loader.spriteSheets.Bottle,
+        "Thrown",
+        8
     ));
 
     // Add to scene

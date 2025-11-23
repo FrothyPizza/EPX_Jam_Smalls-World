@@ -46,11 +46,11 @@
             "expandedObjectLayers": [
                 7
             ],
-            "scale": 4.243333333333333,
-            "selectedLayer": 7,
+            "scale": 4,
+            "selectedLayer": 8,
             "viewCenter": {
-                "x": 119.9528672427337,
-                "y": 88.13825608798115
+                "x": 133.5,
+                "y": 85.375
             }
         },
         "levels/hades.tmx": {
@@ -272,8 +272,8 @@
             "scale": 4,
             "selectedLayer": 8,
             "viewCenter": {
-                "x": 120,
-                "y": 88
+                "x": 109.75,
+                "y": 83.375
             }
         },
         "levels/styx_level.tmx": {
@@ -283,8 +283,8 @@
             "scale": 0.125,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 1840,
-                "y": 88
+                "x": 1832,
+                "y": 84
             }
         },
         "levels/tower-tileset.tsx": {
