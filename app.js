@@ -42,11 +42,13 @@ function startGameloop() {
 
 
 function init() {
+    GlobalState.sceneManager = new SceneManager();
+
     // Load the styx_level
     if (Loader.levels['saloon']) {
         const styxLevel = new SaloonScene(Loader.levels['saloon'].xml);
         styxLevel.init();
-        GlobalState.currentScene = styxLevel;
+        GlobalState.sceneManager.setScene(styxLevel);
     } else {
         console.error('styx_level not found in Loader.levels');
     }
@@ -67,11 +69,11 @@ function update() {
 
 
 
-    if(GlobalState.currentScene) {
-        GlobalState.currentScene.update();
+    if(GlobalState.sceneManager) {
+        GlobalState.sceneManager.update();
         context.view.update(16);
 
-        GlobalState.currentScene.draw(context);
+        GlobalState.sceneManager.draw(context);
     }
 
 

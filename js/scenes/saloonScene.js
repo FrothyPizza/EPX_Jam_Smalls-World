@@ -43,8 +43,10 @@ class SaloonScene extends LevelScene {
 
 
         if (Loader.cutscenes && Loader.cutscenes.saloon) {
-            this.playCutscene('saloon', { Player: this.player, OutlawLeft: outlawLeft, OutlawRight: outlawRight }, {
+            this.playCutscene('saloon_abridged', { Player: this.player, OutlawLeft: outlawLeft, OutlawRight: outlawRight }, {
                 onComplete: () => {
+                    GlobalState.sceneManager.switchScene(new DesertScene(Loader.levels['desert'].xml));
+
                     let index = 1;
                     this.getEntities().forEach(entity => {
                         if (entity.isSaloonOutlaw) {
