@@ -21,6 +21,12 @@ ECS.Systems.renderSystem = function(entities, context) {
                 }
             }
 
+            if (entity.has('InvincibilityFrames') && entity.InvincibilityFrames.duration > 0) {
+                if (APP_ELAPSED_FRAMES % 20 >= 10) {
+                    return; // Skip rendering this frame for flashing effect
+                }
+            }
+
             // Handle player death tint
             if (entity.has('Dead') && entity.Dead.dead) {
                 sprite.tint = "rgba(255, 0, 0, 0.5)";

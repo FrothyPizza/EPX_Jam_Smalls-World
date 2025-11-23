@@ -155,6 +155,30 @@ const Cutscene = (() => {
                 }
             };
         },
+        addComponent: (player, action) => {
+            const entity = getEntity(player, action.entity);
+            if (!entity) {
+                return noopHandler();
+            }
+            return {
+                fired: false,
+                update() {
+                    if (this.fired) {
+                        return true;
+                    }
+                    const componentName = action.component;
+                    if (typeof ECS !== 'undefined' && ECS.Components && ECS.Components[componentName]) {
+                        const ComponentClass = ECS.Components[componentName];
+                        const args = Array.isArray(action.args) ? action.args : (action.args !== undefined ? [action.args] : []);
+                        entity.addComponent(new ComponentClass(...args));
+                    } else {
+                        console.warn(`[Cutscene] Component "${componentName}" not found.`);
+                    }
+                    this.fired = true;
+                    return true;
+                }
+            };
+        },
         wait: (player, action) => {
             const duration = Math.max(0, action.duration || action.frames || 0);
             return {

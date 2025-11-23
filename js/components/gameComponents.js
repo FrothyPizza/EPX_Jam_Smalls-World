@@ -7,6 +7,12 @@ ECS.Components.Dead = class Dead {
     }
 }
 
+ECS.Components.InvincibilityFrames = class InvincibilityFrames {
+    constructor(duration = 0) {
+        this.duration = duration;
+    }
+}
+
 ECS.Components.RemoveFromScene = class RemoveFromScene {
     constructor(remove = false) {
         this.remove = remove;

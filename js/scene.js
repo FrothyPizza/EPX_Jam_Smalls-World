@@ -420,10 +420,27 @@ class LevelScene extends Scene {
         // Remove dead entities
         Object.keys(this.entities).forEach(id => {
             const entity = this.entities[id];
+            if(entity == null) return;
             if (entity.has('Dead') && entity.Dead.dead) {
+
+           
+                if(entity.has('BoundEntities') && entity.BoundEntities.entitiesWithOffsets) {
+                    entity.BoundEntities.entitiesWithOffsets.forEach(boundEntityWithOffset => {
+                        this.removeEntity(boundEntityWithOffset.entity.id);
+                    });
+                }
+
                 this.removeEntity(id);
             }
             if (entity.has('RemoveFromScene') && entity.RemoveFromScene.remove) {
+
+                if(entity.has('BoundEntities') && entity.BoundEntities.entitiesWithOffsets) {
+                    entity.BoundEntities.entitiesWithOffsets.forEach(boundEntityWithOffset => {
+                        console.log("Removing bound entity:", boundEntityWithOffset.entity.id);
+                        this.removeEntity(boundEntityWithOffset.entity.id);
+                    });
+                }
+
                 this.removeEntity(id);
             }
         });

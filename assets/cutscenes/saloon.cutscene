@@ -74,8 +74,14 @@
     { "type": "setVelocity", "entity": "OutlawRight", "amount": { "x": 0, "y": 0 } },
     { "type": "setVelocity", "entity": "OutlawLeft", "amount": { "x": 0, "y": 0 } },
     { "type": "addStunnedBirds", "entity": "OutlawLeft" },
-    { "type": "addStunnedBirds", "entity": "OutlawRight" }
-
+    { "type": "addStunnedBirds", "entity": "OutlawRight" },
+    { "type": "addComponent", "entity": "OutlawLeft", "component": "InvincibilityFrames", "args": [100]},
+    { "type": "addComponent", "entity": "OutlawRight", "component": "InvincibilityFrames", "args": [100]},
+    
+    { "type": "wait", "duration": 90 },
+    { "type": "addComponent", "entity": "OutlawLeft", "component": "RemoveFromScene", "args": [true]},
+    { "type": "addComponent", "entity": "OutlawRight", "component": "RemoveFromScene", "args": [true]}
+    
 
 
 
