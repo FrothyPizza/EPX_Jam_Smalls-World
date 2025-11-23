@@ -1,12 +1,12 @@
 {
     "activeFile": "levels/saloon.tmx",
     "expandedProjectPaths": [
-        "levels",
-        "."
+        ".",
+        "levels"
     ],
     "fileStates": {
         "CowboyTilemap.tsx": {
-            "scaleInDock": 4,
+            "scaleInDock": 5.5,
             "scaleInEditor": 5.5
         },
         "GameJamSpriteSheet.tsx": {
@@ -43,19 +43,22 @@
             }
         },
         "levels/desert.tmx": {
+            "expandedObjectLayers": [
+                7
+            ],
             "scale": 4.243333333333333,
             "selectedLayer": 7,
             "viewCenter": {
-                "x": 120.07069913589946,
-                "y": 76.00157109190889
+                "x": 119.95286724273369,
+                "y": 88.13825608798115
             }
         },
         "levels/hades.tmx": {
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 120.25,
-                "y": 879.75
+                "x": 120,
+                "y": 880
             }
         },
         "levels/harpy.tmx": {
@@ -267,10 +270,10 @@
                 9
             ],
             "scale": 4,
-            "selectedLayer": 4,
+            "selectedLayer": 7,
             "viewCenter": {
-                "x": 133.375,
-                "y": 116.625
+                "x": 120,
+                "y": 88
             }
         },
         "levels/styx_level.tmx": {
@@ -280,8 +283,8 @@
             "scale": 0.125,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 1460,
-                "y": 84
+                "x": 1840,
+                "y": 88
             }
         },
         "levels/tower-tileset.tsx": {
@@ -309,22 +312,23 @@
         "levels/styx_level.tmx",
         "levels/hades.tmx",
         "CowboyTilemap.tsx",
-        "levels/saloon.tmx"
+        "levels/saloon.tmx",
+        "levels/desert.tmx"
     ],
     "project": "untitled.tiled-project",
     "recentFiles": [
-        "levels/harpy.tmx",
         "levels/styx_level.tmx",
         "levels/hades.tmx",
         "CowboyTilemap.tsx",
+        "levels/desert.tmx",
         "levels/saloon.tmx",
+        "levels/harpy.tmx",
         "levels/charon.tmx",
         "levels/underworld_level.tmx",
         "GameJamSpriteSheet.tsx",
         "levels/level_7.tmx",
         "levels/level_run_1.tmx",
-        "levels/level_run_2.tmx",
-        "tower-tileset.tsx"
+        "levels/level_run_2.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="30" height="22" tilewidth="8" tileheight="8" infinite="0" nextlayerid="15" nextobjectid="65">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="30" height="22" tilewidth="8" tileheight="8" infinite="0" nextlayerid="15" nextobjectid="67">
  <tileset firstgid="1" source="../CowboyTilemap.tsx"/>
  <layer id="5" name="Background_2(Solid Color)" width="30" height="22">
   <data encoding="csv">
@@ -154,6 +154,9 @@
   <object id="64" name="SaloonOutlaw" x="120.25" y="127.875">
    <point/>
   </object>
+  <object id="65" name="MadSheriff" x="16.2727" y="135.727">
+   <point/>
+  </object>
  </objectgroup>
  <objectgroup id="11" name="CrateLocations"/>
  <objectgroup id="10" name="BossCues"/>
@@ -173,7 +176,7 @@
 169,8,0,0,145,146,0,0,0,63,64,0,0,0,265,266,0,0,0,63,64,0,0,0,263,264,0,0,7,169,
 169,48,0,0,0,0,0,0,0,103,104,0,0,0,0,0,0,0,0,103,104,0,0,0,0,0,0,0,47,169,
 169,8,0,0,0,0,0,0,0,143,144,0,0,0,0,0,0,0,0,143,144,0,0,0,0,0,0,0,47,169,
-169,48,9,10,11,12,13,14,0,0,0,0,9,10,11,12,13,14,0,0,0,0,9,10,11,12,13,14,47,169,
+169,48,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,47,169,
 169,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,255,0,0,0,0,0,0,0,0,0,0,0,47,169,
 169,48,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,47,169,
 169,8,0,300,0,299,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,299,0,300,297,0,47,169,
