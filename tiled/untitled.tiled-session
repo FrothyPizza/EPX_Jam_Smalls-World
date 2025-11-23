@@ -44,10 +44,10 @@
         },
         "levels/desert.tmx": {
             "scale": 4.243333333333333,
-            "selectedLayer": 0,
+            "selectedLayer": 7,
             "viewCenter": {
                 "x": 120.07069913589946,
-                "y": 88.0204241948154
+                "y": 76.00157109190889
             }
         },
         "levels/hades.tmx": {
