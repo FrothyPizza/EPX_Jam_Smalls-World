@@ -1,4 +1,3 @@
-
 // Components for game-specific state and flags
 
 ECS.Components.Dead = class Dead {
@@ -55,5 +54,17 @@ ECS.Components.MapCollisionState = class MapCollisionState {
 ECS.Components.BoundEntities = class BoundEntities {
     constructor(entitiesWithOffsets = []) {
         this.entitiesWithOffsets = entitiesWithOffsets;
+    }
+}
+
+ECS.Components.Stunned = class Stunned {
+    constructor(knockbackVelocity = {x: 0, y: 0}, knockbackDuration = 20, dazeDuration = 90, removeOnComplete = true) {
+        this.knockbackVelocity = knockbackVelocity;
+        this.knockbackDuration = knockbackDuration;
+        this.dazeDuration = dazeDuration;
+        this.removeOnComplete = removeOnComplete;
+        
+        this.state = 'INIT'; // INIT, KNOCKBACK, DAZED, FINISHED
+        this.timer = 0;
     }
 }

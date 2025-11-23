@@ -17,6 +17,11 @@ ECS.Blueprints.createSaloonOutlaw = function(x, y) {
     entity.addComponent(new ECS.Components.Hitbox([{x: 0, y: 0, w: 8, h: 8}]));
     entity.addComponent(new ECS.Components.Hurtbox([{x: 0, y: 0, w: 8, h: 8}]));
 
+    entity.addComponent(new ECS.Components.IsEnemy(true));
+    entity.addComponent(new ECS.Components.DamagesPlayer(true));
+    entity.isSaloonOutlaw = true;
+    
+
     const sprite = new ECS.Components.AnimatedSprite(
         Loader.spriteSheets.KnifeOutlaw, 
         "Idle", 

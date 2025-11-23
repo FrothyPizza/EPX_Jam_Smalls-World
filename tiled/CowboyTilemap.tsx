@@ -54,6 +54,8 @@
  <tile id="385" type="wall"/>
  <tile id="386" type="wall"/>
  <tile id="387" type="wall"/>
+ <tile id="388" type="wall"/>
+ <tile id="390" type="wall"/>
  <tile id="402" type="wall"/>
  <tile id="403" type="wall"/>
  <tile id="406" type="wall"/>
@@ -65,6 +67,8 @@
  <tile id="425" type="wall"/>
  <tile id="426" type="wall"/>
  <tile id="427" type="wall"/>
+ <tile id="428" type="wall"/>
+ <tile id="430" type="wall"/>
  <tile id="442" type="wall"/>
  <tile id="443" type="wall"/>
  <tile id="446" type="wall"/>

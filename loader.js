@@ -379,9 +379,11 @@ document.body.onload = () => {
 
       "assets/images/cowboy/KnifeOutlaw.json",
       "assets/images/cowboy/StunnedBirds.json",
+      "assets/images/cowboy/exclamation.json",
       
 
       "assets/cutscenes/saloon.cutscene",
+      "assets/cutscenes/saloon_abridged.cutscene",
 
       // "tiled/GameJamSpriteSheet.tsx",
       // "tiled/new-tiles.png",

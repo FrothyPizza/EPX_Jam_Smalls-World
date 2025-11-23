@@ -407,6 +407,8 @@ class LevelScene extends Scene {
         // Run other systems
         ECS.Systems.entityCollisionSystem(this.entities);
         ECS.Systems.bossSystem(this.entities);
+        ECS.Systems.saloonOutlawSystem(this.entities, this.map);
+        ECS.Systems.stunnedSystem(this.entities, this);
 
         ECS.Systems.boundEntitySystem(this.entities, this.map);
         
@@ -478,52 +480,3 @@ class LevelScene extends Scene {
 
 
 
-class SaloonScene extends LevelScene {
-    constructor(mapXml) {
-        super(mapXml);
-    }
-
-    init() {
-        super.init();
-
-        let outlawLeft = null;
-        let outlawRight = null;
-    
-        // Spawn enemies from map data
-        this.map.enemies.forEach(spawn => {
-            let enemyEntity = null;
-            if (spawn.name === "SaloonOutlaw") {
-                enemyEntity = ECS.Blueprints.createSaloonOutlaw(spawn.x, spawn.y);
-                enemyEntity.addComponent(new ECS.Components.LooksBackAndForthIntermittently(60 + Math.floor(Math.random() * 60)));
-            }
-            if (spawn.name === "SaloonOutlawInitial") {
-                enemyEntity = ECS.Blueprints.createSaloonOutlaw(spawn.x, spawn.y);
-
-                if(!outlawLeft) {
-                    outlawLeft = enemyEntity;
-                    enemyEntity.name = "OutlawLeft";
-                } else if (!outlawRight) {
-                    outlawRight = enemyEntity;
-                    enemyEntity.name = "OutlawRight";
-                }
-            }
-            
-            if (enemyEntity) {
-                this.addEntity(enemyEntity);
-            }
-        });
-
-        // // find player in ECS entittes and add stunned birds to him
-        // ECS.getEntitiesWithComponents('PlayerState').forEach(playerEntity => {
-        //     console.log("Adding stunned birds to player");
-            
-        //     ECS.Helpers.addStunnedBirdsToEntity(playerEntity, this);
-        //     console.log("Added stunned birds to player"); 
-        // });
-
-
-        if (Loader.cutscenes && Loader.cutscenes.saloon) {
-            this.playCutscene('saloon', { Player: this.player, OutlawLeft: outlawLeft, OutlawRight: outlawRight });
-        }
-    }
-}
