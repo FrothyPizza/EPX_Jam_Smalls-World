@@ -12,8 +12,10 @@ ECS.Components.SaloonKnifeOutlaw = class SaloonKnifeOutlaw {
         this.hasPoppedOut = false;
         this.timeToWaitToStartDashing = 60;
 
-        this.dashDetectionRange = 32;
+        this.jumpVelocity = Math.random() > 0.5 ? -2 : -2;
 
-        this.dashSpeed = 0.5;
+        this.dashDetectionRange = 128;
+
+        this.dashSpeed = 0.75;
     }
 }

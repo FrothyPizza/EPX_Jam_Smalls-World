@@ -1,5 +1,5 @@
 
-ECS.Systems.saloonOutlawSystem = function(entities, map) {
+ECS.Systems.saloonOutlawSystem = function(entities, map, scene) {
     // Find the player
     let player = null;
     Object.values(entities).forEach(e => {
@@ -21,17 +21,42 @@ ECS.Systems.saloonOutlawSystem = function(entities, map) {
         if (!outlaw.hasPoppedOut) {
             if (outlaw.timeTillPopOut > 0) {
                 outlaw.timeTillPopOut--;
+                
+                // Add exclamation 30 frames before popping out
+                if (outlaw.timeTillPopOut === 60) {
+                    if (ECS.Helpers.addExclamationToEntity) {
+                        outlaw.exclamationEntity = ECS.Helpers.addExclamationToEntity(entity, scene);
+                    }
+                }
+
                 // Maybe hide sprite or show "hiding" animation
                 // sprite.setAnimation("Hidden"); 
                 return;
             } else {
                 // Pop out!
                 outlaw.hasPoppedOut = true;
-                entity.Velocity.y = -2;
+                entity.Velocity.y = outlaw.jumpVelocity;
                 // sprite.setAnimation("PopOut"); // If exists
                 sprite.paused = false;
                 // Reset dash timer
                 outlaw.currentDashWait = outlaw.timeToWaitToStartDashing;
+
+                // Remove exclamation if it exists
+                if (outlaw.exclamationEntity) {
+                    if (scene && typeof scene.removeEntity === 'function') {
+                        scene.removeEntity(outlaw.exclamationEntity.id);
+                    } else {
+                        ECS.removeEntity(outlaw.exclamationEntity.id);
+                    }
+                    
+                    // Also remove from BoundEntities to be clean
+                    if (entity.has('BoundEntities')) {
+                        const bound = entity.BoundEntities;
+                        bound.entitiesWithOffsets = bound.entitiesWithOffsets.filter(b => b.entity.id !== outlaw.exclamationEntity.id);
+                    }
+                    
+                    outlaw.exclamationEntity = null;
+                }
             }
         }
 
@@ -41,6 +66,9 @@ ECS.Systems.saloonOutlawSystem = function(entities, map) {
             if(entity.has('Stunned')) {
                 return;
             }
+
+
+
             
             // Check for wall collision to stop dashing
             if (collision.leftHit || collision.rightHit) {
@@ -49,6 +77,9 @@ ECS.Systems.saloonOutlawSystem = function(entities, map) {
                 if (outlaw.state === 'DASHING') {
                     outlaw.state = 'IDLE';
                     outlaw.currentDashWait = outlaw.timeToWaitToStartDashing;
+                    outlaw.hasPoppedOut = false; // Go back to hiding
+
+                    entity.Position.x += collision.leftHit ? 1 : -1; // Nudge out of wall
                 }
             }
 

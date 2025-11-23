@@ -15,6 +15,23 @@ ECS.Blueprints.createStunnedBirds = function(x, y) {
 }
 
 
+ECS.Blueprints.createExclamation = function(x, y) {
+    let entity = new ECS.Entity();
+    entity.addComponent(new ECS.Components.Position(x, y));
+    entity.addComponent(new ECS.Components.AnimatedSprite(
+        Loader.spriteSheets.Exclamation, 
+        "Init", 
+        6
+    ));
+    entity.AnimatedSprite.onAnimationComplete = function() {
+        entity.AnimatedSprite.setAnimation("Idle");
+    };
+
+    entity.addComponent(new ECS.Components.Dimensions(8, 8));
+    return entity;
+}
+
+
 
 
 ECS.Helpers.addStunnedBirdsToEntity = function(entity, scene) {
@@ -37,5 +54,24 @@ ECS.Helpers.addStunnedBirdsToEntity = function(entity, scene) {
     }
 
     return birds;
+
+}
+
+
+ECS.Helpers.addExclamationToEntity = function(entity, scene) {
+    if(!entity.has('BoundEntities')) {
+        entity.addComponent(new ECS.Components.BoundEntities());
+    }
+    const boundEntities = entity.BoundEntities;
+    const offsetX = 0;
+    const offsetY = -16;
+    const exclamation = ECS.Blueprints.createExclamation(entity.Position.x + offsetX, entity.Position.y + offsetY);
+    boundEntities.entitiesWithOffsets.push({ entity: exclamation, offsetX: offsetX, offsetY: offsetY });
+    if (scene && typeof scene.addEntity === 'function') {
+        scene.addEntity(exclamation);
+    } else {
+        ECS.register(exclamation);
+    }
+    return exclamation;
 
 }

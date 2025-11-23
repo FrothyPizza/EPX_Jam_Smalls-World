@@ -407,7 +407,7 @@ class LevelScene extends Scene {
         // Run other systems
         ECS.Systems.entityCollisionSystem(this.entities);
         ECS.Systems.bossSystem(this.entities);
-        ECS.Systems.saloonOutlawSystem(this.entities, this.map);
+        ECS.Systems.saloonOutlawSystem(this.entities, this.map, this);
         ECS.Systems.stunnedSystem(this.entities, this);
 
         ECS.Systems.boundEntitySystem(this.entities, this.map);

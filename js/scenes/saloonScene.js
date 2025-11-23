@@ -43,12 +43,12 @@ class SaloonScene extends LevelScene {
 
 
         if (Loader.cutscenes && Loader.cutscenes.saloon) {
-            this.playCutscene('saloon_abridged', { Player: this.player, OutlawLeft: outlawLeft, OutlawRight: outlawRight }, {
+            this.playCutscene('saloon', { Player: this.player, OutlawLeft: outlawLeft, OutlawRight: outlawRight }, {
                 onComplete: () => {
-                    let index = 0;
+                    let index = 1;
                     this.getEntities().forEach(entity => {
                         if (entity.isSaloonOutlaw) {
-                            entity.addComponent(new ECS.Components.SaloonKnifeOutlaw(180 * index + Math.floor(Math.random() * 120)));
+                            entity.addComponent(new ECS.Components.SaloonKnifeOutlaw(240 * index + Math.floor(Math.random() * 120)));
                             index++;
                         }
                     });

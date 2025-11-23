@@ -68,3 +68,4 @@ ECS.Components.Stunned = class Stunned {
         this.timer = 0;
     }
 }
+
