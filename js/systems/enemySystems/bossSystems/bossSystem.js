@@ -114,6 +114,9 @@ function spawnBottle(bossEntity, backfire = false) {
     if(backfire) {
         speed = 2.2 + (Math.random() * 0.2);
         angle = (-75 - (Math.random() * 5)) * (Math.PI / 180); // -75 degrees (Up is -90, Right is 0)
+        bottle.addComponent(new ECS.Components.DamagesEnemy(true));
+    } else {
+        bottle.addComponent(new ECS.Components.DamagesPlayer(true));
     }
 
     bottle.addComponent(new ECS.Components.Position(startX, startY));
@@ -127,7 +130,6 @@ function spawnBottle(bossEntity, backfire = false) {
     bottle.addComponent(new ECS.Components.CollidesWithMap(true));
     bottle.addComponent(new ECS.Components.BouncesOffWalls());
     bottle.addComponent(new ECS.Components.SaloonBottle());
-    bottle.addComponent(new ECS.Components.DamagesPlayer(true));
     bottle.addComponent(new ECS.Components.AnimatedSprite(
         Loader.spriteSheets.Bottle,
         "Thrown",
