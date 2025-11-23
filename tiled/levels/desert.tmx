@@ -145,8 +145,8 @@
  </objectgroup>
  <objectgroup id="11" name="CrateLocations" visible="0"/>
  <objectgroup id="10" name="BossCues" visible="0"/>
- <objectgroup id="7" name="Spawns" visible="0">
-  <object id="2" name="PlayerSpawn" x="103.955" y="127.818">
+ <objectgroup id="7" name="Spawns">
+  <object id="2" name="PlayerSpawn" x="98" y="131">
    <point/>
   </object>
  </objectgroup>
