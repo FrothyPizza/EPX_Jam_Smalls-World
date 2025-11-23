@@ -11,6 +11,7 @@ ECS.Entity = class Entity {
     addComponent(component) {
         this.components.push(component.constructor.name);
 		this[component.constructor.name] = component;
+        if (typeof ECS !== 'undefined' && ECS.invalidateCache) ECS.invalidateCache();
     }
 
 	add(component) {
@@ -22,6 +23,7 @@ ECS.Entity = class Entity {
 			this[name].destroy();
 		delete this[name];
         this.components.splice(this.components.indexOf(name), 1);
+        if (typeof ECS !== 'undefined' && ECS.invalidateCache) ECS.invalidateCache();
     }
 
 	destroy() {

@@ -56,6 +56,10 @@ function init() {
 
 // Main Game Loop
 function update() {
+    if (typeof updateGamepadInputs === 'function') {
+        updateGamepadInputs();
+    }
+
     context.fillStyle = CONSTANTS.BACKGROUND_COLOR;
     context.fillRect(0, 0, WIDTH, HEIGHT);
 

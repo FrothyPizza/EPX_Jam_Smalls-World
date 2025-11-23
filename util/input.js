@@ -97,16 +97,7 @@ function updateGamepadInputs() {
     for (let name in Inputs) {
         Inputs[name] = KeyboardInputs[name] || GamepadInputs[name];
     }
-
-    // log the axis values
-    if (gamepads[0] && gamepads[0].axes)
-    console.log(gamepads[0].axes);
-
-    requestAnimationFrame(updateGamepadInputs);
 }
-
-// Start the gamepad input update loop
-updateGamepadInputs();
 
 // Existing keys array (if needed elsewhere in your code)
 let keys = [];

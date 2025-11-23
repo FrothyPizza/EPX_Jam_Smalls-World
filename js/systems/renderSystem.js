@@ -34,21 +34,32 @@ ECS.Systems.renderSystem = function(entities, context) {
                 return;
             }
 
-            // Draw frame into offscreen canvas
             let frame = sprite.jsonData.frames[sprite.currentFrame];
-            sprite.offscreenContext.clearRect(0, 0, sprite.width, sprite.height);
-            sprite.offscreenContext.drawImage(
-                sprite.image,
-                frame.frame.x, frame.frame.y, frame.frame.w, frame.frame.h,
-                0, 0, frame.frame.w, frame.frame.h
-            );
-            
-            if (sprite.tint) {
-                sprite.offscreenContext.fillStyle = sprite.tint;
+            let sourceCanvas = sprite.image;
+            let sourceX = frame.frame.x;
+            let sourceY = frame.frame.y;
+            let sourceW = frame.frame.w;
+            let sourceH = frame.frame.h;
 
+            // Only use offscreen canvas if tint is applied
+            if (sprite.tint) {
+                sprite.offscreenContext.clearRect(0, 0, sprite.width, sprite.height);
+                sprite.offscreenContext.drawImage(
+                    sprite.image,
+                    frame.frame.x, frame.frame.y, frame.frame.w, frame.frame.h,
+                    0, 0, frame.frame.w, frame.frame.h
+                );
+                
+                sprite.offscreenContext.fillStyle = sprite.tint;
                 sprite.offscreenContext.globalCompositeOperation = 'source-atop';
                 sprite.offscreenContext.fillRect(0, 0, frame.frame.w, frame.frame.h);
                 sprite.offscreenContext.globalCompositeOperation = 'source-over';
+
+                sourceCanvas = sprite.offscreenCanvas;
+                sourceX = 0;
+                sourceY = 0;
+                sourceW = frame.frame.w;
+                sourceH = frame.frame.h;
             }
 
             // Compute effective scale for horizontal flipping
@@ -63,9 +74,11 @@ ECS.Systems.renderSystem = function(entities, context) {
             context.rotate(sprite.rotation * Math.PI / 180);
             context.scale(scaleX, 1);
             context.drawImage(
-                sprite.offscreenCanvas,
+                sourceCanvas,
+                sourceX, sourceY, sourceW, sourceH,
                 -sprite.width / 2,
-                -sprite.height / 2
+                -sprite.height / 2,
+                sprite.width, sprite.height
             );
             context.restore();
         }
