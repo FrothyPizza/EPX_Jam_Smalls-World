@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.10.1" name="CowboyTilemap" tilewidth="8" tileheight="8" tilecount="800" columns="40">
- <image source="CowboyTilemap.png" width="320" height="160"/>
+<tileset version="1.11" tiledversion="1.11.2" name="CowboyTilemap" tilewidth="8" tileheight="8" tilecount="4000" columns="40">
+ <image source="CowboyTilemap.png" width="320" height="800"/>
  <tile id="8" type="wall"/>
  <tile id="9" type="wall"/>
  <tile id="10" type="wall"/>
  <tile id="11" type="wall"/>
  <tile id="12" type="wall"/>
  <tile id="13" type="wall"/>
+ <tile id="62" type="wall"/>
+ <tile id="63" type="wall"/>
  <tile id="90" type="onewaywall"/>
  <tile id="91" type="onewaywall"/>
  <tile id="93" type="wall"/>
@@ -30,6 +32,12 @@
  <tile id="341" type="onewaywall"/>
  <tile id="342" type="onewaywall"/>
  <tile id="343" type="onewaywall"/>
+ <tile id="345" type="wall"/>
+ <tile id="346" type="wall"/>
+ <tile id="347" type="wall"/>
+ <tile id="351" type="onewaywall"/>
+ <tile id="352" type="onewaywall"/>
+ <tile id="353" type="onewaywall"/>
  <tile id="360" type="wall"/>
  <tile id="361" type="wall"/>
  <tile id="362" type="wall"/>
@@ -42,6 +50,9 @@
  <tile id="371" type="wall"/>
  <tile id="378" type="wall"/>
  <tile id="383" type="wall"/>
+ <tile id="385" type="wall"/>
+ <tile id="386" type="wall"/>
+ <tile id="387" type="wall"/>
  <tile id="402" type="wall"/>
  <tile id="403" type="wall"/>
  <tile id="406" type="wall"/>
@@ -50,6 +61,9 @@
  <tile id="409" type="wall"/>
  <tile id="410" type="wall"/>
  <tile id="411" type="wall"/>
+ <tile id="425" type="wall"/>
+ <tile id="426" type="wall"/>
+ <tile id="427" type="wall"/>
  <tile id="442" type="wall"/>
  <tile id="443" type="wall"/>
  <tile id="446" type="wall"/>
@@ -70,4 +84,19 @@
  <tile id="529" type="wall"/>
  <tile id="530" type="wall"/>
  <tile id="531" type="wall"/>
+ <tile id="720" type="wall"/>
+ <tile id="721" type="wall"/>
+ <tile id="722" type="wall"/>
+ <tile id="723" type="wall"/>
+ <tile id="760" type="wall"/>
+ <tile id="761" type="wall"/>
+ <tile id="762" type="wall"/>
+ <tile id="763" type="wall"/>
+ <tile id="800" type="wall"/>
+ <tile id="801" type="wall"/>
+ <tile id="802" type="wall"/>
+ <tile id="803" type="wall"/>
+ <tile id="840" type="wall"/>
+ <tile id="841" type="wall"/>
+ <tile id="842" type="wall"/>
 </tileset>
