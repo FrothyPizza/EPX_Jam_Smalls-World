@@ -8,6 +8,12 @@ ECS.Systems.animationSystem = function(entities) {
 
         const sprite = entity.AnimatedSprite;
 
+                if(entity.has('LooksBackAndForthIntermittently')) {
+            if(APP_ELAPSED_FRAMES % entity.LooksBackAndForthIntermittently.everyXFrames === 0) {
+                sprite.direction *= -1;
+            }
+        }
+
         // Skip if paused
         if (sprite.paused) return;
 
@@ -34,5 +40,7 @@ ECS.Systems.animationSystem = function(entities) {
                 }
             }
         }
+
+
     });
 }

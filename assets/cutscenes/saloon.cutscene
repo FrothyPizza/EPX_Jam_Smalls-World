@@ -39,16 +39,7 @@
       "text": "No, I am the GREATEREST cowboy in the North Sourtherly East!",
       "hold": 180,
       "charsPerFrame": 2.5,
-      "box": { "x": 100, "y": 40, "width": 120, "height": 40 }
-    },
-    {
-      "type": "move",
-      "entity": "Player",
-      "path": [
-        { "x": 0, "y": 0, "t": 0 },
-        { "x": 40, "y": 40, "t": 30 }
-      ],
-      "relative": false
+      "box": { "x": 100, "y": 40, "width": 120, "height": 60 }
     }
   ]
 }

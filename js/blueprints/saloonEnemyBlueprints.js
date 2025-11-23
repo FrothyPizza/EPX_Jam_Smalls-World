@@ -19,7 +19,7 @@ ECS.Blueprints.createSaloonOutlaw = function(x, y) {
 
     const sprite = new ECS.Components.AnimatedSprite(
         Loader.spriteSheets.KnifeOutlaw, 
-        "Background", 
+        "Idle", 
         12
     );
     sprite.paused = true;
