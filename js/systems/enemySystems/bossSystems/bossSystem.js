@@ -17,10 +17,7 @@ function handleCrazedCowboy(entity) {
     let velocity = entity.Velocity;
     let sprite = entity.AnimatedSprite;
 
-    // Update Phase based on Health
-    if (entity.BossHealth.value <= 1) {
-        cowboy.phase = 3;
-    } else if (entity.BossHealth.value <= 4) {
+    if (entity.BossHealth.value <= 3) {
         cowboy.phase = 2;
     } else {
         cowboy.phase = 1;
@@ -53,7 +50,7 @@ function handleCrazedCowboy(entity) {
             cowboy.strafeTimer = 0;
         }
     } else if (cowboy.state === "STRAFE") {
-        velocity.x = cowboy.strafeDirection * 0.5; // Speed
+        velocity.x = cowboy.strafeDirection * 0.25; // Speed
         cowboy.strafeTimer++;
 
         sprite.setAnimation("Run");

@@ -185,14 +185,16 @@ class SaloonScene extends LevelScene {
                     }
 
                     // spawn a saloon outlaw in the sky to use as a dummy
-                    const dummyOutlaw = ECS.Blueprints.createSaloonOutlaw(64, 0);
-                    dummyOutlaw.addComponent(
-                        new ECS.Components.LooksBackAndForthIntermittently(120)
-                    );
-                    // remove DamagesPlayer component so it doesn't hurt the player
-                    dummyOutlaw.removeComponent('DamagesPlayer');
-                    this.addEntity(dummyOutlaw);
+                    for(let i = 0; i < 2; ++i) {
+                        const dummyOutlaw = ECS.Blueprints.createSaloonOutlaw(64 + i * 64, 0);
+                        dummyOutlaw.addComponent(
+                            new ECS.Components.LooksBackAndForthIntermittently(120)
+                        );
+                        // remove DamagesPlayer component so it doesn't hurt the player
+                        dummyOutlaw.removeComponent('DamagesPlayer');
+                        this.addEntity(dummyOutlaw);
 
+                    }
 
                     this.readyToTransitionToNextSceneWhenAllEnemiesDefeated = true;
                 },

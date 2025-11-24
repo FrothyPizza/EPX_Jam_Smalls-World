@@ -10,6 +10,8 @@ const Loader = {
   gameWorld: null,
   audio: {},
   music: {},
+  activeMusic: {},
+  audioContext: null,
   cutscenes: {},
 
   load: async function () {
@@ -220,22 +222,26 @@ const Loader = {
   },
     
 
-  loadAudio: function (src) {
-    return new Promise((resolve, reject) => {
-      const audio = new Audio();
-      audio.src = src;
-      audio.addEventListener(
-        "canplaythrough",
-        () => {
-          this.audio[this.removePath(src)] = audio;
-          resolve();
-        },
-        { once: true }
-      );
+  initAudioContext: function () {
+    if (!this.audioContext) {
+      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+  },
 
-      audio.onerror = () => {
-        reject(`Error loading audio: ${src}`);
-      };
+  loadAudio: function (src) {
+    this.initAudioContext();
+    return new Promise((resolve, reject) => {
+      fetch(src)
+        .then((response) => response.arrayBuffer())
+        .then((arrayBuffer) => this.audioContext.decodeAudioData(arrayBuffer))
+        .then((audioBuffer) => {
+          this.audio[this.removePath(src)] = audioBuffer;
+          resolve();
+        })
+        .catch((error) => {
+          console.error(error);
+          reject(`Error loading audio: ${src}`);
+        });
     });
   },
 
@@ -244,120 +250,108 @@ const Loader = {
     return path.pop();
   },
 
-  // playSound: function(name, volume = 1) {
-  //     // Create a new instance of the sound to allow multiple overlaps
-  //     if (this.audio[name]) {
-  //         const soundClone = this.audio[name].cloneNode(true);
-  //         soundClone.volume = volume;
-  //         // If we play a sound that's already playing, this will start another instance
-  //         soundClone.currentTime = 0;
-  //         soundClone.play();
-  //     } else {
-  //         console.warn(`Sound ${name} not found.`);
-  //     }
-  // },
   playSound: function (name, volume = 1) {
-    // Check if the audio exists
     if (this.audio[name]) {
-      const sound = this.audio[name];
-
-      // Set the desired volume
-      sound.volume = volume;
-
-      // If the sound is already playing, reset it to start
-      if (!sound.paused) {
-        sound.currentTime = 0;
+      this.initAudioContext();
+      if (this.audioContext.state === "suspended") {
+        this.audioContext.resume();
       }
-
-      // Play the sound
-      sound.play().catch((error) => {
-        console.warn(`Failed to play sound ${name}:`, error);
-      });
+      const source = this.audioContext.createBufferSource();
+      source.buffer = this.audio[name];
+      const gainNode = this.audioContext.createGain();
+      gainNode.gain.value = volume;
+      source.connect(gainNode);
+      gainNode.connect(this.audioContext.destination);
+      source.start(0);
     } else {
       console.warn(`Sound "${name}" not found.`);
     }
   },
+
   playSoundRepeat: function (name, volume, repeatTimes) {
     if (this.audio[name]) {
-      const sound = this.audio[name];
-      sound.volume = volume;
-      if (!sound.paused) {
-        sound.currentTime = 0;
-      }
-      sound.play().catch((error) => {
-        console.warn(`Failed to play sound ${name}:`, error);
-      });
-      sound.onended = () => {
-        repeatTimes--;
-        if (repeatTimes > 0) {
-          sound.currentTime = 0;
-          sound.play().catch((error) => {
-            console.warn(`Failed to play sound ${name}:`, error);
-          });
-        }
+      this.initAudioContext();
+      const play = (times) => {
+        if (times <= 0) return;
+        const source = this.audioContext.createBufferSource();
+        source.buffer = this.audio[name];
+        const gainNode = this.audioContext.createGain();
+        gainNode.gain.value = volume;
+        source.connect(gainNode);
+        gainNode.connect(this.audioContext.destination);
+        source.onended = () => play(times - 1);
+        source.start(0);
       };
+      play(repeatTimes);
     } else {
       console.warn(`Sound "${name}" not found.`);
     }
   },
 
   playMusic: function (name, volume = 1, restart = true) {
-    // Stop any music that is currently playing, unless it's the same music
-    for (let key in this.music) {
+    this.initAudioContext();
+    if (this.audioContext.state === "suspended") {
+      this.audioContext.resume();
+    }
+    console.log(`Playing music: ${name}, volume: ${volume}, restart: ${restart}`);
+
+    // Stop other music
+    for (let key in this.activeMusic) {
       if (key !== name) {
-        this.music[key].pause();
-        this.music[key].currentTime = 0;
+        try {
+          this.activeMusic[key].source.stop();
+        } catch (e) {}
+        delete this.activeMusic[key];
       }
     }
 
-    if (this.audio[name]) {
-      if (this.music[name]) {
-        if (!restart) {
-          if (!this.music[name].paused) {
-            // Music is already playing and restart is false, do nothing
-            return;
-          } else {
-            // Music is paused and restart is false, so restart it
-            this.music[name].currentTime = 0;
-            this.music[name].play();
-            return;
-          }
-        }
-        // If restart is true, stop the current music to restart it
-        this.music[name].pause();
-        this.music[name].currentTime = 0;
+    if (this.activeMusic[name]) {
+      if (!restart) {
+        return; // Already playing
       }
+      // Stop to restart
+      try {
+        this.activeMusic[name].source.stop();
+      } catch (e) {}
+      delete this.activeMusic[name];
+    }
 
-      // Clone the audio node to allow multiple instances if needed
-      const musicClone = this.audio[name].cloneNode(true);
-      musicClone.loop = true;
-      musicClone.volume = volume;
-      musicClone.play();
-      this.music[name] = musicClone;
+    if (this.audio[name]) {
+      const source = this.audioContext.createBufferSource();
+      source.buffer = this.audio[name];
+      source.loop = true;
+
+      const gainNode = this.audioContext.createGain();
+      gainNode.gain.value = volume;
+
+      source.connect(gainNode);
+      gainNode.connect(this.audioContext.destination);
+
+      source.start(0);
+
+      this.activeMusic[name] = { source: source, gain: gainNode };
     } else {
       console.warn(`Music ${name} not found.`);
     }
   },
 
   setCurrentMusicVolume: function (volume) {
-    for (let key in this.music) {
-      this.music[key].volume = volume;
+    for (let key in this.activeMusic) {
+      this.activeMusic[key].gain.gain.value = volume;
     }
   },
 
   setCurrentMusicSpeed: function (speed) {
-    for (let key in this.music) {
-      this.music[key].playbackRate = speed;
+    for (let key in this.activeMusic) {
+      this.activeMusic[key].source.playbackRate.value = speed;
     }
   },
 
   decreaseCurrentMusicVolume: function (value) {
-    for (let key in this.music) {
-      if (this.music[key].volume - value < 0) {
-        this.music[key].volume = 0;
-      } else {
-        this.music[key].volume -= value;
-      }
+    for (let key in this.activeMusic) {
+      let newVol = this.activeMusic[key].gain.gain.value - value;
+      if (newVol < 0) newVol = 0;
+      this.activeMusic[key].gain.gain.value = newVol;
     }
   },
 };
@@ -402,6 +396,8 @@ document.body.onload = () => {
       "tiled/CowboyTilemap.tsx",
       "tiled/CowboyTilemap.png",
       "tiled/levels/game_world.world",
+
+      "assets/music/cowboy/TenseBase.mp3",
 
 
       "assets/music/Bones and Demons -Decending baseline.mp3",
