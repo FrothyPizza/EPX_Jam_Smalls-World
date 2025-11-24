@@ -57,22 +57,37 @@ class SaloonScene extends LevelScene {
     //     console.log("Added stunned birds to player");
     // });
 
-    // if (Loader.cutscenes && Loader.cutscenes.saloon) {
-    //     this.playCutscene(CONSTANTS.SPEEDY_MODE ? 'saloon_abridged' : 'saloon', { Player: this.player, OutlawLeft: outlawLeft, OutlawRight: outlawRight }, {
-    //         onComplete: () => {
-    //             // GlobalState.sceneManager.switchScene(new DesertScene(Loader.levels['desert'].xml));
+    if (Loader.cutscenes && Loader.cutscenes.saloon) {
+      this.playCutscene(
+        CONSTANTS.SPEEDY_MODE ? "saloon_abridged" : "saloon",
+        {
+          Player: this.player,
+          OutlawLeft: outlawLeft,
+          OutlawRight: outlawRight,
+        },
+        {
+          onComplete: () => {
+            // GlobalState.sceneManager.switchScene(new DesertScene(Loader.levels['desert'].xml));
 
-    //             let index = 1;
-    //             this.getEntities().forEach(entity => {
-    //                 if (entity.isSaloonOutlaw || entity.blueprint === 'SaloonOutlaw') {
-    //                     entity.addComponent(new ECS.Components.SaloonKnifeOutlaw(240 * index + Math.floor(Math.random() * 120)));
-    //                     index++;
-    //                 }
-    //             });
-    //             this.outlawsActive = true;
-    //         }
-    //     });
-    // }
+            let index = 1;
+            this.getEntities().forEach((entity) => {
+              if (
+                entity.isSaloonOutlaw ||
+                entity.blueprint === "SaloonOutlaw"
+              ) {
+                entity.addComponent(
+                  new ECS.Components.SaloonKnifeOutlaw(
+                    240 * index + Math.floor(Math.random() * 120)
+                  )
+                );
+                index++;
+              }
+            });
+            this.outlawsActive = true;
+          },
+        }
+      );
+    }
   }
 
   update() {
