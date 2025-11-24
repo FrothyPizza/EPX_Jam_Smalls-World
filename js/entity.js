@@ -22,7 +22,10 @@ ECS.Entity = class Entity {
 		if(this[name].destroy)
 			this[name].destroy();
 		delete this[name];
-        this.components.splice(this.components.indexOf(name), 1);
+        const index = this.components.indexOf(name);
+        if (index !== -1) {
+            this.components.splice(index, 1);
+        }
         if (typeof ECS !== 'undefined' && ECS.invalidateCache) ECS.invalidateCache();
     }
 

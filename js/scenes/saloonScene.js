@@ -176,6 +176,13 @@ class SaloonScene extends LevelScene {
             {
                 shouldSave: false,
                 onComplete: () => {
+
+                    // remove IsEnemy from boss
+                    const boss = this.getEntities().find(e => e.has('CrazedCowboy'));
+                    if (boss) {
+                        boss.removeComponent('IsEnemy');
+                    }
+
                     // spawn a saloon outlaw in the sky to use as a dummy
                     const dummyOutlaw = ECS.Blueprints.createSaloonOutlaw(64, 0);
                     dummyOutlaw.addComponent(
@@ -184,6 +191,7 @@ class SaloonScene extends LevelScene {
                     // remove DamagesPlayer component so it doesn't hurt the player
                     dummyOutlaw.removeComponent('DamagesPlayer');
                     this.addEntity(dummyOutlaw);
+
 
                     this.readyToTransitionToNextSceneWhenAllEnemiesDefeated = true;
                 },

@@ -72,7 +72,7 @@ ECS.Components.BoundEntities = class BoundEntities {
  * @param {boolean} removeOnComplete - Whether to remove the entity after stunned sequence.
  */
 ECS.Components.Stunned = class Stunned {
-    constructor(knockbackVelocity = {x: 0, y: 0}, knockbackDuration = 20, dazeDuration = 90, removeOnComplete = true) {
+    constructor(knockbackVelocity = {x: 0, y: 0}, knockbackDuration = 20, dazeDuration = 90, removeOnComplete = false) {
         this.knockbackVelocity = knockbackVelocity;
         this.knockbackDuration = knockbackDuration;
         this.dazeDuration = dazeDuration;

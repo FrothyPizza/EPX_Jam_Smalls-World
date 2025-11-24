@@ -109,9 +109,15 @@ ECS.Blueprints.PlayerInteract = function(other) {
 }
 
 ECS.Blueprints.WeaponInteract = function(other) {
+    if (this.has('AnimatedSprite') && this.AnimatedSprite.hidden) return;
+
     if (other.has('IsEnemy') && other.has('Stunned')) {
-        other.addComponent(new ECS.Components.RemoveFromScene(true));
-        Loader.playSound("damage.wav", 0.5);
+        // Double check that the entity is actually stunned (has the component in its list)
+        // This is redundant if 'has' works correctly, but good for safety
+        if (other.Stunned) {
+            other.addComponent(new ECS.Components.RemoveFromScene(true));
+            Loader.playSound("damage.wav", 0.5);
+        }
     }
 }
 
@@ -123,7 +129,7 @@ ECS.Blueprints.BulletInteract = function(other) {
             if (this.has('CausesStun')) {
                 duration = this.CausesStun.duration;
             }
-            other.addComponent(new ECS.Components.Stunned({x: 1.5 * dir, y: -1.5}, 20, duration));
+            other.addComponent(new ECS.Components.Stunned({x: 1.5 * dir, y: -1.5}, 20, duration, false));
         }
         this.addComponent(new ECS.Components.RemoveFromScene(true));
     } else if (other.has('MapCollisionState') && (other.MapCollisionState.leftHit || other.MapCollisionState.rightHit || other.MapCollisionState.topHit || other.MapCollisionState.bottomHit)) {

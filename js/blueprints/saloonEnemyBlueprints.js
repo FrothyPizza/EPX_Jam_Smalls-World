@@ -46,10 +46,10 @@ ECS.Blueprints.SaloonOutlawInteract = function(other) {
             shakeScreen(3);
             
             // Entity A moves away from B (dir)
-            this.addComponent(new ECS.Components.Stunned({x: 0.25 * dir, y: -1}));
+            this.addComponent(new ECS.Components.Stunned({x: 0.25 * dir, y: -1}, 20, 90, false));
             
             // Entity B moves away from A (-dir)
-            other.addComponent(new ECS.Components.Stunned({x: 0.25 * -dir, y: -1}));
+            other.addComponent(new ECS.Components.Stunned({x: 0.25 * -dir, y: -1}, 20, 90, false));
         }
     }
 }
