@@ -50,6 +50,8 @@ ECS.Blueprints.PlayerInteract = function(other) {
         if (this.has('PlayerInvincibility') && this.PlayerInvincibility.isInvincible) return;
         if (this.has('InvincibilityFrames') && this.InvincibilityFrames.duration > 0) return;
 
+        // Play sound here
+
         if (this.has('Dead')) {
             freezeFrame(30);
             setFrameTimeout(() => {
