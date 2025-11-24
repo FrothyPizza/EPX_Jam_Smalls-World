@@ -24,4 +24,7 @@ ECS.Systems.physicsSystem = function(entities) {
         position.x += velocity.x;
         position.y += velocity.y;
     });
+
+
+    
 }

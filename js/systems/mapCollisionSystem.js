@@ -3,6 +3,20 @@
 
 ECS.Systems.mapCollisionSystem = function(entities, map) {
     Object.values(entities).forEach(entity => {
+
+        // remove offscreen bullets
+        if(entity.has("Bullet")) {
+            const position = entity.Position;
+            if(position.x < 0 || position.x > map.width * map.tilewidth ||
+               position.y < 0 || position.y > map.height * map.tileheight) {
+                // Remove bullet from scene
+                if (GlobalState.currentScene && typeof GlobalState.currentScene.removeEntity === 'function') {
+                    GlobalState.currentScene.removeEntity(entity.id);
+                }
+                return;
+            }
+        }
+
         // Only process entities with necessary components
         if (!entity.has('Position', 'Velocity', 'Dimensions', 'CollidesWithMap')) return;
         if (!entity.CollidesWithMap.collides) return;

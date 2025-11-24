@@ -1,4 +1,3 @@
-
 // Player blueprint - creates a player entity with all necessary components
 
 ECS.Blueprints.createPlayer = function(x, y) {
@@ -109,6 +108,28 @@ ECS.Blueprints.PlayerInteract = function(other) {
     }
 }
 
+ECS.Blueprints.WeaponInteract = function(other) {
+    if (other.has('IsEnemy') && other.has('Stunned')) {
+        other.addComponent(new ECS.Components.RemoveFromScene(true));
+        Loader.playSound("damage.wav", 0.5);
+    }
+}
+
+ECS.Blueprints.BulletInteract = function(other) {
+    if (other.has('IsEnemy')) {
+        if (!other.has('Stunned')) {
+            const dir = Math.sign(this.Velocity.x) || 1;
+            let duration = 180;
+            if (this.has('CausesStun')) {
+                duration = this.CausesStun.duration;
+            }
+            other.addComponent(new ECS.Components.Stunned({x: 1.5 * dir, y: -1.5}, 20, duration));
+        }
+        this.addComponent(new ECS.Components.RemoveFromScene(true));
+    } else if (other.has('MapCollisionState') && (other.MapCollisionState.leftHit || other.MapCollisionState.rightHit || other.MapCollisionState.topHit || other.MapCollisionState.bottomHit)) {
+         this.addComponent(new ECS.Components.RemoveFromScene(true));
+    }
+}
 
 
 ECS.Blueprints.Weapon = function(x, y, weaponType) {
@@ -120,6 +141,8 @@ ECS.Blueprints.Weapon = function(x, y, weaponType) {
     } else if(weaponType === 'Lasso') {
         entity.addComponent(new ECS.Components.Dimensions(16, 8));
         entity.addComponent(new ECS.Components.Weapon('Lasso', 45));
+        entity.addComponent(new ECS.Components.Hitbox([{x: 0, y: 0, w: 16, h: 8}]));
+        entity.interactWith = ECS.Blueprints.WeaponInteract;
     }
 
     entity.addComponent(new ECS.Components.Position(x, y));
@@ -146,4 +169,27 @@ ECS.Helpers.addWeaponToPlayer = function(playerEntity, weaponType) {
 
 
     return weapon;
+}
+
+
+ECS.Blueprints.createBullet = function(x, y, direction, speed) {
+    let entity = new ECS.Entity();
+    entity.addComponent(new ECS.Components.Position(x, y));
+    entity.addComponent(new ECS.Components.Velocity(speed * direction, 0));
+    entity.addComponent(new ECS.Components.Dimensions(4, 3));
+    entity.addComponent(new ECS.Components.DamagesEnemy(true));
+    entity.addComponent(new ECS.Components.CausesStun(180));
+    // add hitbox and hurtbox
+    entity.addComponent(new ECS.Components.Hitbox([{x: 0, y: 0, w: 4, h: 3}]));
+    entity.addComponent(new ECS.Components.Hurtbox([{x: 0, y: 0, w: 4, h: 3}]));
+    // entity.addComponent(new ECS.Components.MapCollisionState());
+    // entity.addComponent(new ECS.Components.CollidesWithMap(true));
+    entity.addComponent(new ECS.Components.Bullet());
+    entity.addComponent(new ECS.Components.AnimatedSprite(
+        Loader.spriteSheets.Bullet,
+        "Idle",
+        12
+    ));
+    entity.interactWith = ECS.Blueprints.BulletInteract;
+    return entity;
 }

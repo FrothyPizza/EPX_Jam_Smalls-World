@@ -83,9 +83,20 @@ ECS.Components.Stunned = class Stunned {
     }
 }
 
+ECS.Components.CausesStun = class CausesStun {
+    constructor(duration = 90) {
+        this.duration = duration;
+    }
+}
+
 ECS.Components.Checkpoint = class Checkpoint {
     constructor(id = "") {
         this.id = id;
     }
 }
 
+ECS.Components.Bullet = class Bullet {
+    constructor(lifetime = 200) {
+        this.framesLeft = lifetime;
+    }
+}

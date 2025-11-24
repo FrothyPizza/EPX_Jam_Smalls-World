@@ -1,5 +1,3 @@
-
-
 // LevelScene - handles gameplay with map, entities, and systems
 class LevelScene extends Scene {
     constructor(mapXml) {
@@ -83,6 +81,7 @@ class LevelScene extends Scene {
         ECS.Systems.playerOffMapSystem(this.entities, this.map);
         ECS.Systems.playerInvincibilitySystem(this.entities);
         ECS.Systems.playerAttackSystem(this.entities, this.map);
+        ECS.Systems.bulletSystem(this.entities);
 
 
         

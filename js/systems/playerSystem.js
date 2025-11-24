@@ -1,4 +1,3 @@
-
 // Player systems - handles player-specific behavior
 
 // Player physics system - applies friction and thresholds
@@ -412,6 +411,14 @@ ECS.Systems.playerAttackSystem = function(entities, map) {
                 // Spawn Bullet Logic Here (Placeholder)
                 // ECS.Blueprints.createBullet(...)
                 console.log("Bang!");
+
+                let bullet = ECS.Blueprints.createBullet(
+                    entity.Position.x + (gunEntity.AnimatedSprite.direction === 1 ? 14 : -6), 
+                    entity.Position.y + 4, 
+                    gunEntity.AnimatedSprite.direction, 
+                    2
+                );
+                GlobalState.currentScene.addEntity(bullet);
             }
         }
 
@@ -462,7 +469,18 @@ ECS.Systems.playerAttackSystem = function(entities, map) {
     });
 }
 
+ECS.Systems.bulletSystem = function(entities) {
+    Object.values(entities).forEach(entity => {
+        if (!entity.has('Bullet')) return;
 
+        const bullet = entity.Bullet;
+        bullet.framesLeft--;
+
+        if (bullet.framesLeft <= 0) {
+            entity.addComponent(new ECS.Components.RemoveFromScene(true));
+        }
+    });
+}
 
 /**
  * To be run before any physics or movement systems
