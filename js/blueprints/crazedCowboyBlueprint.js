@@ -30,6 +30,7 @@ ECS.Blueprints.CrazedCowboy = function(x, y, initialState = "IDLE") {
 }
 
 ECS.Blueprints.CrazedCowboyInteract = function(other) {
+    if (other.has('Bullet')) return;
     if(other.has('DamagesEnemy')) {
         // Destroy the projectile so it doesn't hit multiple times
         if (other.has('SaloonBottle')) {
@@ -58,6 +59,14 @@ ECS.Blueprints.CrazedCowboyInteract = function(other) {
                     }
 
                     this.BossState.state = "DEFEATED";
+
+                    // remove hitbox and hurtbox to prevent further interactions
+                    if(this.has('Hitbox')) {
+                        this.removeComponent('Hitbox');
+                    }
+                    if(this.has('Hurtbox')) {
+                        this.removeComponent('Hurtbox');
+                    }
 
                     // spawn items
                     const scene = GlobalState.currentScene;

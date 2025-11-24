@@ -112,6 +112,8 @@ ECS.Blueprints.WeaponInteract = function(other) {
     if (this.has('AnimatedSprite') && this.AnimatedSprite.hidden) return;
 
     if (other.has('IsEnemy') && other.has('Stunned')) {
+        if (other.has('CrazedCowboy')) return;
+
         // Double check that the entity is actually stunned (has the component in its list)
         // This is redundant if 'has' works correctly, but good for safety
         if (other.Stunned) {
@@ -123,6 +125,7 @@ ECS.Blueprints.WeaponInteract = function(other) {
 
 ECS.Blueprints.BulletInteract = function(other) {
     if (other.has('IsEnemy')) {
+        if (other.has('CrazedCowboy')) return;
         if (!other.has('Stunned')) {
             const dir = Math.sign(this.Velocity.x) || 1;
             let duration = 180;
