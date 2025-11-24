@@ -30,8 +30,26 @@ ECS.Blueprints.createSaloonOutlaw = function(x, y) {
     );
     sprite.paused = true;
 
-    
+    entity.interactWith = ECS.Blueprints.SaloonOutlawInteract;
 
     entity.addComponent(sprite);
     return entity;
+}
+
+
+ECS.Blueprints.SaloonOutlawInteract = function(other) {
+                    // Saloon Outlaw vs Saloon Outlaw Collision
+    if (other.has('SaloonKnifeOutlaw')) {
+        if (!this.has('Stunned') && !other.has('Stunned')) {
+            const dir = Math.sign(this.Position.x - other.Position.x) || 1;
+
+            shakeScreen(3);
+            
+            // Entity A moves away from B (dir)
+            this.addComponent(new ECS.Components.Stunned({x: 0.25 * dir, y: -1}));
+            
+            // Entity B moves away from A (-dir)
+            other.addComponent(new ECS.Components.Stunned({x: 0.25 * -dir, y: -1}));
+        }
+    }
 }

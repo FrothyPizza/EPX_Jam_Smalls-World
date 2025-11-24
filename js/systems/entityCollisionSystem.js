@@ -47,7 +47,7 @@ ECS.Systems.entityCollisionSystem = function(entities) {
             }
 
             // Check if entities are colliding
-            if (colliding(entityA, entityB) || colliding(entityB, entityA)) {
+            // if (colliding(entityA, entityB) || colliding(entityB, entityA)) {
                 // // Call interactWith if method exists
                 // if (typeof entityA.interactWith === 'function') {
                 //     entityA.interactWith(entityB);
@@ -57,21 +57,21 @@ ECS.Systems.entityCollisionSystem = function(entities) {
                 // }
 
 
-                // Saloon Outlaw vs Saloon Outlaw Collision
-                if (entityA.has('SaloonKnifeOutlaw') && entityB.has('SaloonKnifeOutlaw')) {
-                    if (!entityA.has('Stunned') && !entityB.has('Stunned')) {
-                        const dir = Math.sign(entityA.Position.x - entityB.Position.x) || 1;
+                // // Saloon Outlaw vs Saloon Outlaw Collision
+                // if (entityA.has('SaloonKnifeOutlaw') && entityB.has('SaloonKnifeOutlaw')) {
+                //     if (!entityA.has('Stunned') && !entityB.has('Stunned')) {
+                //         const dir = Math.sign(entityA.Position.x - entityB.Position.x) || 1;
 
-                        shakeScreen(3);
+                //         shakeScreen(3);
                         
-                        // Entity A moves away from B (dir)
-                        entityA.addComponent(new ECS.Components.Stunned({x: 0.25 * dir, y: -1}));
+                //         // Entity A moves away from B (dir)
+                //         entityA.addComponent(new ECS.Components.Stunned({x: 0.25 * dir, y: -1}));
                         
-                        // Entity B moves away from A (-dir)
-                        entityB.addComponent(new ECS.Components.Stunned({x: 0.25 * -dir, y: -1}));
-                    }
-                }
-            }
+                //         // Entity B moves away from A (-dir)
+                //         entityB.addComponent(new ECS.Components.Stunned({x: 0.25 * -dir, y: -1}));
+                //     }
+                // }
+            // }
         }
     }
 }
