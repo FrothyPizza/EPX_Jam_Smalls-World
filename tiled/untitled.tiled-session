@@ -317,10 +317,10 @@
     ],
     "project": "untitled.tiled-project",
     "recentFiles": [
+        "levels/desert.tmx",
         "levels/styx_level.tmx",
         "levels/hades.tmx",
         "CowboyTilemap.tsx",
-        "levels/desert.tmx",
         "levels/saloon.tmx",
         "levels/harpy.tmx",
         "levels/charon.tmx",
