@@ -22,29 +22,6 @@ class LevelScene extends Scene {
             // this.addEntity(testEnemy);
         }
 
-
-        // let outlawLeft = null;
-        // let outlawRight = null;
-    
-        // // Spawn enemies from map data
-        // this.map.enemies.forEach(spawn => {
-        //     let enemyEntity = null;
-        //     if (spawn.name === "SaloonOutlaw") {
-        //         enemyEntity = ECS.Blueprints.createSaloonOutlaw(spawn.x, spawn.y);
-        //     }
-        //     if (spawn.name === "SaloonOutlaw") {
-        //         enemyEntity = ECS.Blueprints.createSaloonOutlaw(spawn.x, spawn.y);
-        //     }
-            
-        //     if (enemyEntity) {
-        //         this.addEntity(enemyEntity);
-        //     }
-        // });
-
-
-        // if (Loader.cutscenes && Loader.cutscenes.saloon) {
-        //     this.playCutscene('saloon', { Player: this.player });
-        // }
     }
 
     playCutscene(keyOrScript, entityRefs = {}, options = {}) {
@@ -112,7 +89,8 @@ class LevelScene extends Scene {
         // Run other systems
         ECS.Systems.entityCollisionSystem(this.entities);
         ECS.Systems.bossSystem(this.entities);
-        ECS.Systems.saloonOutlawSystem(this.entities, this.map, this);
+        // ECS.Systems.saloonOutlawSystem(this.entities, this.map, this);
+        this.updateLevelSpecificSystems();
         ECS.Systems.stunnedSystem(this.entities, this);
 
         ECS.Systems.boundEntitySystem(this.entities, this.map);
@@ -170,6 +148,10 @@ class LevelScene extends Scene {
         if (this.cutscenePlayer && this.cutscenePlayer.isFinished()) {
             this.cutscenePlayer = null;
         }
+    }
+
+    updateLevelSpecificSystems() {
+        // Placeholder for level-specific system updates
     }
 
     draw(context) {

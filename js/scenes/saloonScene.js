@@ -49,6 +49,7 @@ class SaloonScene extends LevelScene {
       }
     });
 
+
     // // find player in ECS entittes and add stunned birds to him
     // ECS.getEntitiesWithComponents('PlayerState').forEach(playerEntity => {
     //     console.log("Adding stunned birds to player");
@@ -85,7 +86,7 @@ class SaloonScene extends LevelScene {
             this.playCutscene("saloon", { Player: this.player, OutlawLeft: outlawLeft, OutlawRight: outlawRight }, {
                 shouldSave: true,
                 onComplete: () => {
-                    this.player.addComponent(new ECS.Components.SaloonIntroSeen());
+                    this.player.addComponent(new ECS.Components.Checkpoint('SaloonFight'));
                     this.playSaloonPart2(outlawLeft, outlawRight, local_initialize_after_cutscene);
                 }
             });
@@ -109,49 +110,39 @@ class SaloonScene extends LevelScene {
       });
   }
 
+  onStateLoaded() {
+      const checkpoint = this.player.Checkpoint || this.getEntities().find(e => e.has('Checkpoint'))?.Checkpoint;
+      
+      if (checkpoint) {
+          if (checkpoint.id === 'SaloonFight') {
+               let local_initialize_after_cutscene = () => {
+                  let index = 1;
+                  this.getEntities().forEach((entity) => {
+                  if (entity.isSaloonOutlaw || entity.blueprint === "SaloonOutlaw") {
+                      entity.addComponent( new ECS.Components.SaloonKnifeOutlaw(
+                             240 * index + Math.floor(Math.random() * 120)
+                          )
+                      );
+                      index++;
+                  }
+                  });
+                  this.outlawsActive = true;
+              }
+              
+              this.playSaloonPart2(null, null, local_initialize_after_cutscene);
+          } else if (checkpoint.id === 'BossFight') {
+              const boss = this.getEntities().find(e => e.has('CrazedCowboy'));
+              if (boss) {
+                  this.playBossAppearance(boss);
+              }
+          }
+      }
+  }
+
   update() {
     super.update();
 
     ECS.Systems.saloonBottleSystem(this.getEntities(), this.map, this);
-
-    // Check if we need to replay the saloon part 2 cutscene (e.g. after reload)
-    if (!this.cutscenePlayer) {
-        const player = this.getEntities().find(e => e.has('SaloonIntroSeen'));
-        // If player has seen intro, but outlaws are not active (meaning we just loaded state), play part 2
-        // We check if outlaws have the SaloonKnifeOutlaw component to determine if they are active
-        const anyOutlawActive = this.getEntities().some(e => e.has('SaloonKnifeOutlaw'));
-        
-        if (player && !anyOutlawActive && !this.bossSpawned) {
-             // Define the initialization logic again since we are in a new scope/reload
-             let local_initialize_after_cutscene = () => {
-                let index = 1;
-                this.getEntities().forEach((entity) => {
-                if (entity.isSaloonOutlaw || entity.blueprint === "SaloonOutlaw") {
-                    entity.addComponent( new ECS.Components.SaloonKnifeOutlaw(
-                           240 * index + Math.floor(Math.random() * 120)
-                        )
-                    );
-                    index++;
-                }
-                });
-                this.outlawsActive = true;
-            }
-            
-            this.playSaloonPart2(null, null, local_initialize_after_cutscene);
-        }
-    }
-
-    // Check if we need to replay the boss appearance cutscene (e.g. after reload)
-    if (!this.cutscenePlayer) {
-      const boss = this.getEntities().find((e) => e.has("BossIntroSeen"));
-      if (
-        boss &&
-        boss.has("CrazedCowboy") &&
-        boss.CrazedCowboy.state === "INACTIVE"
-      ) {
-        this.playBossAppearance(boss);
-      }
-    }
 
     if (this.outlawsActive && !this.bossSpawned) {
       let outlawCount = 0;
@@ -169,6 +160,11 @@ class SaloonScene extends LevelScene {
         this.spawnBoss();
       }
     }
+  }
+
+  updateLevelSpecificSystems() {
+    
+        ECS.Systems.saloonOutlawSystem(this.entities, this.map, this);
   }
 
   spawnBoss() {
@@ -198,7 +194,7 @@ class SaloonScene extends LevelScene {
         {
           shouldSave: true,
           onComplete: () => {
-            boss.addComponent(new ECS.Components.BossIntroSeen());
+            this.player.addComponent(new ECS.Components.Checkpoint('BossFight'));
             this.playBossAppearance(boss);
           },
         }

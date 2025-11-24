@@ -56,6 +56,8 @@ ECS.Blueprints.CrazedCowboyInteract = function(other) {
                     if(this.has('InvincibilityFrames')) {
                         this.removeComponent('InvincibilityFrames');
                     }
+
+                    this.BossState.state = "DEFEATED";
                 }, 120);
             }
             

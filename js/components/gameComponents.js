@@ -83,15 +83,9 @@ ECS.Components.Stunned = class Stunned {
     }
 }
 
-ECS.Components.BossIntroSeen = class BossIntroSeen {
-    constructor() {
-        this.seen = true;
-    }
-}
-
-ECS.Components.SaloonIntroSeen = class SaloonIntroSeen {
-    constructor() {
-        this.seen = true;
+ECS.Components.Checkpoint = class Checkpoint {
+    constructor(id = "") {
+        this.id = id;
     }
 }
 

@@ -123,6 +123,12 @@ class Scene {
         });
         
         console.log("State loaded.");
+        this.onStateLoaded();
+    }
+
+    // Hook called after a save state is loaded
+    onStateLoaded() {
+        // Override in subclasses
     }
 }
 
