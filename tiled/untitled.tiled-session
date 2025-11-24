@@ -46,19 +46,19 @@
             "expandedObjectLayers": [
                 7
             ],
-            "scale": 4,
+            "scale": 3,
             "selectedLayer": 8,
             "viewCenter": {
-                "x": 119.875,
-                "y": 88.125
+                "x": 164,
+                "y": 100.83333333333333
             }
         },
         "levels/hades.tmx": {
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 120.25,
-                "y": 879.75
+                "x": 119.5,
+                "y": 879.25
             }
         },
         "levels/harpy.tmx": {
