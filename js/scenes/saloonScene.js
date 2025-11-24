@@ -179,7 +179,8 @@ class SaloonScene extends LevelScene {
 
                     // remove IsEnemy from boss
                     const boss = this.getEntities().find(e => e.has('CrazedCowboy'));
-                    if (boss) {
+                    if (boss && boss.has('IsEnemy')) {
+                        console.log("Removing IsEnemy from boss after items collected cutscene");
                         boss.removeComponent('IsEnemy');
                     }
 
