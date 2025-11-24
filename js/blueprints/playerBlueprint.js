@@ -85,4 +85,22 @@ ECS.Blueprints.PlayerInteract = function(other) {
 
         }
     }
+
+
+    if(other.has('SaloonItemCollectible')) {
+        const itemType = other.SaloonItemCollectible.type;
+        // Handle item collection logic
+        console.log(`Collected item: ${itemType}`);
+        // For example, add to inventory or increase stats
+
+        if(itemType === 'Gun') {
+            this.PlayerState.hasCollectedGun = true;
+        }
+        if(itemType === 'Lasso') {
+            this.PlayerState.hasCollectedLasso = true;
+        }
+
+        // Remove the collectible from the game world
+        GlobalState.currentScene.removeEntity(other.id);
+    }
 }

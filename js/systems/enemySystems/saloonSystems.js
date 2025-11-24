@@ -144,3 +144,18 @@ ECS.Systems.saloonBottleSystem = function(entities, map, scene) {
         }
     });
 }
+
+
+ECS.Systems.saloonItemCollectibleSystem = function(entities, map, scene) {
+    Object.values(entities).forEach(entity => {
+        if (!entity.has('SaloonItemCollectible')) return;
+
+        if(entity.SaloonItemCollectible.framesAlive > 45) {
+            entity.Velocity.y = 0;
+            entity.Velocity.x = 0;
+        }
+
+        entity.SaloonItemCollectible.framesAlive++;
+
+    });
+}

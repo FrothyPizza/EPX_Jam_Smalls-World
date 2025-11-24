@@ -383,6 +383,8 @@ document.body.onload = () => {
       "assets/images/cowboy/MadSheriff.json",
       "assets/images/cowboy/Bottle.json",
       "assets/images/cowboy/Deputy.json",
+      "assets/images/cowboy/Gun.json",
+      "assets/images/cowboy/Lasso.json",
 
       
 
@@ -391,6 +393,7 @@ document.body.onload = () => {
       "assets/cutscenes/saloon/saloon_abridged.cutscene",
       "assets/cutscenes/saloon/saloon_boss.cutscene",
       "assets/cutscenes/saloon/saloon_boss_appearance.cutscene",
+      "assets/cutscenes/saloon/saloon_items_collected.cutscene",
 
       // "tiled/GameJamSpriteSheet.tsx",
       // "tiled/new-tiles.png",

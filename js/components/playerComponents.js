@@ -17,6 +17,8 @@ const PLAYER_STATES = {
 ECS.Components.PlayerState = class PlayerState {
     constructor() {
         this.state = PLAYER_STATES.IDLE;
+        this.hasCollectedLasso = false;
+        this.hasCollectedGun = false;
     }
 }
 

@@ -7,7 +7,7 @@ ECS.Blueprints.CrazedCowboy = function(x, y, initialState = "IDLE") {
     entity.addComponent(new ECS.Components.Hitbox([{x: 0, y: 0, w: 16, h: 16}]));
     entity.addComponent(new ECS.Components.Hurtbox([{x: 2, y: 2, w: 12, h: 12}]));
     entity.addComponent(new ECS.Components.BossState());
-    entity.addComponent(new ECS.Components.BossHealth(5));
+    entity.addComponent(new ECS.Components.BossHealth(CONSTANTS.SPEEDY_MODE ? 1 : 5));
     entity.addComponent(new ECS.Components.CrazedCowboy({
         phase: 1,
         health: 15,
@@ -58,6 +58,16 @@ ECS.Blueprints.CrazedCowboyInteract = function(other) {
                     }
 
                     this.BossState.state = "DEFEATED";
+
+                    // spawn items
+                    const scene = GlobalState.currentScene;
+                    if(scene) {
+                        const gun = ECS.Blueprints.createFloatingItemToCollect(this.Position.x + 8, this.Position.y, 'Gun', -1);
+                        scene.addEntity(gun);
+                        const lasso = ECS.Blueprints.createFloatingItemToCollect(this.Position.x + 8, this.Position.y, 'Lasso', 1);
+                        scene.addEntity(lasso);
+                    }
+
                 }, 120);
             }
             

@@ -53,3 +53,40 @@ ECS.Blueprints.SaloonOutlawInteract = function(other) {
         }
     }
 }
+
+
+ECS.Components.SaloonItemCollectible = class SaloonItemCollectible {
+    constructor(type = 'Gun') {
+        this.type = type;
+        this.framesAlive = 0;
+    }
+}
+
+
+ECS.Blueprints.createFloatingItemToCollect = function(x, y, spritesheetName, xDirection = 1) {
+    let entity = new ECS.Entity();
+
+    entity.addComponent(new ECS.Components.SaloonItemCollectible(spritesheetName));
+
+    entity.addComponent(new ECS.Components.Position(x, y));
+    entity.addComponent(new ECS.Components.AnimatedSprite(
+        Loader.spriteSheets[spritesheetName], 
+        "Idle", 
+        12
+    ));
+    entity.addComponent(new ECS.Components.Velocity(0.3 * xDirection, -1));
+    entity.addComponent(new ECS.Components.Gravity(0.05));
+
+    // add hitbox and hurtbox for collecting
+    entity.addComponent(new ECS.Components.Hitbox([{x: 0, y: 0, w: 8, h: 8}]));
+    entity.addComponent(new ECS.Components.Hurtbox([{x: 0, y: 0, w: 8, h: 8}]));
+
+    // collides with map so it lands on the ground
+    entity.addComponent(new ECS.Components.CollidesWithMap(true));
+    entity.addComponent(new ECS.Components.MapCollisionState());
+
+    entity.addComponent(new ECS.Components.Dimensions(8, 8));
+    // entity.addComponent(new ECS.Components.ItemToCollect());
+    entity.blueprint = 'FloatingItemToCollect';
+    return entity;
+}

@@ -140,30 +140,50 @@ class SaloonScene extends LevelScene {
   }
 
   update() {
-    super.update();
+        super.update();
 
-    ECS.Systems.saloonBottleSystem(this.getEntities(), this.map, this);
+        ECS.Systems.saloonBottleSystem(this.getEntities(), this.map, this);
 
-    if (this.outlawsActive && !this.bossSpawned) {
-      let outlawCount = 0;
-      this.getEntities().forEach((entity) => {
-        if (
-          (entity.isSaloonOutlaw || entity.blueprint === "SaloonOutlaw") &&
-          !entity.dead
-        ) {
-          // Assuming dead flag or removal
-          outlawCount++;
+        if (this.outlawsActive && !this.bossSpawned) {
+            let outlawCount = 0;
+            this.getEntities().forEach((entity) => {
+                if (
+                    (entity.isSaloonOutlaw || entity.blueprint === "SaloonOutlaw") &&
+                    !entity.dead
+                ) {
+                    // Assuming dead flag or removal
+                    outlawCount++;
+                }
+            });
+
+            if (outlawCount === 0) {
+                this.spawnBoss();
+            }
         }
-      });
 
-      if (outlawCount === 0) {
-        this.spawnBoss();
-      }
-    }
+        // if the player has collected the lasso and gun, play cutscene
+        if (this.player.has('PlayerState') &&
+            this.player.PlayerState.hasCollectedLasso &&
+            this.player.PlayerState.hasCollectedGun &&
+            !this.itemsCollectedCutscenePlayed) {
+
+            this.itemsCollectedCutscenePlayed = true;
+            this.playCutscene(
+                "saloon_items_collected",
+                { Player: this.player },
+                {
+                    shouldSave: false,
+                    onComplete: () => {
+                        // Nothing special to do
+                    },
+                }
+            );
+        }
+
   }
 
   updateLevelSpecificSystems() {
-    
+        ECS.Systems.saloonItemCollectibleSystem(this.entities, this.map, this);
         ECS.Systems.saloonOutlawSystem(this.entities, this.map, this);
   }
 
