@@ -12,6 +12,8 @@ class SaloonScene extends LevelScene {
     let outlawLeft = null;
     let outlawRight = null;
 
+    this.readyToTransitionToNextSceneWhenAllEnemiesDefeated = false;
+
     let OVERRIDE_ENTITIY_COUNT = 100;
     let spawned = 0;
     if (CONSTANTS.SPEEDY_MODE) {
@@ -140,45 +142,68 @@ class SaloonScene extends LevelScene {
   }
 
   update() {
-        super.update();
+    super.update();
 
-        ECS.Systems.saloonBottleSystem(this.getEntities(), this.map, this);
+    ECS.Systems.saloonBottleSystem(this.getEntities(), this.map, this);
 
-        if (this.outlawsActive && !this.bossSpawned) {
-            let outlawCount = 0;
-            this.getEntities().forEach((entity) => {
-                if (
-                    (entity.isSaloonOutlaw || entity.blueprint === "SaloonOutlaw") &&
-                    !entity.dead
-                ) {
-                    // Assuming dead flag or removal
-                    outlawCount++;
-                }
-            });
-
-            if (outlawCount === 0) {
-                this.spawnBoss();
+    if (this.outlawsActive && !this.bossSpawned) {
+        let outlawCount = 0;
+        this.getEntities().forEach((entity) => {
+            if (
+                (entity.isSaloonOutlaw || entity.blueprint === "SaloonOutlaw") &&
+                !entity.dead
+            ) {
+                // Assuming dead flag or removal
+                outlawCount++;
             }
-        }
+        });
 
-        // if the player has collected the lasso and gun, play cutscene
-        if (this.player.has('PlayerState') &&
-            this.player.PlayerState.hasCollectedLasso &&
-            this.player.PlayerState.hasCollectedGun &&
-            !this.itemsCollectedCutscenePlayed) {
-
-            this.itemsCollectedCutscenePlayed = true;
-            this.playCutscene(
-                "saloon_items_collected",
-                { Player: this.player },
-                {
-                    shouldSave: false,
-                    onComplete: () => {
-                        // Nothing special to do
-                    },
-                }
-            );
+        if (outlawCount === 0) {
+            this.spawnBoss();
         }
+    }
+
+    // if the player has collected the lasso and gun, play cutscene
+    if (this.player.has('PlayerState') &&
+        this.player.PlayerState.hasCollectedLasso &&
+        this.player.PlayerState.hasCollectedGun &&
+        !this.itemsCollectedCutscenePlayed) {
+
+        this.itemsCollectedCutscenePlayed = true;
+        this.playCutscene(
+            "saloon_items_collected",
+            { Player: this.player },
+            {
+                shouldSave: false,
+                onComplete: () => {
+                    // spawn a saloon outlaw in the sky to use as a dummy
+                    const dummyOutlaw = ECS.Blueprints.createSaloonOutlaw(64, 0);
+                    dummyOutlaw.addComponent(
+                        new ECS.Components.LooksBackAndForthIntermittently(120)
+                    );
+                    // remove DamagesPlayer component so it doesn't hurt the player
+                    dummyOutlaw.removeComponent('DamagesPlayer');
+                    this.addEntity(dummyOutlaw);
+
+                    this.readyToTransitionToNextSceneWhenAllEnemiesDefeated = true;
+                },
+            }
+        );
+    }
+
+    // if there are no enemies left and readyToTransitionToNextSceneWhenAllEnemiesDefeated is true, transition to next scene
+    if (this.readyToTransitionToNextSceneWhenAllEnemiesDefeated) {
+        let enemyCount = 0;
+        this.getEntities().forEach((entity) => {
+            if (entity.has('IsEnemy') && !entity.dead) {
+                enemyCount++;
+            }
+        });
+        if (enemyCount === 0) {
+            this.transitionToNextScene();
+        }
+    }
+
 
   }
 
@@ -242,4 +267,9 @@ class SaloonScene extends LevelScene {
       }
     );
   }
+
+  transitionToNextScene() {
+    GlobalState.sceneManager.switchScene(new DesertScene(Loader.levels['desert'].xml));
+  }
+
 }
