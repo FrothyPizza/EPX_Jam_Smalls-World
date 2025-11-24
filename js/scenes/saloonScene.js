@@ -79,6 +79,14 @@ class SaloonScene extends LevelScene {
 
         ECS.Systems.saloonBottleSystem(this.getEntities(), this.map, this);
 
+        // Check if we need to replay the boss appearance cutscene (e.g. after reload)
+        if (!this.cutscenePlayer) {
+            const boss = this.getEntities().find(e => e.has('BossIntroSeen'));
+            if (boss && boss.has('CrazedCowboy') && boss.CrazedCowboy.state === 'INACTIVE') {
+                this.playBossAppearance(boss);
+            }
+        }
+
         if (this.outlawsActive && !this.bossSpawned) {
             let outlawCount = 0;
             this.getEntities().forEach(entity => {
@@ -115,17 +123,25 @@ class SaloonScene extends LevelScene {
         // Play Boss Intro Cutscene if available
         
         if (Loader.cutscenes && Loader.cutscenes.saloon_boss) {
-            this.playCutscene('saloon_boss', { Sheriff: boss }, {
+            this.playCutscene('saloon_boss', { Sheriff: boss }, { shouldSave: true,
                 onComplete: () => {
-                    // Boss fight starts
-                    if (boss.CrazedCowboy) {
-                        boss.CrazedCowboy.state = "IDLE";
-                    }
-
-                    boss.CrazedCowboy.startPos = {x: boss.Position.x, y: boss.Position.y };
+                    boss.addComponent(new ECS.Components.BossIntroSeen());
+                    this.playBossAppearance(boss);
                 }
             });
         }
         
+    }
+
+    playBossAppearance(boss) {
+        this.playCutscene('saloon_boss_appearance', { Sheriff: boss }, { shouldSave: false,
+            onComplete: () => {
+                // Boss fight starts
+                if (boss.CrazedCowboy) {
+                    boss.CrazedCowboy.state = "IDLE";
+                }
+
+                boss.CrazedCowboy.startPos = {x: boss.Position.x, y: boss.Position.y };
+            }});
     }
 }

@@ -83,3 +83,9 @@ ECS.Components.Stunned = class Stunned {
     }
 }
 
+ECS.Components.BossIntroSeen = class BossIntroSeen {
+    constructor() {
+        this.seen = true;
+    }
+}
+

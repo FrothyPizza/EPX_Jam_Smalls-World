@@ -389,6 +389,7 @@ document.body.onload = () => {
       "assets/cutscenes/saloon.cutscene",
       "assets/cutscenes/saloon_abridged.cutscene",
       "assets/cutscenes/saloon_boss.cutscene",
+      "assets/cutscenes/saloon_boss_appearance.cutscene",
 
       // "tiled/GameJamSpriteSheet.tsx",
       // "tiled/new-tiles.png",

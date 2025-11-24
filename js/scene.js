@@ -408,7 +408,10 @@ class LevelScene extends Scene {
         const originalOnComplete = runtimeOptions.onComplete;
         runtimeOptions.onComplete = (player) => {
             if (originalOnComplete) originalOnComplete(player);
-            this.createSaveState();
+            
+            if (options.shouldSave !== false) {
+                this.createSaveState();
+            }
         };
 
         const player = typeof keyOrScript === 'string'
