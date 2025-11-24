@@ -71,6 +71,11 @@ let playmusictostartgame = function() {
 }
 window.addEventListener('keydown', (e) => {
         Loader.playMusic('TenseBase.mp3', true, 0.5);
+
+        Loader.playSound('Slash.wav', 0.7);
+        // Test sound here
+
+        
     // remove this event listener after first key press
 }, { once: true });
 
