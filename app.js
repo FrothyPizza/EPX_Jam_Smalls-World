@@ -56,6 +56,14 @@ function init() {
     startGameloop();
 }
 
+let GAME_FROZEN = false;
+function freezeFrame(frames) {
+    GAME_FROZEN = true;
+    setFrameTimeout(() => {
+        GAME_FROZEN = false;
+    }, frames);
+}
+
 // Main Game Loop
 function update() {
     if (typeof updateGamepadInputs === 'function') {
@@ -68,12 +76,17 @@ function update() {
     
 
 
+    if(!GAME_FROZEN) {
+        if(GlobalState.sceneManager) {
+            GlobalState.sceneManager.update();
+            context.view.update(16);
 
+        }
+    }
     if(GlobalState.sceneManager) {
-        GlobalState.sceneManager.update();
-        context.view.update(16);
-
         GlobalState.sceneManager.draw(context);
+
+
     }
 
 

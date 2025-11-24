@@ -52,7 +52,37 @@ ECS.Blueprints.PlayerInteract = function(other) {
         if (this.has('InvincibilityFrames') && this.InvincibilityFrames.duration > 0) return;
 
         if (this.has('Dead')) {
-            this.Dead.dead = true;
+            freezeFrame(30);
+            setFrameTimeout(() => {
+                shakeScreen(5);
+
+            }, 30);
+
+            // remove a bunch of components to "disable" the player
+            this.removeComponent('PlayerMovement');
+            this.removeComponent('PlayerJump');
+            this.removeComponent('PlayerDash');
+            this.removeComponent('PlayerFlying');
+            this.removeComponent('PlayerEnemyCollision');
+            this.removeComponent('Hurtbox');
+            this.removeComponent('Hitbox');
+            this.removeComponent('CollidesWithMap');
+            this.removeComponent('MapCollisionState');
+            // this.removeComponent('PlayerState');
+            this.removeComponent('PlayerSpawn');
+            // this.removeComponent('Dimensions');
+            this.AnimatedSprite.setAnimation("Fall");
+            
+            this.Velocity.x = 0;
+            this.Velocity.y = -3;
+
+            this.Gravity.gravity = {x: 0, y: 0.06};
+
+            setFrameTimeout(() => {
+                
+                this.Dead.dead = true;
+            }, 180);
+
         }
     }
 }
