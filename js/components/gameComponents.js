@@ -64,6 +64,13 @@ ECS.Components.BoundEntities = class BoundEntities {
     }
 }
 
+/**
+ * Stunned Component; handles knockback and daze states for stunned entities.
+ * @param {Object} knockbackVelocity - The velocity to apply during knockback phase.
+ * @param {number} knockbackDuration - Duration of the knockback phase in frames.
+ * @param {number} dazeDuration - Duration of the daze phase in frames.
+ * @param {boolean} removeOnComplete - Whether to remove the entity after stunned sequence.
+ */
 ECS.Components.Stunned = class Stunned {
     constructor(knockbackVelocity = {x: 0, y: 0}, knockbackDuration = 20, dazeDuration = 90, removeOnComplete = true) {
         this.knockbackVelocity = knockbackVelocity;

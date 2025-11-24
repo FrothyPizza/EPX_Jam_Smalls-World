@@ -7,7 +7,7 @@ ECS.Components.IsEnemy = class IsEnemy {
     }
 }
 
-ECS.Components.DamagesEnemy = class IsEnemy {
+ECS.Components.DamagesEnemy = class DamagesEnemy {
     constructor(damagesEnemy = true) {
         this.damagesEnemy = damagesEnemy;
     }

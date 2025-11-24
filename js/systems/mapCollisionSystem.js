@@ -128,7 +128,8 @@ function moveV(entity, map, value) {
             if(entity.has('BouncesOffWalls')) {
                 const bounceComp = entity.BouncesOffWalls;
                 bounceComp.numberOfBounces += 1;
-                velocity.y = -Math.abs(velocity.y) * 0.7; // Reverse and reduce vertical velocity
+                // velocity.y = -Math.abs(velocity.y) * 0.7; // Reverse and reduce vertical velocity
+                velocity.y = -(velocity.y) * 0.7; // Reverse and reduce vertical velocity
                 // Slightly adjust position to avoid sticking
                 position.y += sign > 0 ? -1 : 1;
                 return;

@@ -26,6 +26,12 @@ function handleCrazedCowboy(entity) {
         cowboy.phase = 1;
     }
 
+    if(entity.has("Stunned")) {
+        // When stunned, skip behavior
+        sprite.setAnimation("Death");
+        return;
+    }
+
     if (cowboy.state === "INACTIVE") {
         return;
     }
@@ -39,7 +45,11 @@ function handleCrazedCowboy(entity) {
             cowboy.state = "STRAFE";
             state.timer = 0;
             // Pick a random direction or flip current
-            cowboy.strafeDirection *= -1;
+            if(position.x >= cowboy.startPos.x) {
+                cowboy.strafeDirection = -1;
+            } else {
+                cowboy.strafeDirection = 1;
+            }
             cowboy.strafeTimer = 0;
         }
     } else if (cowboy.state === "STRAFE") {
@@ -115,6 +125,7 @@ function spawnBottle(bossEntity, backfire = false) {
         speed = 2.2 + (Math.random() * 0.2);
         angle = (-75 - (Math.random() * 5)) * (Math.PI / 180); // -75 degrees (Up is -90, Right is 0)
         bottle.addComponent(new ECS.Components.DamagesEnemy(true));
+        startX = bossEntity.Position.x + bossEntity.Dimensions.width;
     } else {
         bottle.addComponent(new ECS.Components.DamagesPlayer(true));
     }

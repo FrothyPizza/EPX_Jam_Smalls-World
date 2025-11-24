@@ -51,10 +51,11 @@ ECS.Systems.stunnedSystem = function(entities, scene) {
                         entity.addComponent(new ECS.Components.RemoveFromScene(true));
                     }
                 } else {
-                    // Just remove the stunned component to return to normal?
-                    // For now, the request implies replicating the cutscene which removes the entity.
-                    // If we wanted recovery, we'd remove the Stunned component here.
+                    ECS.Helpers.removeStunnedBirdsFromEntity(entity, scene);
+                    entity.removeComponent('InvincibilityFrames');
                     entity.removeComponent('Stunned');
+                    console.log("Entity has recovered from stunned state.");    
+                    console.log(entity);
                 }
                 stunned.state = 'FINISHED';
             }

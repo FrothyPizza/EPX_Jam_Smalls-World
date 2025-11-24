@@ -3,6 +3,7 @@ ECS.Components.CrazedCowboy = class CrazedCowboy {
         this.phase = params.phase || 1; // 1, 2, 3
         this.state = params.state || "IDLE"; // IDLE, STRAFE, ATTACK, STUNNED, INACTIVE
         this.strafeDirection = params.strafeDirection || 1; // 1 for right, -1 for left
+        this.startPos = params.startPos || {x: 0, y: 0};
         this.strafeTimer = 0;
         this.strafeDuration = 30; // How long to strafe before attacking
         
@@ -17,6 +18,5 @@ ECS.Components.CrazedCowboy = class CrazedCowboy {
         this.health = params.health || 15;
         this.maxHealth = params.maxHealth || 15;
     }
+
 }
-
-

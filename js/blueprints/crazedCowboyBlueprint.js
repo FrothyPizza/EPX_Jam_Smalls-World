@@ -22,6 +22,40 @@ ECS.Blueprints.CrazedCowboy = function(x, y, initialState = "IDLE") {
         "Idle", 
         12
     ));
+
+
+    entity.interactWith = function(other) {
+        if(other.has('DamagesEnemy')) {
+            // Destroy the projectile so it doesn't hit multiple times
+            if (other.has('SaloonBottle')) {
+                // ECS.removeEntity(other.id);
+                GlobalState.currentScene.removeEntity(other.id);
+            }
+
+            if(!this.has('Stunned')) {
+                // Take damage
+                if(this.has('BossHealth')) {
+                    this.BossHealth.value -= 1;
+                    console.log("Boss Health:", this.BossHealth.value);
+                }
+
+                shakeScreen(5);
+
+                const isToLeft = Math.sign(other.Position.x - this.Position.x) || 1;
+                this.addComponent(new ECS.Components.Stunned({x: 0.2 * -isToLeft, y: -1}, 20, 90, false));
+                
+                if (this.has('CrazedCowboy')) {
+                    this.CrazedCowboy.state = "IDLE";
+                    this.CrazedCowboy.strafeTimer = 0;
+                    this.CrazedCowboy.attackTimer = 0;
+                }
+                if (this.has('BossState')) {
+                    this.BossState.timer = 0;
+                }
+            }
+        }
+    }
+
     
     return entity;
 }

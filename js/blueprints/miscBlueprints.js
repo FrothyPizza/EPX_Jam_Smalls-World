@@ -58,6 +58,37 @@ ECS.Helpers.addStunnedBirdsToEntity = function(entity, scene) {
 }
 
 
+ECS.Helpers.removeStunnedBirdsFromEntity = function(entity, scene) {
+    if (!entity.has('BoundEntities')) return;
+
+    const boundEntities = entity.BoundEntities;
+    
+    // Find birds to remove
+    const birdsToRemove = boundEntities.entitiesWithOffsets.filter(item => {
+        const e = item.entity;
+        // Check if entity is valid and has AnimatedSprite with StunnedBirds sheet
+        // Note: AnimatedSprite stores the sheet in 'jsonData' property
+        return e && e.has && e.has('AnimatedSprite') && e.AnimatedSprite.jsonData === Loader.spriteSheets.StunnedBirds;
+    });
+
+    // Remove them from scene/ECS
+    birdsToRemove.forEach(item => {
+        const birdEntity = item.entity;
+        if (scene && typeof scene.removeEntity === 'function') {
+            scene.removeEntity(birdEntity.id);
+        } else {
+            ECS.removeEntity(birdEntity.id);
+        }
+    });
+
+    // Update the bound entities list by filtering out the removed ones
+    boundEntities.entitiesWithOffsets = boundEntities.entitiesWithOffsets.filter(item => {
+        // Keep items that are NOT in the birdsToRemove list
+        return !birdsToRemove.includes(item);
+    });
+}
+
+
 ECS.Helpers.addExclamationToEntity = function(entity, scene) {
     if(!entity.has('BoundEntities')) {
         entity.addComponent(new ECS.Components.BoundEntities());

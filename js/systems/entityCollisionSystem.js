@@ -35,7 +35,7 @@ ECS.Systems.entityCollisionSystem = function(entities) {
 
 
             // Check if entities are colliding
-            if (colliding(entityA, entityB)) {
+            if (colliding(entityA, entityB) || colliding(entityB, entityA)) {
                 // Call interactWith if method exists
                 if (typeof entityA.interactWith === 'function') {
                     entityA.interactWith(entityB);
@@ -44,25 +44,25 @@ ECS.Systems.entityCollisionSystem = function(entities) {
                     entityB.interactWith(entityA);
                 }
 
-                if(entityA.has('DamagesPlayer') && entityB.has('PlayerState')) {
+                // if(entityA.has('DamagesPlayer') && entityB.has('PlayerState')) {
                     
-                }
+                // }
 
-                if(entityA.has('DamagesEnemy') && entityB.has('IsEnemy')) {
-                    console.log("Enemy damaged by enemy collision");
-                    let isToLeft = Math.sign(entityB.Position.x - entityA.Position.x) || 1;
-                    entityB.addComponent(new ECS.Components.Stunned({x: 0.2 * -isToLeft, y: -1}));
-                }
-                if(entityB.has('DamagesEnemy') && entityA.has('IsEnemy')) {
-                    console.log("Enemy damaged by enemy collision");
-                    let isToLeft = Math.sign(entityA.Position.x - entityB.Position.x) || 1;
-                    entityA.addComponent(new ECS.Components.Stunned({x: 0.2 * -isToLeft, y: -1}));
-                }
+                // if(entityA.has('DamagesEnemy') && entityB.has('IsEnemy')) {
+                //     console.log("Enemy damaged by enemy collision");
+                //     let isToLeft = Math.sign(entityB.Position.x - entityA.Position.x) || 1;
+                //     entityB.addComponent(new ECS.Components.Stunned({x: 0.2 * -isToLeft, y: -1}));
+                // }
+                // if(entityB.has('DamagesEnemy') && entityA.has('IsEnemy')) {
+                //     console.log("Enemy damaged by enemy collision");
+                //     let isToLeft = Math.sign(entityA.Position.x - entityB.Position.x) || 1;
+                //     entityA.addComponent(new ECS.Components.Stunned({x: 0.2 * -isToLeft, y: -1}));
+                // }
 
 
-                if(entityB.has('DamagesPlayer') && entityA.has('PlayerState')) {
+                // if(entityB.has('DamagesPlayer') && entityA.has('PlayerState')) {
                     
-                }
+                // }
 
 
 

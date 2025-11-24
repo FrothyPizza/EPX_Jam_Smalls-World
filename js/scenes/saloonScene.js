@@ -121,6 +121,8 @@ class SaloonScene extends LevelScene {
                     if (boss.CrazedCowboy) {
                         boss.CrazedCowboy.state = "IDLE";
                     }
+
+                    boss.CrazedCowboy.startPos = {x: boss.Position.x, y: boss.Position.y };
                 }
             });
         }
