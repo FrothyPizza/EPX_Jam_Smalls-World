@@ -42,6 +42,7 @@ function startGameloop() {
 
 
 function init() {
+
     GlobalState.sceneManager = new SceneManager();
 
     // Load the styx_level
@@ -64,8 +65,20 @@ function freezeFrame(frames) {
     }, frames);
 }
 
+// add key down listener and the n    Loader.playMusic('TenseBase.mp3', true, 0.5);
+let playmusictostartgame = function() {
+
+}
+window.addEventListener('keydown', (e) => {
+        Loader.playMusic('TenseBase.mp3', true, 0.5);
+    // remove this event listener after first key press
+}, { once: true });
+
+
 // Main Game Loop
 function update() {
+
+
     if (typeof updateGamepadInputs === 'function') {
         updateGamepadInputs();
     }

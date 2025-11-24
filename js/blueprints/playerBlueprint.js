@@ -132,7 +132,7 @@ ECS.Blueprints.BulletInteract = function(other) {
             if (this.has('CausesStun')) {
                 duration = this.CausesStun.duration;
             }
-            other.addComponent(new ECS.Components.Stunned({x: 1.5 * dir, y: -1.5}, 20, duration, false));
+            other.addComponent(new ECS.Components.Stunned({x: 0.33 * dir, y: -1.5}, 20, duration, false));
         }
         this.addComponent(new ECS.Components.RemoveFromScene(true));
     } else if (other.has('MapCollisionState') && (other.MapCollisionState.leftHit || other.MapCollisionState.rightHit || other.MapCollisionState.topHit || other.MapCollisionState.bottomHit)) {
