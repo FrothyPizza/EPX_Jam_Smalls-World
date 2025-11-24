@@ -12,7 +12,7 @@ ECS.Components.BossState = class BossState {
 ECS.Components.BossHealth = class BossHealth {
     constructor(maxHealth = 100) {
         this.maxHealth = maxHealth;
-        this.currentHealth = maxHealth;
+        this.value = maxHealth;
     }
 }
 

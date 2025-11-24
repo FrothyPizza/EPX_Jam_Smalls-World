@@ -12,11 +12,11 @@ ECS.Components.CrazedCowboy = class CrazedCowboy {
         this.bottlesToThrow = 0; // Set based on phase
         this.throwCooldown = 30; // Frames between throws in a volley
 
-        this.bottlesToThrowBeforeBackfire = 3; // Number of bottles to throw before one backfires
+        this.bottlesToThrowBeforeBackfire = 5; // Number of bottles to throw before one backfires
         this.totalBottlesThrown = 0; // Total bottles thrown across all attacks
         
-        this.health = params.health || 15;
-        this.maxHealth = params.maxHealth || 15;
+        // this.health = params.health || 15;
+        // this.maxHealth = params.maxHealth || 15;
     }
 
 }

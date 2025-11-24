@@ -40,5 +40,19 @@ ECS.Blueprints.createPlayer = function(x, y) {
     // Game state
     player.addComponent(new ECS.Components.Dead(false));
 
+    player.blueprint = 'Player';
+    player.interactWith = ECS.Blueprints.PlayerInteract;
+
     return player;
+}
+
+ECS.Blueprints.PlayerInteract = function(other) {
+    if(other.has('DamagesPlayer')) {
+        if (this.has('PlayerInvincibility') && this.PlayerInvincibility.isInvincible) return;
+        if (this.has('InvincibilityFrames') && this.InvincibilityFrames.duration > 0) return;
+
+        if (this.has('Dead')) {
+            this.Dead.dead = true;
+        }
+    }
 }

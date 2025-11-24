@@ -7,7 +7,7 @@ ECS.Blueprints.CrazedCowboy = function(x, y, initialState = "IDLE") {
     entity.addComponent(new ECS.Components.Hitbox([{x: 0, y: 0, w: 16, h: 16}]));
     entity.addComponent(new ECS.Components.Hurtbox([{x: 2, y: 2, w: 12, h: 12}]));
     entity.addComponent(new ECS.Components.BossState());
-    entity.addComponent(new ECS.Components.BossHealth(15));
+    entity.addComponent(new ECS.Components.BossHealth(5));
     entity.addComponent(new ECS.Components.CrazedCowboy({
         phase: 1,
         health: 15,
@@ -23,39 +23,40 @@ ECS.Blueprints.CrazedCowboy = function(x, y, initialState = "IDLE") {
         12
     ));
 
+    entity.blueprint = 'CrazedCowboy';
+    entity.interactWith = ECS.Blueprints.CrazedCowboyInteract;
+    
+    return entity;
+}
 
-    entity.interactWith = function(other) {
-        if(other.has('DamagesEnemy')) {
-            // Destroy the projectile so it doesn't hit multiple times
-            if (other.has('SaloonBottle')) {
-                // ECS.removeEntity(other.id);
-                GlobalState.currentScene.removeEntity(other.id);
+ECS.Blueprints.CrazedCowboyInteract = function(other) {
+    if(other.has('DamagesEnemy')) {
+        // Destroy the projectile so it doesn't hit multiple times
+        if (other.has('SaloonBottle')) {
+            // ECS.removeEntity(other.id);
+            GlobalState.currentScene.removeEntity(other.id);
+        }
+
+        if(!this.has('Stunned')) {
+            // Take damage
+            if(this.has('BossHealth')) {
+                this.BossHealth.value -= 1;
+                console.log("Boss Health:", this.BossHealth.value);
             }
 
-            if(!this.has('Stunned')) {
-                // Take damage
-                if(this.has('BossHealth')) {
-                    this.BossHealth.value -= 1;
-                    console.log("Boss Health:", this.BossHealth.value);
-                }
+            shakeScreen(5);
 
-                shakeScreen(5);
-
-                const isToLeft = Math.sign(other.Position.x - this.Position.x) || 1;
-                this.addComponent(new ECS.Components.Stunned({x: 0.2 * -isToLeft, y: -1}, 20, 90, false));
-                
-                if (this.has('CrazedCowboy')) {
-                    this.CrazedCowboy.state = "IDLE";
-                    this.CrazedCowboy.strafeTimer = 0;
-                    this.CrazedCowboy.attackTimer = 0;
-                }
-                if (this.has('BossState')) {
-                    this.BossState.timer = 0;
-                }
+            const isToLeft = Math.sign(other.Position.x - this.Position.x) || 1;
+            this.addComponent(new ECS.Components.Stunned({x: 0.2 * -isToLeft, y: -1.5}, 20, 120, false));
+            
+            if (this.has('CrazedCowboy')) {
+                this.CrazedCowboy.state = "IDLE";
+                this.CrazedCowboy.strafeTimer = 0;
+                this.CrazedCowboy.attackTimer = 0;
+            }
+            if (this.has('BossState')) {
+                this.BossState.timer = 0;
             }
         }
     }
-
-    
-    return entity;
 }

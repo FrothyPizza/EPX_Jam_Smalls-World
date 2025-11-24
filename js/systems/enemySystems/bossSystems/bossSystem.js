@@ -18,9 +18,9 @@ function handleCrazedCowboy(entity) {
     let sprite = entity.AnimatedSprite;
 
     // Update Phase based on Health
-    if (entity.BossHealth.value <= 3) {
+    if (entity.BossHealth.value <= 1) {
         cowboy.phase = 3;
-    } else if (entity.BossHealth.value <= 1) {
+    } else if (entity.BossHealth.value <= 4) {
         cowboy.phase = 2;
     } else {
         cowboy.phase = 1;

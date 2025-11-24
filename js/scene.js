@@ -76,6 +76,54 @@ class Scene {
     getEntities() {
         return Object.values(this.entities);
     }
+
+    createSaveState() {
+        const state = {
+            entities: []
+        };
+
+        const entities = this.getEntities();
+        entities.forEach(e => {
+            state.entities.push(ECS.Helpers.serializeEntity(e));
+        });
+
+        this.savedState = JSON.stringify(state);
+        console.log("State saved. Entities:", entities.length);
+    }
+
+    loadSaveState() {
+        if(!this.savedState) return;
+
+        const state = JSON.parse(this.savedState);
+        
+        // Cleanup existing
+        this.cleanup();
+
+        // Restore
+        let maxId = 0;
+        state.entities.forEach(data => {
+            const entity = ECS.Helpers.deserializeEntity(data);
+            this.addEntity(entity);
+            if(entity.id > maxId) maxId = entity.id;
+        });
+        
+        // Update ID index to prevent collisions
+        if (ECS.idIndex <= maxId) {
+            ECS.idIndex = maxId + 1;
+        }
+
+        // Fixup references
+        this.getEntities().forEach(entity => {
+             ECS.Helpers.fixupEntityReferences(entity, this.entities);
+             
+             // Re-assign player reference if this is a LevelScene
+             if (this.player && entity.has('PlayerState')) {
+                 this.player = entity;
+             }
+        });
+        
+        console.log("State loaded.");
+    }
 }
 
 Scene.prototype.startFade = function(fadeDuration, timeToStayFullyFaded, targetColor) {
@@ -355,6 +403,14 @@ class LevelScene extends Scene {
 
     playCutscene(keyOrScript, entityRefs = {}, options = {}) {
         const runtimeOptions = { scene: this, ...options };
+        
+        // Wrap onComplete to save state
+        const originalOnComplete = runtimeOptions.onComplete;
+        runtimeOptions.onComplete = (player) => {
+            if (originalOnComplete) originalOnComplete(player);
+            this.createSaveState();
+        };
+
         const player = typeof keyOrScript === 'string'
             ? Cutscene.fromKey(keyOrScript, entityRefs, runtimeOptions)
             : Cutscene.create(keyOrScript, entityRefs, runtimeOptions);
@@ -424,6 +480,14 @@ class LevelScene extends Scene {
             const entity = this.entities[id];
             if(entity == null) return;
             if (entity.has('Dead') && entity.Dead.dead) {
+
+                // If player dies, load save state
+                if (entity.has('PlayerState')) {
+                    if (this.savedState) {
+                        this.loadSaveState();
+                        return; // Stop processing removals for this frame
+                    }
+                }
 
            
                 if(entity.has('BoundEntities') && entity.BoundEntities.entitiesWithOffsets) {

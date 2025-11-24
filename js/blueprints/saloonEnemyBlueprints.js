@@ -20,6 +20,7 @@ ECS.Blueprints.createSaloonOutlaw = function(x, y) {
     entity.addComponent(new ECS.Components.IsEnemy(true));
     entity.addComponent(new ECS.Components.DamagesPlayer(true));
     entity.isSaloonOutlaw = true;
+    entity.blueprint = 'SaloonOutlaw';
     
 
     const sprite = new ECS.Components.AnimatedSprite(

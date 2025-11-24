@@ -63,7 +63,7 @@ class SaloonScene extends LevelScene {
 
                     let index = 1;
                     this.getEntities().forEach(entity => {
-                        if (entity.isSaloonOutlaw) {
+                        if (entity.isSaloonOutlaw || entity.blueprint === 'SaloonOutlaw') {
                             entity.addComponent(new ECS.Components.SaloonKnifeOutlaw(240 * index + Math.floor(Math.random() * 120)));
                             index++;
                         }
@@ -82,7 +82,7 @@ class SaloonScene extends LevelScene {
         if (this.outlawsActive && !this.bossSpawned) {
             let outlawCount = 0;
             this.getEntities().forEach(entity => {
-                if (entity.isSaloonOutlaw && !entity.dead) { // Assuming dead flag or removal
+                if ((entity.isSaloonOutlaw || entity.blueprint === 'SaloonOutlaw') && !entity.dead) { // Assuming dead flag or removal
                     outlawCount++;
                 }
             });
