@@ -24,6 +24,7 @@ createInput('right', ['ArrowRight', 'd', 'D']);
 createInput('jump', ['ArrowUp', 'z', 'Z', ' ', 'w', 'W']);
 createInput('down', ['ArrowDown', 's', 'S']);
 createInput('shoot', ['x', 'X']);
+createInput('whip', ['s', 'S']);
 createInput('dash', ['Shift', 'c', 'C', 'q', 'Q', 'e', 'E']);
 createInput('up', ['ArrowUp', 'w', 'W']);
 createInput('enter', ['Enter']);

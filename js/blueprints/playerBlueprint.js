@@ -95,12 +95,55 @@ ECS.Blueprints.PlayerInteract = function(other) {
 
         if(itemType === 'Gun') {
             this.PlayerState.hasCollectedGun = true;
+            ECS.Helpers.addWeaponToPlayer(this, 'Gun');
+
         }
         if(itemType === 'Lasso') {
             this.PlayerState.hasCollectedLasso = true;
+            ECS.Helpers.addWeaponToPlayer(this, 'Lasso');
+
         }
 
         // Remove the collectible from the game world
         GlobalState.currentScene.removeEntity(other.id);
     }
+}
+
+
+
+ECS.Blueprints.Weapon = function(x, y, weaponType) {
+    let entity = new ECS.Entity();
+    entity.addComponent(new ECS.Components.Dimensions(8, 8));
+    if(weaponType === 'Gun') {
+        entity.addComponent(new ECS.Components.Dimensions(8, 8));
+        entity.addComponent(new ECS.Components.Weapon('Gun', 30));
+    } else if(weaponType === 'Lasso') {
+        entity.addComponent(new ECS.Components.Dimensions(16, 8));
+        entity.addComponent(new ECS.Components.Weapon('Lasso', 45));
+    }
+
+    entity.addComponent(new ECS.Components.Position(x, y));
+    entity.addComponent(new ECS.Components.AnimatedSprite(
+        Loader.spriteSheets[weaponType], 
+        "Idle", 
+        6
+    ));
+    return entity;
+}
+
+ECS.Helpers.addWeaponToPlayer = function(playerEntity, weaponType) {
+    if(!playerEntity.has('BoundEntities')) {
+        playerEntity.addComponent(new ECS.Components.BoundEntities());
+    }
+
+    const boundEntities = playerEntity.BoundEntities;
+    const offsetX = 8
+    const offsetY = 0;
+    const weapon = ECS.Blueprints.Weapon(playerEntity.Position.x + offsetX, playerEntity.Position.y + offsetY, weaponType);
+    boundEntities.entitiesWithOffsets.push({ entity: weapon, offsetX: offsetX, offsetY: offsetY });
+    weapon.AnimatedSprite.hidden = true;
+    GlobalState.currentScene.addEntity(weapon);
+
+
+    return weapon;
 }

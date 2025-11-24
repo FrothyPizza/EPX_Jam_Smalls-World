@@ -82,7 +82,7 @@ class LevelScene extends Scene {
         ECS.Systems.playerSpikeDamageSystem(this.entities, this.map);
         ECS.Systems.playerOffMapSystem(this.entities, this.map);
         ECS.Systems.playerInvincibilitySystem(this.entities);
-
+        ECS.Systems.playerAttackSystem(this.entities, this.map);
 
 
         

@@ -33,6 +33,7 @@ ECS.Components.AnimatedSprite = class AnimatedSprite {
         this.onAnimationComplete = null;
         this.rotation = 0; // rotation in degrees
         this.currentAnimation = "";
+        this.hidden = false;
 
         this.setAnimation(startingAnimation);
         this.animationSpeed = animationSpeed ||

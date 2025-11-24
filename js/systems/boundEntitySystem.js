@@ -23,11 +23,35 @@ ECS.Systems.boundEntitySystem = function(entities) {
             if(!boundObj.entity) return;
 
             const boundEntity = boundObj.entity;
-            const offsetX = typeof boundObj.offsetX === 'number' ? boundObj.offsetX : 0;
+            let offsetX = typeof boundObj.offsetX === 'number' ? boundObj.offsetX : 0;
             const offsetY = typeof boundObj.offsetY === 'number' ? boundObj.offsetY : 0;
+
+            let flip = false
+            if (entity.has('AnimatedSprite')) {
+                flip = !(entity.AnimatedSprite.direction == 1);
+
+            }
             if (boundEntity.has('Position')) {
-                boundEntity.Position.x = parentPosition.x + offsetX;
-                boundEntity.Position.y = parentPosition.y + offsetY;
+                if(flip) {
+                    // Flip logic: Mirror around the center of the parent
+                    // New X = ParentX + ParentWidth - OffsetX - BoundWidth
+                    const parentWidth = entity.Dimensions ? entity.Dimensions.width : 0;
+                    const boundWidth = boundEntity.Dimensions ? boundEntity.Dimensions.width : 0;
+
+                    boundEntity.Position.x = parentPosition.x + parentWidth - offsetX - boundWidth;
+                    boundEntity.Position.y = parentPosition.y + offsetY;
+
+                    if(boundEntity.has('AnimatedSprite')) {
+                        boundEntity.AnimatedSprite.direction = -1;
+                    }
+
+                } else {
+                    if(boundEntity.has('AnimatedSprite')) {
+                        boundEntity.AnimatedSprite.direction = 1;
+                    }
+                    boundEntity.Position.x = parentPosition.x + offsetX;
+                    boundEntity.Position.y = parentPosition.y + offsetY;
+                }
             }
         });
     });

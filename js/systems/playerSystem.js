@@ -374,6 +374,96 @@ ECS.Helpers.playerTakeDamage = function(entity, shake) {
 }
 
 
+ECS.Systems.playerAttackSystem = function(entities, map) {
+    Object.values(entities).forEach(entity => {
+        if (!entity.has('PlayerState', 'BoundEntities')) return;
+
+        const bound = entity.BoundEntities;
+        let gunEntity = null;
+        let lassoEntity = null;
+
+        // Find weapon entities
+        bound.entitiesWithOffsets.forEach(b => {
+            if (b.entity && b.entity.has('Weapon')) {
+                if (b.entity.Weapon.type === 'Gun') gunEntity = b.entity;
+                if (b.entity.Weapon.type === 'Lasso') lassoEntity = b.entity;
+            }
+        });
+
+        // Handle Gun Input
+        if (Inputs.shoot && entity.PlayerState.hasCollectedGun && gunEntity) {
+            const weapon = gunEntity.Weapon;
+            if (weapon.cooldownTimer.getTime() > weapon.cooldown) {
+                // Attack!
+                weapon.cooldownTimer.restart();
+                gunEntity.AnimatedSprite.hidden = false;
+                gunEntity.AnimatedSprite.setAnimation("Idle"); // Assuming 'Shoot' animation exists
+                gunEntity.AnimatedSprite.restartAnimation();
+
+                gunEntity.AnimatedSprite.onAnimationComplete = () => {
+                    gunEntity.AnimatedSprite.setAnimation("Idle");
+                    gunEntity.onAnimationComplete = null;
+                    gunEntity.AnimatedSprite.hidden = true;
+                };
+                
+                // Hide lasso if switching
+                if (lassoEntity) lassoEntity.AnimatedSprite.hidden = true;
+
+                // Spawn Bullet Logic Here (Placeholder)
+                // ECS.Blueprints.createBullet(...)
+                console.log("Bang!");
+            }
+        }
+
+        // Handle Lasso Input
+        if (Inputs.whip && entity.PlayerState.hasCollectedLasso && lassoEntity) {
+            const weapon = lassoEntity.Weapon;
+            if (weapon.cooldownTimer.getTime() > weapon.cooldown) {
+                // Attack!
+                weapon.cooldownTimer.restart();
+                lassoEntity.AnimatedSprite.hidden = false;
+                lassoEntity.AnimatedSprite.setAnimation("Attack2"); // Assuming 'Whip' animation exists
+                lassoEntity.AnimatedSprite.restartAnimation();
+
+                lassoEntity.AnimatedSprite.onAnimationComplete = () => {
+                    lassoEntity.AnimatedSprite.setAnimation("Idle");
+                    lassoEntity.onAnimationComplete = null;
+                    lassoEntity.AnimatedSprite.hidden = true;
+                };
+
+                // Hide gun if switching
+                if (gunEntity) gunEntity.AnimatedSprite.hidden = true;
+
+                console.log("Whip!");
+            }
+        }
+
+        // Hide weapons after animation finishes (optional, or keep last used visible)
+        // For now, let's keep the last used weapon visible but idle? 
+        // Or if the user wants them hidden when not attacking:
+        
+    //     if (gunEntity && !gunEntity.AnimatedSprite.hidden) {
+    //          if (gunEntity.AnimatedSprite.currentAnimation === "Shoot" && 
+    //              gunEntity.AnimatedSprite.currentFrame === gunEntity.AnimatedSprite.currentAnimationTo) {
+    //              // Animation finished
+    //              gunEntity.AnimatedSprite.setAnimation("Idle");
+    //              gunEntity.AnimatedSprite.hidden = true; // Uncomment to hide after shooting
+    //          }
+    //     }
+
+    //     if (lassoEntity && !lassoEntity.AnimatedSprite.hidden) {
+    //         if (lassoEntity.AnimatedSprite.currentAnimation === "Whip" && 
+    //             lassoEntity.AnimatedSprite.currentFrame === lassoEntity.AnimatedSprite.currentAnimationTo) {
+    //             // Animation finished
+    //             lassoEntity.AnimatedSprite.setAnimation("Idle");
+    //             lassoEntity.AnimatedSprite.hidden = true; // Uncomment to hide after whipping
+    //         }
+    //    }
+    });
+}
+
+
+
 /**
  * To be run before any physics or movement systems
  * @param {*} entities 

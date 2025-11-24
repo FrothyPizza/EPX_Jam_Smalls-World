@@ -102,3 +102,18 @@ ECS.Components.PlayerEnemyCollision = class PlayerEnemyCollision {
         this.allowedFramesCollidingWithEnemy = 4;
     }
 }
+
+
+
+/**
+ * @param {string} type - 'Gun' or 'Lasso'
+ * @param {number} cooldown - frames between uses
+ */
+ECS.Components.Weapon = class Weapon {
+    constructor(type, cooldown = 30) {
+        this.type = type; // 'Gun' or 'Lasso'
+        this.cooldown = cooldown; // frames between uses
+        this.cooldownTimer = new Clock();
+        this.isAttacking = false;
+    }
+}

@@ -10,6 +10,7 @@ ECS.Systems.renderSystem = function(entities, context) {
 
         // Draw AnimatedSprite if present
         if (entity.has('AnimatedSprite')) {
+            if(entity.AnimatedSprite.hidden) return;
             const sprite = entity.AnimatedSprite;
             const x = Math.round(position.x);
             const y = Math.round(position.y);
