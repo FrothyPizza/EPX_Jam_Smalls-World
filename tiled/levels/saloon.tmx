@@ -142,7 +142,7 @@
   <object id="58" name="SaloonOutlaw" x="160" y="128.364">
    <point/>
   </object>
-  <object id="61" name="SaloonOutlaw" x="96.125" y="128.25">
+  <object id="61" name="SaloonOutlaw" x="95.9076" y="128.207">
    <point/>
   </object>
   <object id="62" name="SaloonOutlaw" x="144" y="128.125">
@@ -160,8 +160,8 @@
  </objectgroup>
  <objectgroup id="11" name="CrateLocations"/>
  <objectgroup id="10" name="BossCues"/>
- <objectgroup id="7" name="Spawns" visible="0">
-  <object id="2" name="PlayerSpawn" x="103.955" y="127.818">
+ <objectgroup id="7" name="Spawns">
+  <object id="2" name="PlayerSpawn" x="103.998" y="127.948">
    <point/>
   </object>
  </objectgroup>

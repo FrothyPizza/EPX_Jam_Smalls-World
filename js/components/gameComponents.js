@@ -89,3 +89,9 @@ ECS.Components.BossIntroSeen = class BossIntroSeen {
     }
 }
 
+ECS.Components.SaloonIntroSeen = class SaloonIntroSeen {
+    constructor() {
+        this.seen = true;
+    }
+}
+

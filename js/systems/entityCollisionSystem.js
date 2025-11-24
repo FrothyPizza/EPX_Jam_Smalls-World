@@ -33,38 +33,28 @@ ECS.Systems.entityCollisionSystem = function(entities) {
 
             
 
+            if (colliding(entityA, entityB)) {
+                if (typeof entityA.interactWith === 'function') {
+                    entityA.interactWith(entityB);
+                }            
+            }
+
+
+            if (colliding(entityB, entityA)) {
+                if (typeof entityB.interactWith === 'function') {
+                    entityB.interactWith(entityA);
+                }            
+            }
 
             // Check if entities are colliding
             if (colliding(entityA, entityB) || colliding(entityB, entityA)) {
-                // Call interactWith if method exists
-                if (typeof entityA.interactWith === 'function') {
-                    entityA.interactWith(entityB);
-                }
-                if (typeof entityB.interactWith === 'function') {
-                    entityB.interactWith(entityA);
-                }
-
-                // if(entityA.has('DamagesPlayer') && entityB.has('PlayerState')) {
-                    
+                // // Call interactWith if method exists
+                // if (typeof entityA.interactWith === 'function') {
+                //     entityA.interactWith(entityB);
                 // }
-
-                // if(entityA.has('DamagesEnemy') && entityB.has('IsEnemy')) {
-                //     console.log("Enemy damaged by enemy collision");
-                //     let isToLeft = Math.sign(entityB.Position.x - entityA.Position.x) || 1;
-                //     entityB.addComponent(new ECS.Components.Stunned({x: 0.2 * -isToLeft, y: -1}));
+                // if (typeof entityB.interactWith === 'function') {
+                //     entityB.interactWith(entityA);
                 // }
-                // if(entityB.has('DamagesEnemy') && entityA.has('IsEnemy')) {
-                //     console.log("Enemy damaged by enemy collision");
-                //     let isToLeft = Math.sign(entityA.Position.x - entityB.Position.x) || 1;
-                //     entityA.addComponent(new ECS.Components.Stunned({x: 0.2 * -isToLeft, y: -1}));
-                // }
-
-
-                // if(entityB.has('DamagesPlayer') && entityA.has('PlayerState')) {
-                    
-                // }
-
-
 
 
                 // Saloon Outlaw vs Saloon Outlaw Collision
@@ -90,6 +80,10 @@ ECS.Systems.entityCollisionSystem = function(entities) {
 function colliding(entityA, entityB) {
     const posA = entityA.Position;
     const posB = entityB.Position;
+
+    if(!entityA.has('Hitbox') || !entityB.has('Hurtbox')) {
+        return false;
+    }
 
     // Check if any hitbox of entityA collides with any hurtbox of entityB
     for (let hitbox of entityA.Hitbox.boxes) {

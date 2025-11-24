@@ -58,42 +58,88 @@ class SaloonScene extends LevelScene {
     // });
 
     if (Loader.cutscenes && Loader.cutscenes.saloon) {
-      this.playCutscene(
-        CONSTANTS.SPEEDY_MODE ? "saloon_abridged" : "saloon",
-        {
-          Player: this.player,
-          OutlawLeft: outlawLeft,
-          OutlawRight: outlawRight,
-        },
-        {
-          onComplete: () => {
-            // GlobalState.sceneManager.switchScene(new DesertScene(Loader.levels['desert'].xml));
 
+    
+        let local_initialize_after_cutscene = () => {
             let index = 1;
             this.getEntities().forEach((entity) => {
-              if (
-                entity.isSaloonOutlaw ||
-                entity.blueprint === "SaloonOutlaw"
-              ) {
-                entity.addComponent(
-                  new ECS.Components.SaloonKnifeOutlaw(
-                    240 * index + Math.floor(Math.random() * 120)
-                  )
+            if (entity.isSaloonOutlaw || entity.blueprint === "SaloonOutlaw") {
+                entity.addComponent( new ECS.Components.SaloonKnifeOutlaw(
+                       240 * index + Math.floor(Math.random() * 120)
+                    )
                 );
                 index++;
-              }
+            }
             });
             this.outlawsActive = true;
-          },
         }
-      );
+
+
+        if(CONSTANTS.SPEEDY_MODE) {
+            this.playCutscene("saloon_abridged", { Player: this.player, OutlawLeft: outlawLeft, OutlawRight: outlawRight }, {
+                onComplete: () => {
+                    local_initialize_after_cutscene();
+                },
+            });
+        } else {
+            this.playCutscene("saloon", { Player: this.player, OutlawLeft: outlawLeft, OutlawRight: outlawRight }, {
+                shouldSave: true,
+                onComplete: () => {
+                    this.player.addComponent(new ECS.Components.SaloonIntroSeen());
+                    this.playSaloonPart2(outlawLeft, outlawRight, local_initialize_after_cutscene);
+                }
+            });
+        }
+
+
+
     }
+  }
+
+  playSaloonPart2(outlawLeft, outlawRight, onComplete) {
+      // If outlaws are not passed (e.g. reload), try to find them
+      if (!outlawLeft) outlawLeft = this.getEntities().find(e => e.name === "OutlawLeft");
+      if (!outlawRight) outlawRight = this.getEntities().find(e => e.name === "OutlawRight");
+
+      this.playCutscene("saloon_start_part_2", { Player: this.player, OutlawLeft: outlawLeft, OutlawRight: outlawRight }, {
+          shouldSave: false,
+          onComplete: () => {
+              if (onComplete) onComplete();
+          }
+      });
   }
 
   update() {
     super.update();
 
     ECS.Systems.saloonBottleSystem(this.getEntities(), this.map, this);
+
+    // Check if we need to replay the saloon part 2 cutscene (e.g. after reload)
+    if (!this.cutscenePlayer) {
+        const player = this.getEntities().find(e => e.has('SaloonIntroSeen'));
+        // If player has seen intro, but outlaws are not active (meaning we just loaded state), play part 2
+        // We check if outlaws have the SaloonKnifeOutlaw component to determine if they are active
+        const anyOutlawActive = this.getEntities().some(e => e.has('SaloonKnifeOutlaw'));
+        
+        if (player && !anyOutlawActive && !this.bossSpawned) {
+             // Define the initialization logic again since we are in a new scope/reload
+             let local_initialize_after_cutscene = () => {
+                let index = 1;
+                this.getEntities().forEach((entity) => {
+                if (entity.isSaloonOutlaw || entity.blueprint === "SaloonOutlaw") {
+                    entity.addComponent( new ECS.Components.SaloonKnifeOutlaw(
+                           240 * index + Math.floor(Math.random() * 120)
+                        )
+                    );
+                    index++;
+                }
+                });
+                this.outlawsActive = true;
+            }
+            
+            this.playSaloonPart2(null, null, local_initialize_after_cutscene);
+        }
+    }
 
     // Check if we need to replay the boss appearance cutscene (e.g. after reload)
     if (!this.cutscenePlayer) {

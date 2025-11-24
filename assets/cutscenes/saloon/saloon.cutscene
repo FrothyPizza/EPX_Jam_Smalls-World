@@ -95,25 +95,9 @@
       "hold": 180,
       "charsPerFrame": 0.5,
       "box": { "x": 40, "y": 16, "width": 160, "height": 64 }
-    },
+    }
 
 
-
-
-
-
-
-    {
-      "type": "dialogue",
-      "text": "LEVEL 1 ... START",
-      "hold": 180,
-      "charsPerFrame": 0.1,
-      "box": { "x": 0, "y": 60, "width": 240, "height": 20, "align": "center", "background": "rgba(0,0,0,0.5)", "borderWidth": 0 }
-    },
-
-    { "type": "fade", "to": 0, "duration": 60 },
-
-    { "type": "setVelocity", "entity": "Player", "amount": { "x": 0, "y": -2 } }
 
 
   ]

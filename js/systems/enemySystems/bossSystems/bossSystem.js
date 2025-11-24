@@ -116,7 +116,8 @@ function spawnBottle(bossEntity, backfire = false) {
     let speed = 2.2 + (Math.random() * 0.2);
     let angle = (-25 - (Math.random() * 20)) * (Math.PI / 180); // -75 degrees (Up is -90, Right is 0)
     
-    if(Math.random() < 0.5) {
+    // console.log("Boss throwing bottle", bossEntity.CrazedCowboy.bottlesThrown);
+    if(bossEntity.CrazedCowboy.bottlesThrown % 3 === 0 || bossEntity.CrazedCowboy.bottlesThrown % 3 === 2 || bossEntity.CrazedCowboy.bottlesThrown % 3 === 3) {
         angle = (-60 - (Math.random() * 10)) * (Math.PI / 180); // 75 degrees
         speed = 1.5 + (Math.random() * 0.3);
     }

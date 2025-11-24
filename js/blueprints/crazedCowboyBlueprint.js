@@ -46,8 +46,18 @@ ECS.Blueprints.CrazedCowboyInteract = function(other) {
 
             shakeScreen(5);
 
-            const isToLeft = Math.sign(other.Position.x - this.Position.x) || 1;
-            this.addComponent(new ECS.Components.Stunned({x: 0.2 * -isToLeft, y: -1.5}, 20, 120, false));
+            if(this.BossHealth.value > 0) {
+                const isToLeft = Math.sign(other.Position.x - this.Position.x) || 1;
+                this.addComponent(new ECS.Components.Stunned({x: 0.2 * -isToLeft, y: -1.5}, 20, 120, false));
+            } else {
+                this.addComponent(new ECS.Components.Stunned({x: 1.5, y: -2}, 44, 100000, false));
+                setFrameTimeout(() => {
+                    // remove invincibility frames after 120 frames
+                    if(this.has('InvincibilityFrames')) {
+                        this.removeComponent('InvincibilityFrames');
+                    }
+                }, 120);
+            }
             
             if (this.has('CrazedCowboy')) {
                 this.CrazedCowboy.state = "IDLE";

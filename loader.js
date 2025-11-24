@@ -387,6 +387,7 @@ document.body.onload = () => {
       
 
       "assets/cutscenes/saloon/saloon.cutscene",
+      "assets/cutscenes/saloon/saloon_start_part_2.cutscene",
       "assets/cutscenes/saloon/saloon_abridged.cutscene",
       "assets/cutscenes/saloon/saloon_boss.cutscene",
       "assets/cutscenes/saloon/saloon_boss_appearance.cutscene",
