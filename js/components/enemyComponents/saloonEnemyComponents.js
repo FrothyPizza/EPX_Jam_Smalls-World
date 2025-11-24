@@ -16,7 +16,7 @@ ECS.Components.SaloonKnifeOutlaw = class SaloonKnifeOutlaw {
 
         this.dashDetectionRange = 128;
 
-        this.dashSpeed = 1;
+        this.dashSpeed = 0.75;
     }
 }
 
