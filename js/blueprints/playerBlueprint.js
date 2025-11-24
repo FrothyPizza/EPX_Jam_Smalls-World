@@ -49,6 +49,7 @@ ECS.Blueprints.PlayerInteract = function(other) {
     if(other.has('DamagesPlayer')) {
         if (this.has('PlayerInvincibility') && this.PlayerInvincibility.isInvincible) return;
         if (this.has('InvincibilityFrames') && this.InvincibilityFrames.duration > 0) return;
+        if (other.has('Stunned')) return;
 
         // Play sound here
 

@@ -29,7 +29,7 @@ ECS.Blueprints.createDesertKnifeOutlaw = function(x, y, facingLeft = false) {
     return entity;
 }
 
-ECS.Blueprints.createDesertGunOutlaw = function(x, y, facingLeft = false) {
+ECS.Blueprints.createDesertGunOutlaw = function(x, y, facingLeft = false, level = 'Middle') {
     let entity = new ECS.Entity();
     entity.addComponent(new ECS.Components.Position(x, y));
     entity.addComponent(new ECS.Components.Velocity(0, 0));
@@ -43,8 +43,7 @@ ECS.Blueprints.createDesertGunOutlaw = function(x, y, facingLeft = false) {
     entity.addComponent(new ECS.Components.DamagesPlayer(true));
     
     let gunOutlaw = new ECS.Components.DesertGunOutlaw();
-    gunOutlaw.startX = x;
-    gunOutlaw.direction = facingLeft ? -1 : 1;
+    gunOutlaw.currentLevel = level;
     entity.addComponent(gunOutlaw);
     
     // Left side (facingLeft=false) gets Deputy, Right side (facingLeft=true) gets KnifeOutlaw

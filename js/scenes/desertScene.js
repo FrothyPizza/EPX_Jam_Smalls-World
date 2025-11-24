@@ -23,6 +23,10 @@ class DesertScene extends LevelScene {
         this.framesToCompletion = this.totalFrames; // 1 minute at 60 FPS
 
         this.spawners = [];
+        this.leftSpawners = [];
+        this.rightSpawners = [];
+        this.knifePairSpawnTimer = 120; // Initial delay
+
     }
 
     init() {
@@ -31,14 +35,21 @@ class DesertScene extends LevelScene {
         this.map.enemies.forEach((spawn) => {
             // if name starts with EnemySpawner, add to spawners with name and position
             if (spawn.name.startsWith("EnemySpawner")) {
-                this.spawners.push({
+                const spawner = {
                     name: spawn.name,
                     x: spawn.x,
                     y: spawn.y,
                     enemyIDsThatISpawned: [],
                     spawnDelayFrames: 120,
-                    framesUntilNextSpawn: 120
-                });
+                    framesUntilNextSpawn: 0
+                };
+                this.spawners.push(spawner);
+                
+                if (spawn.name.includes("Left")) {
+                    this.leftSpawners.push(spawner);
+                } else {
+                    this.rightSpawners.push(spawner);
+                }
             }
         });
 
@@ -74,42 +85,70 @@ class DesertScene extends LevelScene {
 
 
         // Handle enemy spawning
-        let totalActiveEnemies = 0;
+        
+        // 1. Cleanup Spawners
         this.spawners.forEach(spawner => {
-            // check for entities that were spawned by this spawner and are now removed from the scene
             spawner.enemyIDsThatISpawned = spawner.enemyIDsThatISpawned.filter(enemyID => {
                 return ECS.entities[enemyID];
             });
-            totalActiveEnemies += spawner.enemyIDsThatISpawned.length;
-        });
-
-        this.spawners.forEach(spawner => {
             if (spawner.framesUntilNextSpawn > 0) {
                 spawner.framesUntilNextSpawn--;
-            } else if (spawner.enemyIDsThatISpawned.length === 0) {
-                if (totalActiveEnemies >= 3) return;
-
-                // Spawn an enemy
-                let isLeftSpawner = spawner.name.includes("Left");
-                let facingLeft = !isLeftSpawner; // Right spawners face left, Left spawners face right
-                
-                let spawnGunner = Math.random() > 0.5;
-                
-                let enemyEntity;
-                if (spawnGunner) {
-                    enemyEntity = ECS.Blueprints.createDesertGunOutlaw(spawner.x, spawner.y, facingLeft);
-                } else {
-                    enemyEntity = ECS.Blueprints.createDesertKnifeOutlaw(spawner.x, spawner.y, facingLeft);
-                }
-                
-                this.addEntity(enemyEntity);
-                spawner.enemyIDsThatISpawned.push(enemyEntity.id);
-                spawner.framesUntilNextSpawn = spawner.spawnDelayFrames;
-                totalActiveEnemies++;
-
-                console.log(`Spawned ${spawnGunner ? 'Gunner' : 'Knife'} at ${spawner.name} (ID: ${enemyEntity.id})`);
             }
         });
+
+        // 2. Spawn Gunners (Max 2)
+        const activeGunners = ECS.getEntitiesWithComponents('DesertGunOutlaw').length;
+        if (activeGunners < 2) {
+            const freeSpawners = this.spawners.filter(s => s.enemyIDsThatISpawned.length === 0 && s.framesUntilNextSpawn <= 0);
+            
+            if (freeSpawners.length > 0) {
+                // 5% chance to spawn per frame if slot is open, to stagger them a bit
+                if (Math.random() < 0.05) {
+                    const spawner = freeSpawners[Math.floor(Math.random() * freeSpawners.length)];
+                    let isLeftSpawner = spawner.name.includes("Left");
+                    let facingLeft = !isLeftSpawner;
+
+                    let level = 'Middle';
+                    if (spawner.name.includes('Top')) level = 'Top';
+                    if (spawner.name.includes('Bottom')) level = 'Bottom';
+
+                    let enemyEntity = ECS.Blueprints.createDesertGunOutlaw(spawner.x, spawner.y, facingLeft, level);
+                    this.addEntity(enemyEntity);
+                    spawner.enemyIDsThatISpawned.push(enemyEntity.id);
+                    spawner.framesUntilNextSpawn = spawner.spawnDelayFrames;
+                    console.log(`Spawned Gunner at ${spawner.name}`);
+                }
+            }
+        }
+
+        // 3. Spawn Knife Pair (Intermittently)
+        if (this.knifePairSpawnTimer > 0) {
+            this.knifePairSpawnTimer--;
+        } else {
+            const freeLeft = this.leftSpawners.filter(s => s.enemyIDsThatISpawned.length === 0 && s.framesUntilNextSpawn <= 0);
+            const freeRight = this.rightSpawners.filter(s => s.enemyIDsThatISpawned.length === 0 && s.framesUntilNextSpawn <= 0);
+
+            if (freeLeft.length > 0 && freeRight.length > 0) {
+                const leftSpawner = freeLeft[Math.floor(Math.random() * freeLeft.length)];
+                const rightSpawner = freeRight[Math.floor(Math.random() * freeRight.length)];
+
+                // Spawn Left Guy (Faces Right)
+                let leftEntity = ECS.Blueprints.createDesertKnifeOutlaw(leftSpawner.x, leftSpawner.y, false);
+                this.addEntity(leftEntity);
+                leftSpawner.enemyIDsThatISpawned.push(leftEntity.id);
+                leftSpawner.framesUntilNextSpawn = leftSpawner.spawnDelayFrames;
+
+                // Spawn Right Guy (Faces Left)
+                let rightEntity = ECS.Blueprints.createDesertKnifeOutlaw(rightSpawner.x, rightSpawner.y, true);
+                this.addEntity(rightEntity);
+                rightSpawner.enemyIDsThatISpawned.push(rightEntity.id);
+                rightSpawner.framesUntilNextSpawn = rightSpawner.spawnDelayFrames;
+
+                // Reset Timer (3-6 seconds)
+                this.knifePairSpawnTimer = 180 + Math.random() * 180;
+                console.log("Spawned Knife Pair!");
+            }
+        }
         
     }
 

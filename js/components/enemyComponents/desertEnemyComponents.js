@@ -1,16 +1,22 @@
 ECS.Components.DesertKnifeOutlaw = class DesertKnifeOutlaw {
     constructor() {
-        this.runSpeed = 1.0;
+        this.runSpeed = 0.5;
     }
 }
 
 ECS.Components.DesertGunOutlaw = class DesertGunOutlaw {
     constructor() {
-        this.strafeDistance = 16;
-        this.startX = 0; // Will be set when initialized
-        this.direction = 1;
+        this.state = 'entering'; // entering, strafing_back, strafing_forward
+        this.timer = 100; // 2 seconds entering (2 strafe durations of 60)
+        this.strafeTime = 60; // 1 second strafing
+        
         this.shootTimer = 0;
         this.shootInterval = 120; // Shoot every 2 seconds
+
+        this.jumpTimer = 0;
+        this.jumpInterval = 180; // Try to jump every 3 seconds
+
+        this.currentLevel = 'Middle'; // Top, Middle, Bottom
     }
 }
 

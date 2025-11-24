@@ -6,11 +6,15 @@ ECS.Systems.DesertEnemySystem = function(entities) {
         const players = ECS.getEntitiesWithComponents('PlayerState');
         if (players.length > 0) {
             const player = players[0];
-            const dir = Math.sign(player.Position.x - entity.Position.x);
+            const diff = player.Position.x - entity.Position.x;
             
-            if (dir !== 0) {
+            // Add a deadzone to prevent jittering when overlapping/close
+            if (Math.abs(diff) > 2) {
+                const dir = Math.sign(diff);
                 entity.Velocity.x = dir * speed;
                 entity.AnimatedSprite.flipX = dir < 0;
+            } else {
+                entity.Velocity.x = 0;
             }
         }
     });
@@ -20,11 +24,35 @@ ECS.Systems.DesertEnemySystem = function(entities) {
 
         const gunner = entity.DesertGunOutlaw;
         
-        // Strafe logic
-        if (Math.abs(entity.Position.x - gunner.startX) > gunner.strafeDistance) {
-            gunner.direction *= -1;
+        // Movement Logic
+        let forwardDir = 1;
+        if (entity.has('SpawnSide')) {
+            forwardDir = entity.SpawnSide.side === 'left' ? 1 : -1;
         }
-        entity.Velocity.x = 0.5 * gunner.direction;
+        const speed = 0.5;
+
+        if (gunner.state === 'entering') {
+            entity.Velocity.x = forwardDir * speed;
+            gunner.timer--;
+            if (gunner.timer <= 0) {
+                gunner.state = 'strafing_back';
+                gunner.timer = gunner.strafeTime;
+            }
+        } else if (gunner.state === 'strafing_back') {
+            entity.Velocity.x = -forwardDir * speed;
+            gunner.timer--;
+            if (gunner.timer <= 0) {
+                gunner.state = 'strafing_forward';
+                gunner.timer = gunner.strafeTime;
+            }
+        } else if (gunner.state === 'strafing_forward') {
+            entity.Velocity.x = forwardDir * speed;
+            gunner.timer--;
+            if (gunner.timer <= 0) {
+                gunner.state = 'strafing_back';
+                gunner.timer = gunner.strafeTime;
+            }
+        }
         
         const players = ECS.getEntitiesWithComponents('PlayerState');
         if (players.length > 0) {
@@ -43,6 +71,61 @@ ECS.Systems.DesertEnemySystem = function(entities) {
             GlobalState.currentScene.addEntity(bullet);
             Loader.playSound("powerup.wav", 0.5);
             // Play sound here
+        }
+
+        // Jump logic
+        if (gunner.jumpTimer > 0) {
+            gunner.jumpTimer--;
+        } else {
+            gunner.jumpTimer = gunner.jumpInterval + (Math.random() * 120); // Add randomness
+
+            let canJumpUp = false;
+            let canJumpDown = false;
+            const side = entity.SpawnSide ? entity.SpawnSide.side : 'left'; // 'left' or 'right'
+
+            if (side === 'left') {
+                // Left side: Middle <-> Bottom
+                if (gunner.currentLevel === 'Middle') {
+                    canJumpDown = true;
+                } else if (gunner.currentLevel === 'Bottom') {
+                    canJumpUp = true;
+                }
+            } else {
+                // Right side: Top <-> Middle <-> Bottom
+                if (gunner.currentLevel === 'Top') {
+                    canJumpDown = true;
+                } else if (gunner.currentLevel === 'Middle') {
+                    canJumpUp = true;
+                    canJumpDown = true;
+                } else if (gunner.currentLevel === 'Bottom') {
+                    canJumpUp = true;
+                }
+            }
+
+            let jumpAction = 'none';
+            if (canJumpUp && canJumpDown) {
+                jumpAction = Math.random() > 0.5 ? 'up' : 'down';
+            } else if (canJumpUp) {
+                jumpAction = 'up';
+            } else if (canJumpDown) {
+                jumpAction = 'down';
+            }
+
+            if (jumpAction === 'up') {
+                // Jump Up
+                if (entity.has('MapCollisionState') && entity.MapCollisionState.bottomHit) {
+                    entity.Velocity.y = -2.4;
+                    // Update level
+                    if (gunner.currentLevel === 'Bottom') gunner.currentLevel = 'Middle';
+                    else if (gunner.currentLevel === 'Middle') gunner.currentLevel = 'Top';
+                }
+            } else if (jumpAction === 'down') {
+                // Jump Down
+                entity.Position.y += 2;
+                // Update level
+                if (gunner.currentLevel === 'Top') gunner.currentLevel = 'Middle';
+                else if (gunner.currentLevel === 'Middle') gunner.currentLevel = 'Bottom';
+            }
         }
     });
 }
