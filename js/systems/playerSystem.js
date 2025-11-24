@@ -396,7 +396,7 @@ ECS.Systems.playerAttackSystem = function(entities, map) {
                 // Attack!
                 weapon.cooldownTimer.restart();
                 gunEntity.AnimatedSprite.hidden = false;
-                gunEntity.AnimatedSprite.setAnimation("Idle"); // Assuming 'Shoot' animation exists
+                gunEntity.AnimatedSprite.setAnimation("Shoot"); // Assuming 'Shoot' animation exists
                 gunEntity.AnimatedSprite.restartAnimation();
 
                 gunEntity.AnimatedSprite.onAnimationComplete = () => {

@@ -195,7 +195,7 @@ ECS.Blueprints.createBullet = function(x, y, direction, speed) {
     // entity.addComponent(new ECS.Components.CollidesWithMap(true));
     entity.addComponent(new ECS.Components.Bullet());
     entity.addComponent(new ECS.Components.AnimatedSprite(
-        Loader.spriteSheets.Bullet,
+        Loader.spriteSheets.BulletSmall,
         "Idle",
         12
     ));

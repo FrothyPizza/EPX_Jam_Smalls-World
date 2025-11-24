@@ -269,11 +269,11 @@
             "expandedObjectLayers": [
                 9
             ],
-            "scale": 4,
-            "selectedLayer": 2,
+            "scale": 8,
+            "selectedLayer": 8,
             "viewCenter": {
-                "x": 126.375,
-                "y": 88.125
+                "x": 174,
+                "y": 101.5625
             }
         },
         "levels/styx_level.tmx": {

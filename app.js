@@ -75,6 +75,9 @@ window.addEventListener('keydown', (e) => {
 }, { once: true });
 
 
+
+
+
 // Main Game Loop
 function update() {
 
@@ -84,6 +87,9 @@ function update() {
     }
 
     context.fillStyle = CONSTANTS.BACKGROUND_COLOR;
+    context.fillRect(0, 0, WIDTH, HEIGHT);
+
+    context.fillStyle = 'rgba(0, 0, 0, ' + CONSTANTS.BACKGROUND_COLOR_DARKEN_ALPHA + ')';
     context.fillRect(0, 0, WIDTH, HEIGHT);
 
     

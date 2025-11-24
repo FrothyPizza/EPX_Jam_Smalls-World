@@ -41,7 +41,7 @@ ECS.Components.AnimatedSprite = class AnimatedSprite {
 
         // store sequencer data if present
         this.sequencerData = jsonData.sequencerData || {};
-        console.log("AnimatedSprite sequencer data:", this.sequencerData);
+        // console.log("AnimatedSprite sequencer data:", this.sequencerData);
 
         this.offscreenCanvas = document.createElement('canvas');
         this.offscreenCanvas.width = this.width;
