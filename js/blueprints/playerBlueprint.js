@@ -13,7 +13,7 @@ ECS.Blueprints.createPlayer = function(x, y) {
     // Collision components
     player.addComponent(new ECS.Components.CollidesWithMap(true));
     player.addComponent(new ECS.Components.MapCollisionState());
-    player.addComponent(new ECS.Components.Hitbox([{x: 0, y: 0, w: 8, h: 8}]));
+    player.addComponent(new ECS.Components.Hitbox([{x: 1, y: 0, w: 6, h: 8}]));
     player.addComponent(new ECS.Components.Hurtbox([{x: 0, y: 0, w: 8, h: 8}]));
 
     // Sprite
