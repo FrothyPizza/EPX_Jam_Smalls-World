@@ -112,6 +112,8 @@ ECS.Systems.saloonOutlawSystem = function(entities, map, scene) {
                         // Check if player is within range (and maybe roughly same Y level?)
                         if (dist < outlaw.dashDetectionRange) {
                             outlaw.state = 'DASHING';
+                            // Play sound here (start dashing)
+
                             // Determine direction
                             outlaw.dashDirection = dx > 0 ? 1 : -1;
                         }

@@ -410,6 +410,7 @@ ECS.Systems.playerAttackSystem = function(entities, map) {
 
                 // Spawn Bullet Logic Here (Placeholder)
                 // ECS.Blueprints.createBullet(...)
+                // Play sound here
                 console.log("Bang!");
 
                 let bullet = ECS.Blueprints.createBullet(
@@ -441,6 +442,7 @@ ECS.Systems.playerAttackSystem = function(entities, map) {
                 // Hide gun if switching
                 if (gunEntity) gunEntity.AnimatedSprite.hidden = true;
 
+                // Play sound here
                 console.log("Whip!");
             }
         }

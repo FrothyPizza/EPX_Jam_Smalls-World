@@ -81,6 +81,7 @@ ECS.Blueprints.DesertOutlawInteract = function(other) {
             // Entity B moves away from A (-dir)
             other.addComponent(new ECS.Components.Stunned({x: 0.5 * -dir, y: -1}, 20, 90, true));
             
+            // Play sound here
             Loader.playSound("hit.wav");
         }
     }

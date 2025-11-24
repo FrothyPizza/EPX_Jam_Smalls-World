@@ -42,6 +42,7 @@ ECS.Systems.DesertEnemySystem = function(entities) {
             const bullet = ECS.Blueprints.createDesertBullet(entity.Position.x, entity.Position.y + 4, dir, 2);
             GlobalState.currentScene.addEntity(bullet);
             Loader.playSound("powerup.wav", 0.5);
+            // Play sound here
         }
     });
 }
