@@ -26,6 +26,10 @@ ECS.Blueprints.createPlayer = function(x, y) {
 
     // Player-specific components
     player.addComponent(new ECS.Components.PlayerState());
+    // Initialize score from GlobalState if available
+    if (typeof GlobalState !== 'undefined' && GlobalState.score !== undefined) {
+        player.PlayerState.score = GlobalState.score;
+    }
     player.addComponent(new ECS.Components.PlayerMovement());
     player.addComponent(new ECS.Components.PlayerJump());
     player.addComponent(new ECS.Components.PlayerDash());
@@ -122,6 +126,8 @@ ECS.Blueprints.WeaponInteract = function(other) {
         if (other.Stunned) {
             other.addComponent(new ECS.Components.RemoveFromScene(true));
             Loader.playSound("damage.wav", 0.5);
+
+            ECS.Helpers.scorePoints(100, other.Position.x, other.Position.y - 10, 'yellow', 30);
         }
     }
 }

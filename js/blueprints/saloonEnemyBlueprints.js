@@ -50,6 +50,13 @@ ECS.Blueprints.SaloonOutlawInteract = function(other) {
             
             // Entity B moves away from A (-dir)
             other.addComponent(new ECS.Components.Stunned({x: 0.25 * -dir, y: -1}, 20, 90, true));
+
+            // Sound Effect Here
+            // score points for player
+            if (GlobalState.currentScene && GlobalState.currentScene.player && GlobalState.currentScene.player.has('PlayerState')) {
+                let middlePosisitionX = (this.Position.x + other.Position.x) / 2;
+                ECS.Helpers.scorePoints(50, middlePosisitionX, this.Position.y - 10, 'yellow', 30);
+            }
         }
     }
 }

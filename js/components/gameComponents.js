@@ -100,3 +100,13 @@ ECS.Components.Bullet = class Bullet {
         this.framesLeft = lifetime;
     }
 }
+
+ECS.Components.ScoreText = class ScoreText {
+    constructor(text, color = 'yellow', duration = 60, floatSpeed = 0.5) {
+        this.text = text;
+        this.color = color;
+        this.duration = duration;
+        this.floatSpeed = floatSpeed;
+        this.timer = 0;
+    }
+}

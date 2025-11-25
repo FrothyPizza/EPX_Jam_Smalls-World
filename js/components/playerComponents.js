@@ -19,6 +19,7 @@ ECS.Components.PlayerState = class PlayerState {
         this.state = PLAYER_STATES.IDLE;
         this.hasCollectedLasso = false;
         this.hasCollectedGun = false;
+        this.score = 0;
     }
 }
 
