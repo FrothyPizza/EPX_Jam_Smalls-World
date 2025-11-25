@@ -93,6 +93,9 @@ ECS.Helpers.addExclamationToEntity = function(entity, scene) {
     if(!entity.has('BoundEntities')) {
         entity.addComponent(new ECS.Components.BoundEntities());
     }
+
+    // Play sound here?
+
     const boundEntities = entity.BoundEntities;
     const offsetX = 0;
     const offsetY = -16;

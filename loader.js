@@ -32,7 +32,7 @@ const Loader = {
       } else if (ext === "js") {
         promises.push(this.loadSpriteSheetJS(src));
       } else if (ext === "ttf") {
-        console.log("Loading font: " + src);
+        // console.log("Loading font: " + src);
         promises.push(this.loadFont(src));
       } else if (ext === "wav" || ext === "mp3" || ext === "m4a") {
         promises.push(this.loadAudio(src));
@@ -54,7 +54,7 @@ const Loader = {
         .then((data) => {
           let parser = new DOMParser();
           let xml = parser.parseFromString(data, "text/xml");
-          console.log("Loaded map:", xml);
+          // console.log("Loaded map:", xml);
           let map = new Map(xml);
           this.levels[src.split("/").pop().split(".")[0]] = map;
           resolve();
@@ -160,7 +160,7 @@ const Loader = {
         .then((loadedFace) => {
           document.fonts.add(loadedFace);
           this.fonts[src] = loadedFace;
-          console.log("Font loaded: " + src);
+          // console.log("Font loaded: " + src);
           resolve();
         })
         .catch((error) => {
@@ -171,7 +171,7 @@ const Loader = {
 
   loadSpriteSheetJS: function (src) {
     return new Promise((resolve, reject) => {
-      console.log("Loading spritesheet: " + src);
+      // console.log("Loading spritesheet: " + src);
       let img = new Image();
       let path = src.split("/");
       let name = path.pop().split(".")[0];
@@ -198,7 +198,7 @@ const Loader = {
       ]
     },...*/
   loadCutscene: async function (src) {
-    console.log("Loading cutscene:", src);
+    // console.log("Loading cutscene:", src);
     try {
       const response = await fetch(src);
       if (!response.ok) {
@@ -214,7 +214,7 @@ const Loader = {
         .replace(/\.cutscene$/, "");
   
       this.cutscenes[key] = cutscene;
-      console.log(`Loaded cutscene "${key}"`, cutscene);
+      // console.log(`Loaded cutscene "${key}"`, cutscene);
     } catch (error) {
       console.error("Error loading cutscene:", error);
       throw error;
@@ -379,6 +379,7 @@ document.body.onload = () => {
       "assets/images/cowboy/Deputy.json",
       "assets/images/cowboy/Gun.json",
       "assets/images/cowboy/Bullet.json",
+      "assets/images/cowboy/BulletSmall.json",
       "assets/images/cowboy/Lasso.json",
 
       

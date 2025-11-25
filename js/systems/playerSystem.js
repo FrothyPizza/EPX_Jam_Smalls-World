@@ -396,7 +396,7 @@ ECS.Systems.playerAttackSystem = function(entities, map) {
                 // Attack!
                 weapon.cooldownTimer.restart();
                 gunEntity.AnimatedSprite.hidden = false;
-                gunEntity.AnimatedSprite.setAnimation("Idle"); // Assuming 'Shoot' animation exists
+                gunEntity.AnimatedSprite.setAnimation("Shoot"); // Assuming 'Shoot' animation exists
                 gunEntity.AnimatedSprite.restartAnimation();
 
                 gunEntity.AnimatedSprite.onAnimationComplete = () => {
@@ -410,6 +410,7 @@ ECS.Systems.playerAttackSystem = function(entities, map) {
 
                 // Spawn Bullet Logic Here (Placeholder)
                 // ECS.Blueprints.createBullet(...)
+                // Play sound here
                 console.log("Bang!");
 
                 let bullet = ECS.Blueprints.createBullet(
@@ -441,6 +442,7 @@ ECS.Systems.playerAttackSystem = function(entities, map) {
                 // Hide gun if switching
                 if (gunEntity) gunEntity.AnimatedSprite.hidden = true;
 
+                // Play sound here
                 console.log("Whip!");
             }
         }

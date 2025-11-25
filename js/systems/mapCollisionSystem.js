@@ -94,6 +94,7 @@ function moveH(entity, map, value) {
             // velocity.x = 0;
 
             if(entity.has('BouncesOffWalls')) {
+                // Play sound here (bottle bounces)
                 const bounceComp = entity.BouncesOffWalls;
                 // bounceComp.numberOfBounces += 1;
                 velocity.x = -(velocity.x) * 0.9; // Reverse and reduce vertical velocity
@@ -140,6 +141,7 @@ function moveV(entity, map, value) {
         } else {
 
             if(entity.has('BouncesOffWalls')) {
+                // Play sound here (bottle bounces)
                 const bounceComp = entity.BouncesOffWalls;
                 bounceComp.numberOfBounces += 1;
                 // velocity.y = -Math.abs(velocity.y) * 0.7; // Reverse and reduce vertical velocity

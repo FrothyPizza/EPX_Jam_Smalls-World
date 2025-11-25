@@ -280,6 +280,7 @@ class SaloonScene extends LevelScene {
   }
 
   transitionToNextScene() {
+    // skips to the next scene, regardless of what's happeniung in the current scene
     GlobalState.sceneManager.switchScene(new DesertScene(Loader.levels['desert'].xml));
   }
 

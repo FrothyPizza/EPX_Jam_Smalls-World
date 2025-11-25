@@ -44,21 +44,22 @@
         },
         "levels/desert.tmx": {
             "expandedObjectLayers": [
+                9,
                 7
             ],
-            "scale": 4,
-            "selectedLayer": 8,
+            "scale": 3,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 119.875,
-                "y": 88.125
+                "x": 107.66666666666666,
+                "y": 100.5
             }
         },
         "levels/hades.tmx": {
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 120.25,
-                "y": 879.75
+                "x": 119.5,
+                "y": 879.25
             }
         },
         "levels/harpy.tmx": {
@@ -267,13 +268,14 @@
         },
         "levels/saloon.tmx": {
             "expandedObjectLayers": [
-                9
+                9,
+                7
             ],
-            "scale": 4,
-            "selectedLayer": 2,
+            "scale": 2,
+            "selectedLayer": 8,
             "viewCenter": {
-                "x": 126.375,
-                "y": 88.125
+                "x": 111,
+                "y": 18.25
             }
         },
         "levels/styx_level.tmx": {
@@ -317,10 +319,10 @@
     ],
     "project": "untitled.tiled-project",
     "recentFiles": [
+        "levels/desert.tmx",
         "levels/styx_level.tmx",
         "levels/hades.tmx",
         "CowboyTilemap.tsx",
-        "levels/desert.tmx",
         "levels/saloon.tmx",
         "levels/harpy.tmx",
         "levels/charon.tmx",
