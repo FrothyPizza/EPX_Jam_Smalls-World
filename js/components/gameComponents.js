@@ -110,3 +110,9 @@ ECS.Components.ScoreText = class ScoreText {
         this.timer = 0;
     }
 }
+
+ECS.Components.DoNotSave = class DoNotSave {
+    constructor() {
+        this.flag = true;
+    }
+}

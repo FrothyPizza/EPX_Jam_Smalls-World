@@ -119,6 +119,12 @@ class LevelScene extends Scene {
                 if (entity.has('PlayerState')) {
                     if (this.savedState) {
                         this.loadSaveState();
+                        // Apply death penalty
+                        if (this.player && this.player.has('PlayerState')) {
+                            ECS.Helpers.scorePoints(-400, this.player.Position.x, this.player.Position.y - 10, 'maroon');
+                            // Save the new state with the penalty applied so it persists across multiple deaths
+                            this.createSaveState();
+                        }
                         return; // Stop processing removals for this frame
                     }
                 }

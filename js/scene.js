@@ -84,7 +84,9 @@ class Scene {
 
         const entities = this.getEntities();
         entities.forEach(e => {
-            state.entities.push(ECS.Helpers.serializeEntity(e));
+            if (!e.has('DoNotSave')) {
+                state.entities.push(ECS.Helpers.serializeEntity(e));
+            }
         });
 
         this.savedState = JSON.stringify(state);

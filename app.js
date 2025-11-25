@@ -125,10 +125,22 @@ function update() {
 
   // Draw Score
   if (GlobalState.sceneManager && GlobalState.sceneManager.currentScene && GlobalState.sceneManager.currentScene.player && GlobalState.sceneManager.currentScene.player.has('PlayerState')) {
-      const score = GlobalState.sceneManager.currentScene.player.PlayerState.score;
-      // Pad with zeros to 6 digits
-      const scoreText = `SCORE: ${score.toString().padStart(6, '0')}`;
-      GlobalState.sceneManager.currentScene.drawBitmapText(context, scoreText, 16, 5, 'left', 'white');
+      const scene = GlobalState.sceneManager.currentScene;
+      const score = scene.player.PlayerState.score;
+      
+      const label = "SCORE: ";
+      const absScore = Math.abs(score);
+      const sign = score < 0 ? '-' : '';
+      const numberText = `${sign}${absScore.toString().padStart(6, '0')}`;
+      
+      const labelWidth = scene.measureBitmapTextWidth(label);
+      const numberWidth = scene.measureBitmapTextWidth(numberText);
+      const totalWidth = labelWidth + numberWidth;
+      
+      const startX = (40) - (totalWidth / 2);
+      
+      scene.drawBitmapText(context, label, startX, 5, 'left', 'white');
+      scene.drawBitmapText(context, numberText, startX + labelWidth, 5, 'left', score < 0 ? 'maroon' : 'white');
   }
 
   // draw border around outside of screen
