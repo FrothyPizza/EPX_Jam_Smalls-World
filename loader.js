@@ -38,8 +38,7 @@ const Loader = {
         promises.push(this.loadAudio(src));
       } else if (ext === "cutscene") {
         promises.push(this.loadCutscene(src));
-      }
-      else {
+      } else {
         console.warn("Unknown file type: " + ext);
       }
     }
@@ -130,17 +129,12 @@ const Loader = {
           img.onload = () => {
             this.images[data.meta.image] = img;
 
-
-
-          // load the frame-by-frame collision data if present
-          data.sequencerData = data.meta.sequencerData || {};
-          // console.log("Sequencer data loaded for spritesheet:", src, data.sequencerData);
-
-
+            // load the frame-by-frame collision data if present
+            data.sequencerData = data.meta.sequencerData || {};
+            // console.log("Sequencer data loaded for spritesheet:", src, data.sequencerData);
 
             resolve();
           };
-
 
           img.onerror = () => {
             reject();
@@ -188,7 +182,7 @@ const Loader = {
     });
   },
 
-  // load .cutscene files, which contain a json object like: 
+  // load .cutscene files, which contain a json object like:
   /*[
     { "type": "fade", "duration": 45, "hold": 0 },               // fade in
     { "type": "move", "entity": "Player", "path": [
@@ -202,17 +196,19 @@ const Loader = {
     try {
       const response = await fetch(src);
       if (!response.ok) {
-        throw new Error(`Failed to load ${src}: ${response.status} ${response.statusText}`);
+        throw new Error(
+          `Failed to load ${src}: ${response.status} ${response.statusText}`
+        );
       }
       // Automatically parses the JSON
       const cutscene = await response.json();
-  
+
       // Extract the base name (e.g. "intro" from "path/to/intro.cutscene")
       const key = src
         .split("/")
         .pop()
         .replace(/\.cutscene$/, "");
-  
+
       this.cutscenes[key] = cutscene;
       // console.log(`Loaded cutscene "${key}"`, cutscene);
     } catch (error) {
@@ -220,11 +216,11 @@ const Loader = {
       throw error;
     }
   },
-    
 
   initAudioContext: function () {
     if (!this.audioContext) {
-      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      this.audioContext = new (window.AudioContext ||
+        window.webkitAudioContext)();
     }
   },
 
@@ -293,7 +289,9 @@ const Loader = {
     if (this.audioContext.state === "suspended") {
       this.audioContext.resume();
     }
-    console.log(`Playing music: ${name}, volume: ${volume}, restart: ${restart}`);
+    console.log(
+      `Playing music: ${name}, volume: ${volume}, restart: ${restart}`
+    );
 
     // Stop other music
     for (let key in this.activeMusic) {
@@ -367,9 +365,7 @@ document.body.onload = () => {
       "assets/images/player/Theo.json",
       "assets/images/aseprite/cowboy/Smalls.json",
 
-
       "assets/images/enemies/CharonSequenced01.json",
-
 
       "assets/images/cowboy/KnifeOutlaw.json",
       "assets/images/cowboy/StunnedBirds.json",
@@ -381,8 +377,6 @@ document.body.onload = () => {
       "assets/images/cowboy/Bullet.json",
       "assets/images/cowboy/BulletSmall.json",
       "assets/images/cowboy/Lasso.json",
-
-      
 
       "assets/cutscenes/saloon/saloon.cutscene",
       "assets/cutscenes/saloon/saloon_start_part_2.cutscene",
@@ -401,11 +395,18 @@ document.body.onload = () => {
       "tiled/CowboyTilemap.png",
       "tiled/levels/game_world.world",
 
+      "assets/music/cowboy/DrabBarFast.mp3",
+      "assets/music/cowboy/RagAttackFinished.mp3",
       "assets/music/cowboy/TenseBase.mp3",
 
-
       "assets/music/Bones and Demons -Decending baseline.mp3",
-      
+
+      "assets/sfx/cowboy/bottlebounce.wav",
+      "assets/sfx/cowboy/gruntthrow.wav",
+      "assets/sfx/cowboy/guncock.wav",
+      "assets/sfx/cowboy/gunshot.wav",
+      "assets/sfx/cowboy/explosion.wav",
+
       "assets/sfx/sam/powerup2.wav",
       "assets/sfx/sam/damage.wav",
       "assets/sfx/sam/hit.wav",
@@ -414,10 +415,7 @@ document.body.onload = () => {
       "assets/sfx/sam/powerup.wav",
       "assets/sfx/sam/dash01.wav",
 
-      "assets/sfx/Slash.wav",
-
-
-
+      "assets/sfx/Slash.wav"
     ).then(() => {
       let levels = [];
       for (let i = 0; i < Loader.gameWorld.maps.length; i++) {
