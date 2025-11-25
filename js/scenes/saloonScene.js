@@ -125,9 +125,6 @@ class SaloonScene extends LevelScene {
     if (!outlawRight)
       outlawRight = this.getEntities().find((e) => e.name === "OutlawRight");
 
-    //This is not Playing, the other one continues to play on loop, perhaps it's a bug with speedy mode?
-    Loader.playMusic("RagAttackFinished.mp3", true, 0.1);
-
     this.playCutscene(
       "saloon_start_part_2",
       { Player: this.player, OutlawLeft: outlawLeft, OutlawRight: outlawRight },
@@ -166,6 +163,7 @@ class SaloonScene extends LevelScene {
       } else if (checkpoint.id === "BossFight") {
         const boss = this.getEntities().find((e) => e.has("CrazedCowboy"));
         if (boss) {
+          Loader.playMusic("RagAttackFinished.mp3", true, 0.1);
           this.playBossAppearance(boss);
         }
       }
@@ -277,6 +275,9 @@ class SaloonScene extends LevelScene {
     // Play Boss Intro Cutscene if available
 
     if (Loader.cutscenes && Loader.cutscenes.saloon_boss) {
+      //First time cutscene w/MadSheriff
+      Loader.playMusic("RagAttackFinished.mp3", true, 0.1);
+
       this.playCutscene(
         "saloon_boss",
         { Sheriff: boss },
