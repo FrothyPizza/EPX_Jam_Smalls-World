@@ -173,7 +173,7 @@ ECS.Helpers.addWeaponToPlayer = function(playerEntity, weaponType) {
 
     const boundEntities = playerEntity.BoundEntities;
     const offsetX = 8
-    const offsetY = 0;
+    const offsetY = -2;
     const weapon = ECS.Blueprints.Weapon(playerEntity.Position.x + offsetX, playerEntity.Position.y + offsetY, weaponType);
     boundEntities.entitiesWithOffsets.push({ entity: weapon, offsetX: offsetX, offsetY: offsetY });
     weapon.AnimatedSprite.hidden = true;

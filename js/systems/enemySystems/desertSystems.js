@@ -9,9 +9,10 @@ ECS.Systems.DesertEnemySystem = function(entities) {
             const diff = player.Position.x - entity.Position.x;
 
 
+            let totalDistToPlayer = Math.sqrt(Math.pow(player.Position.x - entity.Position.x, 2) + Math.pow(player.Position.y - entity.Position.y, 2));
 
             // Add a deadzone to prevent jittering when overlapping/close
-            if (Math.abs(diff) > 48) {
+            if (Math.abs(totalDistToPlayer) > 48) {
                 const dir = Math.sign(diff);
                 entity.Velocity.x = dir * speed;
                 entity.AnimatedSprite.flipX = dir < 0;
@@ -23,11 +24,11 @@ ECS.Systems.DesertEnemySystem = function(entities) {
             // Jump up logic
             const knife = entity.DesertKnifeOutlaw;
             const yDiff = player.Position.y - entity.Position.y;
-            if (yDiff < -24) {
+            if ((yDiff) < -24 && totalDistToPlayer < 96) {
                 knife.framesPlayerAbove++;
                 if (knife.framesPlayerAbove >= knife.jumpDelayFrames) {
                     if(entity.has('MapCollisionState') && entity.MapCollisionState.bottomHit) {
-                        entity.Velocity.y = -2.8;
+                        entity.Velocity.y = -2.6;
                         knife.framesPlayerAbove = 0;
                     }
                 }

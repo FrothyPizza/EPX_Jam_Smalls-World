@@ -25,8 +25,9 @@ class DesertScene extends LevelScene {
         this.spawners = [];
         this.leftSpawners = [];
         this.rightSpawners = [];
-        this.knifePairSpawnTimer = 120; // Initial delay
-
+        this.initialKnifePairSpawnTimer = 240; // Initial delay
+        this.secondHalfKnifePairSpawnTimer = 160; // Faster spawns in second half
+        this.knifePairSpawnTimer = this.initialKnifePairSpawnTimer;
     }
 
     init() {
@@ -80,6 +81,8 @@ class DesertScene extends LevelScene {
         }
         CONSTANTS.BACKGROUND_COLOR_DARKEN_ALPHA = Math.min(CONSTANTS.BACKGROUND_COLOR_DARKEN_ALPHA_MAX, 
             CONSTANTS.BACKGROUND_COLOR_DARKEN_ALPHA_MAX * (1 - this.framesToCompletion / this.totalFrames));
+
+
 
 
         // Handle enemy spawning
@@ -143,7 +146,10 @@ class DesertScene extends LevelScene {
                 rightSpawner.framesUntilNextSpawn = rightSpawner.spawnDelayFrames;
 
                 // Reset Timer (3-6 seconds)
-                this.knifePairSpawnTimer = 180 + Math.random() * 180;
+                this.knifePairSpawnTimer = this.framesToCompletion < this.totalFrames / 2 ?
+                    this.secondHalfKnifePairSpawnTimer :
+                    this.initialKnifePairSpawnTimer;
+                this.knifePairSpawnTimer += Math.random() * 60;
                 console.log("Spawned Knife Pair!");
             }
         }
