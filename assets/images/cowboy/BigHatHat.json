@@ -332,8 +332,8 @@
   "size": { "w": 720, "h": 20 },
   "scale": "1",
   "frameTags": [
-   { "name": "Gun Idle", "from": 1, "to": 5, "direction": "forward", "color": "#000000ff" },
-   { "name": "Idle", "from": 6, "to": 16, "direction": "forward", "color": "#000000ff" },
+   { "name": "Gun Idle", "from": 2, "to": 6, "direction": "forward", "color": "#000000ff" },
+   { "name": "Idle", "from": 7, "to": 16, "direction": "forward", "color": "#000000ff" },
    { "name": "Run", "from": 17, "to": 23, "direction": "forward", "color": "#000000ff" },
    { "name": "Thrown", "from": 24, "to": 24, "direction": "forward", "color": "#000000ff" },
    { "name": "Moving", "from": 25, "to": 28, "direction": "forward", "color": "#000000ff" },

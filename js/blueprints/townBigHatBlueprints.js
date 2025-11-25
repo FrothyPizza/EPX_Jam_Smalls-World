@@ -9,7 +9,7 @@ ECS.Blueprints.createBigHatBoss = function(x, y, scene, bossCues) {
     state.bossCues = bossCues;
     entity.addComponent(state);
     
-    entity.addComponent(new ECS.Components.AnimatedSprite(Loader.spriteSheets.BigHat, "Idle", 10));
+    entity.addComponent(new ECS.Components.AnimatedSprite(Loader.spriteSheets.BigHat, "Idle", 8));
     entity.addComponent(new ECS.Components.IsEnemy(true));
     entity.addComponent(new ECS.Components.CollidesWithMap(true));
     entity.addComponent(new ECS.Components.MapCollisionState());
