@@ -109,3 +109,16 @@ ECS.Helpers.addExclamationToEntity = function(entity, scene) {
     return exclamation;
 
 }
+
+ECS.Helpers.scorePoints = function(points, x, y, color = 'yellow', duration = 60, floatSpeed = 0.5) {
+    let entity = new ECS.Entity();
+    entity.addComponent(new ECS.Components.Position(x, y));
+    entity.addComponent(new ECS.Components.ScoreText(points.toString(), color, duration, floatSpeed));
+    
+    if (GlobalState.currentScene) {
+        GlobalState.currentScene.addEntity(entity);
+    } else {
+        ECS.register(entity);
+    }
+    return entity;
+}

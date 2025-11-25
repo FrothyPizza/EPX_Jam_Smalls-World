@@ -142,5 +142,49 @@ ECS.Systems.renderSystem = function(entities, context) {
                 }
             }
         }
+
+        // Draw Score Texts
+        if (entity.has('ScoreText')) {
+            const score = entity.ScoreText;
+            const pos = entity.Position;
+            
+            // Calculate alpha based on timer
+            // Fade out in last 20 frames
+            let alpha = 1;
+            if (score.timer > score.duration - 20) {
+                alpha = 1 - (score.timer - (score.duration - 20)) / 20;
+            }
+            
+            context.save();
+            context.globalAlpha = alpha;
+            
+            if (GlobalState.currentScene && typeof GlobalState.currentScene.drawBitmapText === 'function') {
+                GlobalState.currentScene.drawBitmapText(context, score.text, Math.round(pos.x - context.view.x), Math.round(pos.y - context.view.y), 'center', score.color);
+            } else {
+                context.fillStyle = score.color;
+                context.font = "8px monospace";
+                context.fillText(score.text, pos.x - context.view.x, pos.y - context.view.y);
+            }
+            
+            context.restore();
+        }
+    });
+}
+
+ECS.Systems.scoreTextSystem = function(entities) {
+    Object.values(entities).forEach(entity => {
+        if (!entity.has('ScoreText', 'Position')) return;
+        
+        const score = entity.ScoreText;
+        const pos = entity.Position;
+        
+        score.timer++;
+        
+        // Float up
+        pos.y -= score.floatSpeed;
+        
+        if (score.timer >= score.duration) {
+            entity.addComponent(new ECS.Components.RemoveFromScene(true));
+        }
     });
 }

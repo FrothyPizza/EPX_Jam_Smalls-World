@@ -98,7 +98,10 @@ class LevelScene extends Scene {
         ECS.Systems.animationSystem(this.entities);
 
         ECS.Systems.viewSystem(this.entities, context);
-
+        
+        if (ECS.Systems.scoreTextSystem) {
+            ECS.Systems.scoreTextSystem(this.entities);
+        }
 
         
         // Run core ECS systems
