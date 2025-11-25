@@ -305,6 +305,7 @@ const Loader = {
 
     if (this.activeMusic[name]) {
       if (!restart) {
+        this.activeMusic[name].gain.gain.value = volume;
         return; // Already playing
       }
       // Stop to restart

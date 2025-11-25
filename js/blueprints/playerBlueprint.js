@@ -163,6 +163,7 @@ ECS.Blueprints.Weapon = function(x, y, weaponType) {
         "Idle", 
         6
     ));
+    entity.blueprint = 'Weapon';
     return entity;
 }
 
@@ -203,5 +204,6 @@ ECS.Blueprints.createBullet = function(x, y, direction, speed) {
         12
     ));
     entity.interactWith = ECS.Blueprints.BulletInteract;
+    entity.blueprint = 'Bullet';
     return entity;
 }
