@@ -3,6 +3,22 @@ ECS.Systems.bigHatBossSystem = function(entities) {
         if (entity.has('BigHatBossState')) {
             const state = entity.BigHatBossState;
 
+            if(state.health <= this.initialHealth) {
+                state.phase = 1;
+            }
+            if(this.health < 4) {
+                state.phase = 2;
+            }
+            if(this.health < 2) {
+                state.phase = 3;
+            }
+            console.log("Boss Phase: " + state.phase);
+
+            if(state.phase === 2 && entity.has('BoundEntities')) {
+                // here, we remove the boundEntities component if it exists and spawn the flying hat in
+            }
+
+
             if(entity.has('Stunned')) {
                 state.state = "STUNNED";
             } else {

@@ -33,6 +33,10 @@ ECS.Components.BigHatBossState = class BigHatBossState {
         this.burstDelay = 15; // Frames between hats in a burst
         this.burstDelayTimer = 0;
         this.exclamationEntity = null;
+
+        this.initialHealth = 6;
+        this.health = this.initialHealth;
+        this.phase = 1; // 1, 2, 3
     }
 }
 

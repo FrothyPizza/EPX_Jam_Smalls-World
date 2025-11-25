@@ -111,6 +111,8 @@ ECS.Blueprints.BigHatSmallHatProjectileInteract = function(other) {
         const dir = Math.sign(this.Velocity.x) || 1;
         let duration = 120;
         other.addComponent(new ECS.Components.Stunned({x: 0, y: -1.5}, 20, duration, false));
+
+        other.BigHatBossState.health -= 1;
         
         // Apply damage/stun to boss
         // other.addComponent(new ECS.Components.Stunned(...)); 
