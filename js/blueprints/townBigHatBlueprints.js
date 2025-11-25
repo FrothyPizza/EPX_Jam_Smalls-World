@@ -27,7 +27,7 @@ ECS.Blueprints.createBigHatHat = function(x, y) {
     entity.addComponent(new ECS.Components.Position(x, y));
     entity.addComponent(new ECS.Components.Dimensions(20, 20));
     entity.addComponent(new ECS.Components.BigHatHatState());
-    entity.addComponent(new ECS.Components.AnimatedSprite(Loader.spriteSheets.BigHatHat, "Idle", 10));
+    entity.addComponent(new ECS.Components.AnimatedSprite(Loader.spriteSheets.BigHatHat, "Idle", 8));
     entity.addComponent(new ECS.Components.IsEnemy(true));
     entity.addComponent(new ECS.Components.Hitbox([{x: 0, y: 0, w: 20, h: 20}]));
     entity.addComponent(new ECS.Components.Hurtbox([{x: 0, y: 0, w: 20, h: 20}]));

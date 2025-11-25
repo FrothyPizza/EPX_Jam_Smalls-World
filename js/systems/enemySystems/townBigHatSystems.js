@@ -19,8 +19,10 @@ ECS.Systems.bigHatBossSystem = function(entities) {
                     state.strafeTimer++;
                     
                     if (state.isStrafing) {
+                        entity.AnimatedSprite.setAnimation("Run");
+
                         if (entity.has('Velocity')) {
-                            entity.Velocity.x = state.strafeDirection * 0.5;
+                            entity.Velocity.x = state.strafeDirection * state.strafeSpeed;
                         }
                         
                         if (state.strafeTimer >= state.strafeDuration) {
@@ -35,6 +37,9 @@ ECS.Systems.bigHatBossSystem = function(entities) {
                         if (entity.has('Velocity')) {
                             entity.Velocity.x = 0;
                         }
+
+                        entity.AnimatedSprite.setAnimation("Idle");
+
                         
                         if (state.strafeTimer >= state.strafePauseDuration) {
                             state.isStrafing = true;

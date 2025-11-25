@@ -4,9 +4,10 @@ ECS.Components.BigHatBossState = class BigHatBossState {
 
         // Strafe params
         this.strafeTimer = 0;
-        this.strafeDuration = 30;
-        this.strafePauseDuration = 30;
+        this.strafeDuration = 90;
+        this.strafePauseDuration = 90;
         this.strafeDirection = 1; // 1 for right, -1 for left
+        this.strafeSpeed = 0.25;
         this.isStrafing = true; 
 
         // Level jump params
