@@ -128,7 +128,7 @@ function update() {
       const score = GlobalState.sceneManager.currentScene.player.PlayerState.score;
       // Pad with zeros to 6 digits
       const scoreText = `SCORE: ${score.toString().padStart(6, '0')}`;
-      GlobalState.sceneManager.currentScene.drawBitmapText(context, scoreText, WIDTH / 2, 2, 'center', 'white');
+      GlobalState.sceneManager.currentScene.drawBitmapText(context, scoreText, 16, 5, 'left', 'white');
   }
 
   // draw border around outside of screen
