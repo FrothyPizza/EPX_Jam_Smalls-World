@@ -1,7 +1,7 @@
 ECS.Blueprints.createBigHatBoss = function(x, y, scene) {
     const entity = new ECS.Entity();
     entity.addComponent(new ECS.Components.Position(x, y));
-    entity.addComponent(new ECS.Components.Dimensions(32, 32));
+    entity.addComponent(new ECS.Components.Dimensions(16, 16));
     entity.addComponent(new ECS.Components.Velocity(0, 0));
     entity.addComponent(new ECS.Components.Gravity(0.1));
     entity.addComponent(new ECS.Components.BigHatBossState());
@@ -9,8 +9,8 @@ ECS.Blueprints.createBigHatBoss = function(x, y, scene) {
     entity.addComponent(new ECS.Components.IsEnemy(true));
     entity.addComponent(new ECS.Components.CollidesWithMap(true));
     entity.addComponent(new ECS.Components.MapCollisionState());
-    entity.addComponent(new ECS.Components.Hitbox([{x: 4, y: 4, w: 24, h: 28}]));
-    entity.addComponent(new ECS.Components.Hurtbox([{x: 4, y: 4, w: 24, h: 28}]));
+    entity.addComponent(new ECS.Components.Hitbox([{x: 0, y: 0, w: 16, h: 16}]));
+    entity.addComponent(new ECS.Components.Hurtbox([{x: 2, y: 0, w: 12, h: 16}]));
     
     // Bind Hat
     ECS.Helpers.addBigHatHatToBoss(entity, scene);
