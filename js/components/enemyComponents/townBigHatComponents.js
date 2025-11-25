@@ -1,6 +1,3 @@
-
-
-
 ECS.Components.BigHatBossState = class BigHatBossState {
     constructor() {
         this.state = "IDLE"; // IDLE, ATTACK, VULNERABLE, DEAD
@@ -23,5 +20,19 @@ ECS.Components.BigHatBossState = class BigHatBossState {
 ECS.Components.BigHatHatState = class BigHatHatState {
     constructor() {
         this.state = "ATTACHED"; // ATTACHED, THROWN, RETURNING
+    }
+}
+
+
+ECS.Components.BigHatSmallHatProjectile = class BigHatSmallHatProjectile {
+    constructor() {
+        this.state = "FLYING"; // FLYING, STUNNED, RETURNING
+    }
+}
+
+
+ECS.Components.BigHatStunned = class BigHatStunned {
+    constructor() {
+        this.isStunned = true;
     }
 }

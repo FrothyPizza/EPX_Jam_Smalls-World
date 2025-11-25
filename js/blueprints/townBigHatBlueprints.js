@@ -55,5 +55,58 @@ ECS.Helpers.addBigHatHatToBoss = function(bossEntity, scene) {
     }
 }
 
+ECS.Blueprints.createBigHatSmallHatProjectile = function(x, y, velocityX, velocityY) {
+    const entity = new ECS.Entity();
+    entity.addComponent(new ECS.Components.Position(x, y));
+    entity.addComponent(new ECS.Components.Dimensions(16, 16));
+    entity.addComponent(new ECS.Components.Velocity(velocityX, velocityY));
+    entity.addComponent(new ECS.Components.BigHatSmallHatProjectile());
+    entity.addComponent(new ECS.Components.AnimatedSprite(Loader.spriteSheets.BigHatSmallHatProjectile, "Rotate", 6));
+    entity.addComponent(new ECS.Components.IsEnemy(true));
+    entity.addComponent(new ECS.Components.Hitbox([{x: 2, y: 2, w: 12, h: 12}]));
+    entity.addComponent(new ECS.Components.Hurtbox([{x: 2, y: 2, w: 12, h: 12}]));
+    
+    entity.interactWith = ECS.Blueprints.BigHatSmallHatProjectileInteract;
+    
+    return entity;
+}
+
+ECS.Blueprints.BigHatSmallHatProjectileInteract = function(other) {
+    // If hit by player bullet
+    if (other.has('Bullet') && !this.has('BigHatStunned')) {
+        this.addComponent(new ECS.Components.BigHatStunned());
+        this.AnimatedSprite.setAnimation("IdleUpsideDown");
+        this.Velocity.x = 0;
+        this.Velocity.y = 0;
+        
+        // Remove bullet
+        other.addComponent(new ECS.Components.RemoveFromScene(true));
+    }
+    
+    console.log("Big Hat Small Hat Projectile interacted with", other);
+    // If hit by player lasso while stunned
+    if (other.has('Weapon') && other.Weapon.type === 'Lasso' && this.has('BigHatStunned')) {
+        const speed = 4;
+        this.Velocity.x = speed;
+        this.Velocity.y = 0;
+
+        console.log("Big Hat Small Hat Projectile thrown!");
+        
+        this.BigHatSmallHatProjectile.state = "RETURNING";
+        this.removeComponent('BigHatStunned'); // No longer stunned, now a projectile against boss
+        this.AnimatedSprite.setAnimation("Rotate");
+    }
+    
+    // If hitting boss while returning
+    if (other.has('BigHatBossState') && this.BigHatSmallHatProjectile.state === "RETURNING") {
+        // Damage boss logic here
+        console.log("Boss hit by returning hat!");
+        this.addComponent(new ECS.Components.RemoveFromScene(true));
+        
+        // Apply damage/stun to boss
+        // other.addComponent(new ECS.Components.Stunned(...)); 
+    }
+}
+
 
 

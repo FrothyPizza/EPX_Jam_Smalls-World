@@ -483,11 +483,16 @@ ECS.Systems.playerAttackSystem = function (entities, map) {
         lassoEntity.AnimatedSprite.hidden = false;
         lassoEntity.AnimatedSprite.setAnimation("Attack2"); // Assuming 'Whip' animation exists
         lassoEntity.AnimatedSprite.restartAnimation();
+        // lassoEntity.Hurtbox.boxes = [{ x: 0, y: 0, w: 16, h: 8 }]; // Enable hurtbox during attack
+        lassoEntity.addComponent(new ECS.Components.Hurtbox([{x: 0, y: 0, w: 16, h: 8}]));
 
         lassoEntity.AnimatedSprite.onAnimationComplete = () => {
           lassoEntity.AnimatedSprite.setAnimation("Idle");
           lassoEntity.onAnimationComplete = null;
           lassoEntity.AnimatedSprite.hidden = true;
+          // lassoEntity.Hurtbox.boxes = []; // Disable hurtbox after attack
+          if(lassoEntity.has('Hurtbox'))
+            lassoEntity.removeComponent('Hurtbox');
         };
 
         // Hide gun if switching

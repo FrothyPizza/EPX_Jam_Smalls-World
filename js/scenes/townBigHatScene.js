@@ -11,6 +11,15 @@ class TownBigHatScene extends LevelScene {
     init() {
         super.init();
 
+        ECS.getEntitiesWithComponents('PlayerState').forEach(playerEntity => {
+            playerEntity.PlayerState.hasCollectedGun = true;
+            playerEntity.PlayerState.hasCollectedLasso = true;
+            let weapon = ECS.Helpers.addWeaponToPlayer(playerEntity, 'Gun');
+            let lasso = ECS.Helpers.addWeaponToPlayer(playerEntity, 'Lasso');
+            this.addEntity(weapon);
+            this.addEntity(lasso);
+        });
+
         this.map.enemies.forEach((spawn) => {
             let enemyEntity = null;
             if (spawn.name === "BigHat") {
@@ -25,6 +34,7 @@ class TownBigHatScene extends LevelScene {
     updateLevelSpecificSystems() {
         ECS.Systems.bigHatBossSystem(this.getEntities());
         ECS.Systems.bigHatHatSystem(this.getEntities());
+        ECS.Systems.bigHatProjectileSystem(this.getEntities());
     }
 }
 

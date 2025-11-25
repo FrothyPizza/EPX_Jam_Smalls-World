@@ -19,7 +19,7 @@ class DesertScene extends LevelScene {
     constructor(mapXml) {
         super(mapXml);
 
-        this.totalFrames = CONSTANTS.SPEEDY_MODE ? 120 : 3600; // 1 minute at 60 FPS
+        this.totalFrames = CONSTANTS.SPEEDY_MODE ? 600 : 3600; // 1 minute at 60 FPS
         this.framesToCompletion = this.totalFrames; // 1 minute at 60 FPS
 
         this.spawners = [];

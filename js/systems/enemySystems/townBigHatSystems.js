@@ -57,6 +57,27 @@ ECS.Systems.bigHatBossSystem = function(entities) {
                         }
                         // If targetLevel == currentLevel, do nothing
                     }
+
+                    // --- Hat Throwing Logic ---
+                    // Randomly throw hats
+                    if (Math.random() < 0.01) { // 1% chance per frame
+                        const players = ECS.getEntitiesWithComponents('PlayerState');
+                        if (players.length > 0) {
+                            const player = players[0];
+                            const dx = player.Position.x - entity.Position.x;
+                            const dy = player.Position.y - entity.Position.y;
+                            const dist = Math.sqrt(dx*dx + dy*dy);
+                            
+                            const speed = 2;
+                            const vx = (dx / dist) * speed;
+                            const vy = (dy / dist) * speed;
+                            
+                            const projectile = ECS.Blueprints.createBigHatSmallHatProjectile(entity.Position.x, entity.Position.y, vx, vy);
+                            if (GlobalState.currentScene) {
+                                GlobalState.currentScene.addEntity(projectile);
+                            }
+                        }
+                    }
                     break;
                     
                 case "ATTACK":
@@ -90,6 +111,18 @@ ECS.Systems.bigHatHatSystem = function(entities) {
                 case "RETURNING":
                     // Behavior when returning to boss
                     break;
+            }
+        }
+    });
+}
+
+ECS.Systems.bigHatProjectileSystem = function(entities) {
+    entities.forEach(entity => {
+        if (entity.has('BigHatSmallHatProjectile')) {
+            // If stunned, ensure velocity is 0 (redundant safety)
+            if (entity.has('BigHatStunned')) {
+                entity.Velocity.x = 0;
+                entity.Velocity.y = 0;
             }
         }
     });

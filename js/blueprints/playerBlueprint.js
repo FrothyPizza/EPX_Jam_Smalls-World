@@ -135,6 +135,8 @@ ECS.Blueprints.WeaponInteract = function(other) {
 ECS.Blueprints.BulletInteract = function(other) {
     if (other.has('IsEnemy')) {
         if (other.has('CrazedCowboy')) return;
+        if (other.has('BigHatSmallHatProjectile')) return; // Handled by projectile's own interact logic
+
         if (!other.has('Stunned')) {
             const dir = Math.sign(this.Velocity.x) || 1;
             let duration = 180;
@@ -160,6 +162,7 @@ ECS.Blueprints.Weapon = function(x, y, weaponType) {
         entity.addComponent(new ECS.Components.Dimensions(16, 8));
         entity.addComponent(new ECS.Components.Weapon('Lasso', 45));
         entity.addComponent(new ECS.Components.Hitbox([{x: 0, y: 0, w: 16, h: 8}]));
+        // entity.addComponent(new ECS.Components.Hurtbox([{x: 0, y: 0, w: 16, h: 8}]));
         entity.interactWith = ECS.Blueprints.WeaponInteract;
     }
 
