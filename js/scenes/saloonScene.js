@@ -76,7 +76,7 @@ class SaloonScene extends LevelScene {
       };
 
       if (CONSTANTS.SPEEDY_MODE) {
-        Loader.playMusic("DrabBarFast.mp3", true, 0.1);
+        Loader.playMusic("DrabBarFast.mp3", true, 0.01);
         this.playCutscene(
           "saloon_abridged",
           {
@@ -92,7 +92,7 @@ class SaloonScene extends LevelScene {
         );
       } else {
         //Maybe change the position of this, it starts after the cutscene and doesn't stop
-        Loader.playMusic("DrabBarFast.mp3", true, 0.1);
+        Loader.playMusic("DrabBarFast.mp3", true, 0.01);
         this.playCutscene(
           "saloon",
           {
@@ -163,7 +163,8 @@ class SaloonScene extends LevelScene {
       } else if (checkpoint.id === "BossFight") {
         const boss = this.getEntities().find((e) => e.has("CrazedCowboy"));
         if (boss) {
-          Loader.playMusic("RagAttackFinished.mp3", true, 0.1);
+          //Allows for the music to restart when you die
+          Loader.playMusic("RagAttackFinished.mp3", true, 0.01);
           this.playBossAppearance(boss);
         }
       }
@@ -276,7 +277,7 @@ class SaloonScene extends LevelScene {
 
     if (Loader.cutscenes && Loader.cutscenes.saloon_boss) {
       //First time cutscene w/MadSheriff
-      Loader.playMusic("RagAttackFinished.mp3", true, 0.1);
+      Loader.playMusic("RagAttackFinished.mp3", true, 0.01);
 
       this.playCutscene(
         "saloon_boss",
