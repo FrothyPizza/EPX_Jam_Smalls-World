@@ -123,7 +123,7 @@ ECS.Systems.playerMovementSystem = function (entities) {
     if (entity.has("MapCollisionState")) {
       const collision = entity.MapCollisionState;
       // If touching one-way platform from above, allow fall through
-      if (collision.bottomTouchingOneWay && Inputs.down) {
+      if (collision.bottomTouchingOneWay && Inputs.down && !(GlobalState.currentScene instanceof SaloonScene)) {
         entity.Position.y += 1;
         entity.Position.lastPos.y += 1;
         console.log("Falling through one-way platform");
