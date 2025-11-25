@@ -20,10 +20,15 @@ class TownBigHatScene extends LevelScene {
             this.addEntity(lasso);
         });
 
+        const bossCues = {};
+        this.map.bossCues.forEach((cue) => {
+            bossCues[cue.name] = { x: cue.x, y: cue.y };
+        });
+
         this.map.enemies.forEach((spawn) => {
             let enemyEntity = null;
             if (spawn.name === "BigHat") {
-                enemyEntity = ECS.Blueprints.createBigHatBoss(spawn.x, spawn.y, this);
+                enemyEntity = ECS.Blueprints.createBigHatBoss(spawn.x, spawn.y, this, bossCues);
             }
             if (enemyEntity) {
                 this.addEntity(enemyEntity);

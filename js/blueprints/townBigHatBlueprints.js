@@ -1,10 +1,14 @@
-ECS.Blueprints.createBigHatBoss = function(x, y, scene) {
+ECS.Blueprints.createBigHatBoss = function(x, y, scene, bossCues) {
     const entity = new ECS.Entity();
     entity.addComponent(new ECS.Components.Position(x, y));
     entity.addComponent(new ECS.Components.Dimensions(16, 16));
     entity.addComponent(new ECS.Components.Velocity(0, 0));
     entity.addComponent(new ECS.Components.Gravity(0.1));
-    entity.addComponent(new ECS.Components.BigHatBossState());
+    
+    const state = new ECS.Components.BigHatBossState();
+    state.bossCues = bossCues;
+    entity.addComponent(state);
+    
     entity.addComponent(new ECS.Components.AnimatedSprite(Loader.spriteSheets.BigHat, "Idle", 10));
     entity.addComponent(new ECS.Components.IsEnemy(true));
     entity.addComponent(new ECS.Components.CollidesWithMap(true));
@@ -65,6 +69,7 @@ ECS.Blueprints.createBigHatSmallHatProjectile = function(x, y, velocityX, veloci
     entity.addComponent(new ECS.Components.IsEnemy(true));
     entity.addComponent(new ECS.Components.Hitbox([{x: 2, y: 2, w: 12, h: 12}]));
     entity.addComponent(new ECS.Components.Hurtbox([{x: 2, y: 2, w: 12, h: 12}]));
+    entity.addComponent(new ECS.Components.DamagesPlayer(true));
     
     entity.interactWith = ECS.Blueprints.BigHatSmallHatProjectileInteract;
     
@@ -90,10 +95,10 @@ ECS.Blueprints.BigHatSmallHatProjectileInteract = function(other) {
         this.Velocity.x = speed;
         this.Velocity.y = 0;
 
-        console.log("Big Hat Small Hat Projectile thrown!");
         
         this.BigHatSmallHatProjectile.state = "RETURNING";
         this.removeComponent('BigHatStunned'); // No longer stunned, now a projectile against boss
+        this.removeComponent('DamagesPlayer');
         this.AnimatedSprite.setAnimation("Rotate");
     }
     

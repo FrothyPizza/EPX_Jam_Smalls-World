@@ -13,6 +13,25 @@ ECS.Components.BigHatBossState = class BigHatBossState {
         this.currentLevel = 0; // 0: bottom, 1: middle, 2: top
         this.jumpTimer = 0;
         this.jumpInterval = 120; // Check for jump every 2 seconds
+        this.isJumpWarning = false;
+        this.jumpWarningTimer = 0;
+        this.jumpWarningDuration = 60;
+        this.targetLevel = -1;
+        this.jumpExclamationEntity = null;
+        this.bossCues = {};
+
+        // Hat Burst params
+        this.burstTimer = 0;
+        this.burstInterval = 180; // 3 seconds between bursts
+        this.isWarning = false;
+        this.warningTimer = 0;
+        this.warningDuration = 60; // 1 second warning
+        this.isBursting = false;
+        this.burstCount = 3;
+        this.burstCurrentCount = 0;
+        this.burstDelay = 15; // Frames between hats in a burst
+        this.burstDelayTimer = 0;
+        this.exclamationEntity = null;
     }
 }
 

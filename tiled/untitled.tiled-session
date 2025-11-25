@@ -1,8 +1,8 @@
 {
     "activeFile": "levels/town_big_hat.tmx",
     "expandedProjectPaths": [
-        "levels",
-        "."
+        ".",
+        "levels"
     ],
     "fileStates": {
         "CowboyTilemap.tsx": {
@@ -30,7 +30,7 @@
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 120,
+                "x": 119.75,
                 "y": 88
             }
         },
@@ -38,7 +38,7 @@
             "scale": 3.518958333333333,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 119.92185187377895,
+                "x": 119.77976437155883,
                 "y": 87.81007637203244
             }
         },
@@ -50,7 +50,7 @@
             "scale": 3,
             "selectedLayer": 7,
             "viewCenter": {
-                "x": 120,
+                "x": 119.83333333333331,
                 "y": 88
             }
         },
@@ -58,7 +58,7 @@
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 120,
+                "x": 119.75,
                 "y": 880
             }
         },
@@ -69,7 +69,7 @@
             "scale": 1.5,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 1200,
+                "x": 1199.6666666666665,
                 "y": 88
             }
         },
@@ -274,7 +274,7 @@
             "scale": 2,
             "selectedLayer": 8,
             "viewCenter": {
-                "x": 120,
+                "x": 116.75,
                 "y": 88
             }
         },
@@ -285,27 +285,27 @@
             "scale": 0.125,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 1896,
-                "y": 112
+                "x": 1452,
+                "y": 88
             }
         },
         "levels/tower-tileset.tsx": {
             "scaleInDock": 1
         },
         "levels/town_big_hat.tmx": {
-            "scale": 3.8910416666666663,
-            "selectedLayer": 7,
+            "scale": 4,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 119.76227445521232,
-                "y": 87.12319965733256
+                "x": 119.875,
+                "y": 88
             }
         },
         "levels/town_goons.tmx": {
             "scale": 3.8910416666666663,
             "selectedLayer": 7,
             "viewCenter": {
-                "x": 119.76227445521232,
-                "y": 87.38020024629225
+                "x": 119.89077474969216,
+                "y": 87.89420142421162
             }
         },
         "levels/underworld_level.tmx": {
@@ -315,7 +315,7 @@
             "scale": 5.5,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 1000,
+                "x": 999.909090909091,
                 "y": 400
             }
         },

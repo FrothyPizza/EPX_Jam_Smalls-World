@@ -35,46 +35,158 @@ ECS.Systems.bigHatBossSystem = function(entities) {
                     }
 
                     // --- Level Jumping Logic ---
-                    state.jumpTimer++;
-                    if (state.jumpTimer >= state.jumpInterval) {
-                        state.jumpTimer = 0;
-                        
-                        // Pick a random level (0, 1, 2)
-                        const targetLevel = Math.floor(Math.random() * 3);
-                        
-                        if (targetLevel > state.currentLevel) {
-                            // Jump Up
-                            if (entity.has('Velocity')) {
-                                entity.Velocity.y = -2.8;
+                    if (!state.isJumpWarning) {
+                        state.jumpTimer++;
+                        if (state.jumpTimer >= state.jumpInterval) {
+                            // Pick a random level (0, 1, 2)
+                            let targetLevel = Math.floor(Math.random() * 3);
+                            
+                            // Prevent jumping more than 1 level at a time
+                            // If current is 0 (bottom), can only go to 1 (middle)
+                            // If current is 2 (top), can only go to 1 (middle)
+                            // If current is 1 (middle), can go to 0 or 2
+                            
+                            if (Math.abs(targetLevel - state.currentLevel) > 1) {
+                                // If trying to jump 2 levels, force it to middle (1)
+                                targetLevel = 1;
                             }
-                            state.currentLevel++; // Assume we made it
-                        } else if (targetLevel < state.currentLevel) {
-                            // Fall Down
-                            if (entity.has('Position')) {
-                                entity.Position.y += 2; // Clip through floor
+
+                            if (targetLevel !== state.currentLevel) {
+                                state.jumpTimer = 0;
+                                state.isJumpWarning = true;
+                                state.targetLevel = targetLevel;
+                                state.jumpWarningTimer = 0;
+
+                                // Spawn exclamation at target level cue
+                                let cueName = "";
+                                if (targetLevel === 0) cueName = "bottom";
+                                if (targetLevel === 1) cueName = "middle";
+                                if (targetLevel === 2) cueName = "top";
+
+                                if (state.bossCues && state.bossCues[cueName]) {
+                                    const cue = state.bossCues[cueName];
+                                    // Spawn exclamation
+                                    const exclamation = ECS.Blueprints.createExclamation(cue.x, cue.y);
+                                    if (GlobalState.currentScene) {
+                                        GlobalState.currentScene.addEntity(exclamation);
+                                    }
+                                    state.jumpExclamationEntity = exclamation;
+                                }
                             }
-                            state.currentLevel--; // Assume we made it
                         }
-                        // If targetLevel == currentLevel, do nothing
+                    } else {
+                        // In warning state
+                        state.jumpWarningTimer++;
+                        if (state.jumpWarningTimer >= state.jumpWarningDuration) {
+                            state.isJumpWarning = false;
+                            
+                            // Remove exclamation
+                            if (state.jumpExclamationEntity) {
+                                if (GlobalState.currentScene) {
+                                    GlobalState.currentScene.removeEntity(state.jumpExclamationEntity.id);
+                                } else {
+                                    ECS.removeEntity(state.jumpExclamationEntity.id);
+                                }
+                                state.jumpExclamationEntity = null;
+                            }
+
+                            // Perform Jump
+                            const targetLevel = state.targetLevel;
+                            if (targetLevel > state.currentLevel) {
+                                // Jump Up
+                                if (entity.has('Velocity')) {
+                                    entity.Velocity.y = -2.8;
+                                }
+                                state.currentLevel = targetLevel; 
+                            } else if (targetLevel < state.currentLevel) {
+                                // Fall Down
+                                if (entity.has('Position')) {
+                                    entity.Position.y += 2; // Clip through floor
+                                }
+                                state.currentLevel = targetLevel; 
+                            }
+                        }
                     }
 
-                    // --- Hat Throwing Logic ---
-                    // Randomly throw hats
-                    if (Math.random() < 0.01) { // 1% chance per frame
-                        const players = ECS.getEntitiesWithComponents('PlayerState');
-                        if (players.length > 0) {
-                            const player = players[0];
-                            const dx = player.Position.x - entity.Position.x;
-                            const dy = player.Position.y - entity.Position.y;
-                            const dist = Math.sqrt(dx*dx + dy*dy);
+                    // --- Hat Burst Logic ---
+                    if (!state.isWarning && !state.isBursting) {
+                        state.burstTimer++;
+                        if (state.burstTimer >= state.burstInterval) {
+                            state.isWarning = true;
+                            state.warningTimer = 0;
                             
-                            const speed = 2;
-                            const vx = (dx / dist) * speed;
-                            const vy = (dy / dist) * speed;
+                            // Add exclamation to the left
+                            const exX = entity.Position.x - 12;
+                            const exY = entity.Position.y;
+                            const exclamation = ECS.Blueprints.createExclamation(exX, exY);
                             
-                            const projectile = ECS.Blueprints.createBigHatSmallHatProjectile(entity.Position.x, entity.Position.y, vx, vy);
                             if (GlobalState.currentScene) {
-                                GlobalState.currentScene.addEntity(projectile);
+                                GlobalState.currentScene.addEntity(exclamation);
+                            }
+                            
+                            // Bind it so it moves with boss
+                            if(!entity.has('BoundEntities')) {
+                                entity.addComponent(new ECS.Components.BoundEntities());
+                            }
+                            entity.BoundEntities.entitiesWithOffsets.push({ 
+                                entity: exclamation, 
+                                offsetX: -12, 
+                                offsetY: 0 
+                            });
+                            
+                            state.exclamationEntity = exclamation;
+                        }
+                    } else if (state.isWarning) {
+                        state.warningTimer++;
+                        if (state.warningTimer >= state.warningDuration) {
+                            state.isWarning = false;
+                            state.isBursting = true;
+                            state.burstCurrentCount = 0;
+                            state.burstDelayTimer = state.burstDelay; // Ready to fire immediately
+                            
+                            // Remove exclamation
+                            if (state.exclamationEntity) {
+                                if (GlobalState.currentScene) {
+                                    GlobalState.currentScene.removeEntity(state.exclamationEntity.id);
+                                } else {
+                                    ECS.removeEntity(state.exclamationEntity.id);
+                                }
+                                // Remove from bound entities
+                                if (entity.has('BoundEntities')) {
+                                    entity.BoundEntities.entitiesWithOffsets = entity.BoundEntities.entitiesWithOffsets.filter(
+                                        b => b.entity.id !== state.exclamationEntity.id
+                                    );
+                                }
+                                state.exclamationEntity = null;
+                            }
+                        }
+                    } else if (state.isBursting) {
+                        state.burstDelayTimer++;
+                        if (state.burstDelayTimer >= state.burstDelay) {
+                            state.burstDelayTimer = 0;
+                            
+                            // Throw Hat
+                            const players = ECS.getEntitiesWithComponents('PlayerState');
+                            if (players.length > 0) {
+                                const player = players[0];
+                                const dx = player.Position.x - entity.Position.x;
+                                const dy = player.Position.y - entity.Position.y;
+                                const dist = Math.sqrt(dx*dx + dy*dy);
+                                
+                                const speed = 2;
+                                const vx = (dx / dist) * speed;
+                                const vy = (dy / dist) * speed;
+                                
+                                const projectile = ECS.Blueprints.createBigHatSmallHatProjectile(entity.Position.x, entity.Position.y, vx, vy);
+                                if (GlobalState.currentScene) {
+                                    GlobalState.currentScene.addEntity(projectile);
+                                }
+                            }
+                            
+                            state.burstCurrentCount++;
+                            if (state.burstCurrentCount >= state.burstCount) {
+                                state.isBursting = false;
+                                state.burstTimer = 0;
                             }
                         }
                     }
