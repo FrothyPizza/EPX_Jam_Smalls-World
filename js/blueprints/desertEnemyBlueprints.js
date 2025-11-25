@@ -75,11 +75,13 @@ ECS.Blueprints.DesertOutlawInteract = function(other) {
             const dir = Math.sign(this.Position.x - other.Position.x) || 1;
 
             // Entity A moves away from B (dir)
-            this.addComponent(new ECS.Components.Stunned({x: 0.5 * dir, y: -1}, 20, 90, true));
+            this.addComponent(new ECS.Components.Stunned({x: 0.5 * dir, y: -1}, 40, 0, true));
             
             // Entity B moves away from A (-dir)
-            other.addComponent(new ECS.Components.Stunned({x: 0.5 * -dir, y: -1}, 20, 90, true));
-            
+            other.addComponent(new ECS.Components.Stunned({x: 0.5 * -dir, y: -1}, 40, 0, true));
+            // remove map collider component to prevent further collisions during stun
+            this.removeComponent('CollidesWithMap');
+            other.removeComponent('CollidesWithMap');
             shakeScreen(3);
             
             // Play sound here

@@ -20,11 +20,14 @@ ECS.Systems.DesertEnemySystem = function(entities) {
                 // entity.Velocity.x = 0;
             }
 
-
+            // if player is not on ground, return
+            if (!player.has('MapCollisionState') || !player.MapCollisionState.bottomHit) {
+                return;
+            }
             // Jump up logic
             const knife = entity.DesertKnifeOutlaw;
             const yDiff = player.Position.y - entity.Position.y;
-            if ((yDiff) < -24 && totalDistToPlayer < 96) {
+            if ((yDiff) < -24 && totalDistToPlayer < 48) {
                 knife.framesPlayerAbove++;
                 if (knife.framesPlayerAbove >= knife.jumpDelayFrames) {
                     if(entity.has('MapCollisionState') && entity.MapCollisionState.bottomHit) {
