@@ -106,7 +106,7 @@
 </data>
  </layer>
  <objectgroup id="9" name="Enemies">
-  <object id="61" name="BigHat" x="192" y="103.625">
+  <object id="61" name="BigHat" x="184" y="103.625">
    <point/>
   </object>
  </objectgroup>
