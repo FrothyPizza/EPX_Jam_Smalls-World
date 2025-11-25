@@ -2,7 +2,16 @@ ECS.Systems.bigHatBossSystem = function(entities) {
     entities.forEach(entity => {
         if (entity.has('BigHatBossState')) {
             const state = entity.BigHatBossState;
-            
+
+            if(entity.has('Stunned')) {
+                state.state = "STUNNED";
+            } else {
+                // If not stunned, revert to IDLE if currently stunned
+                if(state.state === "STUNNED") {
+                    state.state = "IDLE";
+                }
+            }
+
             // Basic state machine placeholder
             switch (state.state) {
                 case "IDLE":
@@ -197,6 +206,9 @@ ECS.Systems.bigHatBossSystem = function(entities) {
                     break;
                 case "VULNERABLE":
                     // Vulnerable behavior
+                    break;
+                case "STUNNED":
+                    // Stunned behavior
                     break;
                 case "DEAD":
                     // Dead behavior

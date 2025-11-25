@@ -136,6 +136,7 @@ ECS.Blueprints.BulletInteract = function(other) {
     if (other.has('IsEnemy')) {
         if (other.has('CrazedCowboy')) return;
         if (other.has('BigHatSmallHatProjectile')) return; // Handled by projectile's own interact logic
+        if (other.has('BigHatBossState')) return; // Handled by boss's own interact logic
 
         if (!other.has('Stunned')) {
             const dir = Math.sign(this.Velocity.x) || 1;

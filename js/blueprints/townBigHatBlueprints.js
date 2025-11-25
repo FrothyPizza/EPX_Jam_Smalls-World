@@ -107,6 +107,10 @@ ECS.Blueprints.BigHatSmallHatProjectileInteract = function(other) {
         // Damage boss logic here
         console.log("Boss hit by returning hat!");
         this.addComponent(new ECS.Components.RemoveFromScene(true));
+
+        const dir = Math.sign(this.Velocity.x) || 1;
+        let duration = 180;
+        other.addComponent(new ECS.Components.Stunned({x: 0.33 * dir, y: -1.5}, 20, duration, false));
         
         // Apply damage/stun to boss
         // other.addComponent(new ECS.Components.Stunned(...)); 
