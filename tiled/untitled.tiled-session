@@ -44,22 +44,22 @@
         },
         "levels/desert.tmx": {
             "expandedObjectLayers": [
-                9,
-                7
+                7,
+                9
             ],
-            "scale": 3,
-            "selectedLayer": 4,
+            "scale": 4,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 107.66666666666666,
-                "y": 100.5
+                "x": 121.625,
+                "y": 106.875
             }
         },
         "levels/hades.tmx": {
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 119.5,
-                "y": 879.25
+                "x": 119.75,
+                "y": 880.25
             }
         },
         "levels/harpy.tmx": {
@@ -268,14 +268,14 @@
         },
         "levels/saloon.tmx": {
             "expandedObjectLayers": [
-                9,
-                7
+                7,
+                9
             ],
-            "scale": 2,
+            "scale": 3,
             "selectedLayer": 8,
             "viewCenter": {
-                "x": 111,
-                "y": 18.25
+                "x": 134.16666666666666,
+                "y": 103.49999999999999
             }
         },
         "levels/styx_level.tmx": {
@@ -285,12 +285,28 @@
             "scale": 0.125,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 1460,
+                "x": 1452,
                 "y": 84
             }
         },
         "levels/tower-tileset.tsx": {
             "scaleInDock": 1
+        },
+        "levels/town_big_hat.tmx": {
+            "scale": 4,
+            "selectedLayer": 8,
+            "viewCenter": {
+                "x": 116.375,
+                "y": 102.375
+            }
+        },
+        "levels/town_goons.tmx": {
+            "scale": 4.164166666666667,
+            "selectedLayer": 8,
+            "viewCenter": {
+                "x": 112.26736041624974,
+                "y": 98.5791474884931
+            }
         },
         "levels/underworld_level.tmx": {
             "expandedObjectLayers": [
