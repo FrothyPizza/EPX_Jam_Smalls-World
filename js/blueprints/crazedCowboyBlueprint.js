@@ -45,6 +45,11 @@ ECS.Blueprints.CrazedCowboyInteract = function(other) {
                 console.log("Boss Health:", this.BossHealth.value);
             }
 
+            // score points for player
+            if (GlobalState.currentScene && GlobalState.currentScene.player && GlobalState.currentScene.player.has('PlayerState')) {
+                ECS.Helpers.scorePoints(150, this.Position.x + 8, this.Position.y - 10, 'yellow', 30);
+            }
+
             shakeScreen(5);
 
             if(this.BossHealth.value > 0) {

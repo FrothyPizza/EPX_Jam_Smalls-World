@@ -26,6 +26,10 @@ ECS.Blueprints.createPlayer = function(x, y) {
 
     // Player-specific components
     player.addComponent(new ECS.Components.PlayerState());
+    // Initialize score from GlobalState if available
+    if (typeof GlobalState !== 'undefined' && GlobalState.score !== undefined) {
+        player.PlayerState.score = GlobalState.score;
+    }
     player.addComponent(new ECS.Components.PlayerMovement());
     player.addComponent(new ECS.Components.PlayerJump());
     player.addComponent(new ECS.Components.PlayerDash());

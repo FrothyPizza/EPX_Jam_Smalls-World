@@ -1,4 +1,3 @@
-
 class SceneManager {
     constructor() {
         this.currentScene = null;
@@ -16,6 +15,11 @@ class SceneManager {
     }
 
     switchScene(newScene, duration = 120) {
+        // Save score from current player to GlobalState before destroying entities
+        if (this.currentScene && this.currentScene.player && this.currentScene.player.has('PlayerState')) {
+            GlobalState.score = this.currentScene.player.PlayerState.score;
+        }
+
         this.nextScene = newScene;
         this.transitionState = 'SLIDE_LEFT';
         this.transitionProgress = 0;

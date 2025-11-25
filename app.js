@@ -123,6 +123,14 @@ function update() {
     GlobalState.sceneManager.draw(context);
   }
 
+  // Draw Score
+  if (GlobalState.sceneManager && GlobalState.sceneManager.currentScene && GlobalState.sceneManager.currentScene.player && GlobalState.sceneManager.currentScene.player.has('PlayerState')) {
+      const score = GlobalState.sceneManager.currentScene.player.PlayerState.score;
+      // Pad with zeros to 6 digits
+      const scoreText = `SCORE: ${score.toString().padStart(6, '0')}`;
+      GlobalState.sceneManager.currentScene.drawBitmapText(context, scoreText, WIDTH / 2, 2, 'center', 'white');
+  }
+
   // draw border around outside of screen
   context.strokeStyle = "black";
   context.lineWidth = 1;
