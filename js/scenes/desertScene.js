@@ -28,6 +28,8 @@ class DesertScene extends LevelScene {
         this.initialKnifePairSpawnTimer = 240; // Initial delay
         this.secondHalfKnifePairSpawnTimer = 160; // Faster spawns in second half
         this.knifePairSpawnTimer = this.initialKnifePairSpawnTimer;
+
+        this.pendingSpawns = [];
     }
 
     init() {
@@ -137,6 +139,35 @@ class DesertScene extends LevelScene {
 
         if (!this.enemiesActive) return;
 
+        // Handle pending spawns
+        for (let i = this.pendingSpawns.length - 1; i >= 0; i--) {
+            const pending = this.pendingSpawns[i];
+            pending.timer--;
+            if (pending.timer <= 0) {
+                // Remove exclamations
+                pending.exclamations.forEach(e => this.removeEntity(e.id));
+                
+                // Spawn enemies
+                const leftSpawner = pending.leftSpawner;
+                const rightSpawner = pending.rightSpawner;
+                
+                // Spawn Left Guy (Faces Right)
+                let leftEntity = ECS.Blueprints.createDesertKnifeOutlaw(leftSpawner.x, leftSpawner.y, false);
+                this.addEntity(leftEntity);
+                leftSpawner.enemyIDsThatISpawned.push(leftEntity.id);
+                leftSpawner.framesUntilNextSpawn = leftSpawner.spawnDelayFrames;
+
+                // Spawn Right Guy (Faces Left)
+                let rightEntity = ECS.Blueprints.createDesertKnifeOutlaw(rightSpawner.x, rightSpawner.y, true);
+                this.addEntity(rightEntity);
+                rightSpawner.enemyIDsThatISpawned.push(rightEntity.id);
+                rightSpawner.framesUntilNextSpawn = rightSpawner.spawnDelayFrames;
+                
+                this.pendingSpawns.splice(i, 1);
+                console.log("Spawned Knife Pair!");
+            }
+        }
+
         // Handle enemy spawning
         
         // 1. Cleanup Spawners
@@ -185,24 +216,26 @@ class DesertScene extends LevelScene {
                 const leftSpawner = freeLeft[Math.floor(Math.random() * freeLeft.length)];
                 const rightSpawner = freeRight[Math.floor(Math.random() * freeRight.length)];
 
-                // Spawn Left Guy (Faces Right)
-                let leftEntity = ECS.Blueprints.createDesertKnifeOutlaw(leftSpawner.x, leftSpawner.y, false);
-                this.addEntity(leftEntity);
-                leftSpawner.enemyIDsThatISpawned.push(leftEntity.id);
-                leftSpawner.framesUntilNextSpawn = leftSpawner.spawnDelayFrames;
-
-                // Spawn Right Guy (Faces Left)
-                let rightEntity = ECS.Blueprints.createDesertKnifeOutlaw(rightSpawner.x, rightSpawner.y, true);
-                this.addEntity(rightEntity);
-                rightSpawner.enemyIDsThatISpawned.push(rightEntity.id);
-                rightSpawner.framesUntilNextSpawn = rightSpawner.spawnDelayFrames;
+                // Create Exclamations
+                const ex1 = ECS.Blueprints.createExclamation(leftSpawner.x, leftSpawner.y - 8);
+                const ex2 = ECS.Blueprints.createExclamation(rightSpawner.x, rightSpawner.y - 8);
+                this.addEntity(ex1);
+                this.addEntity(ex2);
+                
+                // Add to pending
+                this.pendingSpawns.push({
+                    timer: 60,
+                    leftSpawner: leftSpawner,
+                    rightSpawner: rightSpawner,
+                    exclamations: [ex1, ex2]
+                });
 
                 // Reset Timer (3-6 seconds)
                 this.knifePairSpawnTimer = this.framesToCompletion < this.totalFrames / 2 ?
                     this.secondHalfKnifePairSpawnTimer :
                     this.initialKnifePairSpawnTimer;
                 this.knifePairSpawnTimer += Math.random() * 60;
-                console.log("Spawned Knife Pair!");
+                console.log("Queueing Knife Pair Spawn!");
             }
         }
         
