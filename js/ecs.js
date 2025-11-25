@@ -28,6 +28,12 @@ const ECS = {
 		//console.log("Entities: " + Object.entries(this.entities).length);
 	},
 
+    removeAllEntities: function() {
+        Object.keys(this.entities).forEach(id => {
+            this.removeEntity(id);
+        });
+    },
+
 	getEntitiesWithComponents: function(...components) {
         const key = components.sort().join(',');
         if (this.cache[key]) return this.cache[key];

@@ -1,6 +1,8 @@
 ECS.Components.DesertKnifeOutlaw = class DesertKnifeOutlaw {
     constructor() {
         this.runSpeed = 0.5;
+        this.jumpDelayFrames = 15;
+        this.framesPlayerAbove = 0;
     }
 }
 

@@ -7,14 +7,32 @@ ECS.Systems.DesertEnemySystem = function(entities) {
         if (players.length > 0) {
             const player = players[0];
             const diff = player.Position.x - entity.Position.x;
-            
+
+
+
             // Add a deadzone to prevent jittering when overlapping/close
-            if (Math.abs(diff) > 2) {
+            if (Math.abs(diff) > 48) {
                 const dir = Math.sign(diff);
                 entity.Velocity.x = dir * speed;
                 entity.AnimatedSprite.flipX = dir < 0;
             } else {
-                entity.Velocity.x = 0;
+                // entity.Velocity.x = 0;
+            }
+
+
+            // Jump up logic
+            const knife = entity.DesertKnifeOutlaw;
+            const yDiff = player.Position.y - entity.Position.y;
+            if (yDiff < -24) {
+                knife.framesPlayerAbove++;
+                if (knife.framesPlayerAbove >= knife.jumpDelayFrames) {
+                    if(entity.has('MapCollisionState') && entity.MapCollisionState.bottomHit) {
+                        entity.Velocity.y = -2.8;
+                        knife.framesPlayerAbove = 0;
+                    }
+                }
+            } else {
+                knife.framesPlayerAbove = 0;
             }
         }
     });

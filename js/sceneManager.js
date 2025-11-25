@@ -21,6 +21,9 @@ class SceneManager {
         this.transitionProgress = 0;
         this.transitionDuration = duration;
 
+        // clear ECS
+        ECS.removeAllEntities();
+
         // Initialize the new scene
         if (typeof this.nextScene.init === 'function') {
             this.nextScene.init();

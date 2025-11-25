@@ -72,8 +72,6 @@ class LevelScene extends Scene {
 
         ECS.Systems.ComposedPlayerPhysicsSystem(this.entities, this.map);
 
-        // Run core ECS systems
-        ECS.Systems.mapCollisionSystem(this.entities, this.map);
 
 
         // Run player collision systems
@@ -100,6 +98,13 @@ class LevelScene extends Scene {
         ECS.Systems.animationSystem(this.entities);
 
         ECS.Systems.viewSystem(this.entities, context);
+
+
+        
+        // Run core ECS systems
+        ECS.Systems.mapCollisionSystem(this.entities, this.map);
+
+        
 
         // Remove dead entities
         Object.keys(this.entities).forEach(id => {

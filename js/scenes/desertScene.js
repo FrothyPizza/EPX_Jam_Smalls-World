@@ -63,9 +63,7 @@ class DesertScene extends LevelScene {
             this.addEntity(lasso);
         });
 
-        console.log("DesertScene spawners:", this.spawners);
 
-        
 
 
     }
@@ -96,30 +94,30 @@ class DesertScene extends LevelScene {
             }
         });
 
-        // 2. Spawn Gunners (Max 2)
-        const activeGunners = ECS.getEntitiesWithComponents('DesertGunOutlaw').length;
-        if (activeGunners < 2) {
-            const freeSpawners = this.spawners.filter(s => s.enemyIDsThatISpawned.length === 0 && s.framesUntilNextSpawn <= 0);
+        // // 2. Spawn Gunners (Max 2)
+        // const activeGunners = ECS.getEntitiesWithComponents('DesertGunOutlaw').length;
+        // if (activeGunners < 2) {
+        //     const freeSpawners = this.spawners.filter(s => s.enemyIDsThatISpawned.length === 0 && s.framesUntilNextSpawn <= 0);
             
-            if (freeSpawners.length > 0) {
-                // 5% chance to spawn per frame if slot is open, to stagger them a bit
-                if (Math.random() < 0.05) {
-                    const spawner = freeSpawners[Math.floor(Math.random() * freeSpawners.length)];
-                    let isLeftSpawner = spawner.name.includes("Left");
-                    let facingLeft = !isLeftSpawner;
+        //     if (freeSpawners.length > 0) {
+        //         // 5% chance to spawn per frame if slot is open, to stagger them a bit
+        //         if (Math.random() < 0.05) {
+        //             const spawner = freeSpawners[Math.floor(Math.random() * freeSpawners.length)];
+        //             let isLeftSpawner = spawner.name.includes("Left");
+        //             let facingLeft = !isLeftSpawner;
 
-                    let level = 'Middle';
-                    if (spawner.name.includes('Top')) level = 'Top';
-                    if (spawner.name.includes('Bottom')) level = 'Bottom';
+        //             let level = 'Middle';
+        //             if (spawner.name.includes('Top')) level = 'Top';
+        //             if (spawner.name.includes('Bottom')) level = 'Bottom';
 
-                    let enemyEntity = ECS.Blueprints.createDesertGunOutlaw(spawner.x, spawner.y, facingLeft, level);
-                    this.addEntity(enemyEntity);
-                    spawner.enemyIDsThatISpawned.push(enemyEntity.id);
-                    spawner.framesUntilNextSpawn = spawner.spawnDelayFrames;
-                    console.log(`Spawned Gunner at ${spawner.name}`);
-                }
-            }
-        }
+        //             let enemyEntity = ECS.Blueprints.createDesertGunOutlaw(spawner.x, spawner.y, facingLeft, level);
+        //             this.addEntity(enemyEntity);
+        //             spawner.enemyIDsThatISpawned.push(enemyEntity.id);
+        //             spawner.framesUntilNextSpawn = spawner.spawnDelayFrames;
+        //             console.log(`Spawned Gunner at ${spawner.name}`);
+        //         }
+        //     }
+        // }
 
         // 3. Spawn Knife Pair (Intermittently)
         if (this.knifePairSpawnTimer > 0) {
