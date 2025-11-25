@@ -145,9 +145,6 @@ ECS.Systems.saloonBottleSystem = function (entities, map, scene) {
           scene.removeEntity(entity.id);
           Loader.playSound("explosion.wav", 0.3);
         }
-      } else {
-        // Sound effect on bounce
-        Loader.playSound("bottlebounce.wav", 0.3);
       }
     }
   });

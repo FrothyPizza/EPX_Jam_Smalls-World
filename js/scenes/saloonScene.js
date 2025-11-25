@@ -51,7 +51,6 @@ class SaloonScene extends LevelScene {
       }
     });
 
-
     // // find player in ECS entittes and add stunned birds to him
     // ECS.getEntitiesWithComponents('PlayerState').forEach(playerEntity => {
     //     console.log("Adding stunned birds to player");
@@ -61,84 +60,116 @@ class SaloonScene extends LevelScene {
     // });
 
     if (Loader.cutscenes && Loader.cutscenes.saloon) {
+      let local_initialize_after_cutscene = () => {
+        let index = 1;
+        this.getEntities().forEach((entity) => {
+          if (entity.isSaloonOutlaw || entity.blueprint === "SaloonOutlaw") {
+            entity.addComponent(
+              new ECS.Components.SaloonKnifeOutlaw(
+                240 * index + Math.floor(Math.random() * 120)
+              )
+            );
+            index++;
+          }
+        });
+        this.outlawsActive = true;
+      };
 
-    
-        let local_initialize_after_cutscene = () => {
-            let index = 1;
-            this.getEntities().forEach((entity) => {
-            if (entity.isSaloonOutlaw || entity.blueprint === "SaloonOutlaw") {
-                entity.addComponent( new ECS.Components.SaloonKnifeOutlaw(
-                       240 * index + Math.floor(Math.random() * 120)
-                    )
-                );
-                index++;
-            }
-            });
-            this.outlawsActive = true;
-        }
-
-
-        if(CONSTANTS.SPEEDY_MODE) {
-            this.playCutscene("saloon_abridged", { Player: this.player, OutlawLeft: outlawLeft, OutlawRight: outlawRight }, {
-                onComplete: () => {
-                    local_initialize_after_cutscene();
-                },
-            });
-        } else {
-            this.playCutscene("saloon", { Player: this.player, OutlawLeft: outlawLeft, OutlawRight: outlawRight }, {
-                shouldSave: true,
-                onComplete: () => {
-                    this.player.addComponent(new ECS.Components.Checkpoint('SaloonFight'));
-                    this.playSaloonPart2(outlawLeft, outlawRight, local_initialize_after_cutscene);
-                }
-            });
-        }
-
-
-
+      if (CONSTANTS.SPEEDY_MODE) {
+        Loader.playMusic("DrabBarFast.mp3", true, 0.1);
+        this.playCutscene(
+          "saloon_abridged",
+          {
+            Player: this.player,
+            OutlawLeft: outlawLeft,
+            OutlawRight: outlawRight,
+          },
+          {
+            onComplete: () => {
+              local_initialize_after_cutscene();
+            },
+          }
+        );
+      } else {
+        //Maybe change the position of this, it starts after the cutscene and doesn't stop
+        Loader.playMusic("DrabBarFast.mp3", true, 0.1);
+        this.playCutscene(
+          "saloon",
+          {
+            Player: this.player,
+            OutlawLeft: outlawLeft,
+            OutlawRight: outlawRight,
+          },
+          {
+            shouldSave: true,
+            onComplete: () => {
+              this.player.addComponent(
+                new ECS.Components.Checkpoint("SaloonFight")
+              );
+              this.playSaloonPart2(
+                outlawLeft,
+                outlawRight,
+                local_initialize_after_cutscene
+              );
+            },
+          }
+        );
+      }
     }
   }
 
   playSaloonPart2(outlawLeft, outlawRight, onComplete) {
-      // If outlaws are not passed (e.g. reload), try to find them
-      if (!outlawLeft) outlawLeft = this.getEntities().find(e => e.name === "OutlawLeft");
-      if (!outlawRight) outlawRight = this.getEntities().find(e => e.name === "OutlawRight");
+    // If outlaws are not passed (e.g. reload), try to find them
+    if (!outlawLeft)
+      outlawLeft = this.getEntities().find((e) => e.name === "OutlawLeft");
+    if (!outlawRight)
+      outlawRight = this.getEntities().find((e) => e.name === "OutlawRight");
 
-      this.playCutscene("saloon_start_part_2", { Player: this.player, OutlawLeft: outlawLeft, OutlawRight: outlawRight }, {
-          shouldSave: false,
-          onComplete: () => {
-              if (onComplete) onComplete();
-          }
-      });
+    //This is not Playing, the other one continues to play on loop, perhaps it's a bug with speedy mode?
+    Loader.playMusic("RagAttackFinished.mp3", true, 0.1);
+
+    this.playCutscene(
+      "saloon_start_part_2",
+      { Player: this.player, OutlawLeft: outlawLeft, OutlawRight: outlawRight },
+      {
+        shouldSave: false,
+        onComplete: () => {
+          if (onComplete) onComplete();
+        },
+      }
+    );
   }
 
   onStateLoaded() {
-      const checkpoint = this.player.Checkpoint || this.getEntities().find(e => e.has('Checkpoint'))?.Checkpoint;
-      
-      if (checkpoint) {
-          if (checkpoint.id === 'SaloonFight') {
-               let local_initialize_after_cutscene = () => {
-                  let index = 1;
-                  this.getEntities().forEach((entity) => {
-                  if (entity.isSaloonOutlaw || entity.blueprint === "SaloonOutlaw") {
-                      entity.addComponent( new ECS.Components.SaloonKnifeOutlaw(
-                             240 * index + Math.floor(Math.random() * 120)
-                          )
-                      );
-                      index++;
-                  }
-                  });
-                  this.outlawsActive = true;
-              }
-              
-              this.playSaloonPart2(null, null, local_initialize_after_cutscene);
-          } else if (checkpoint.id === 'BossFight') {
-              const boss = this.getEntities().find(e => e.has('CrazedCowboy'));
-              if (boss) {
-                  this.playBossAppearance(boss);
-              }
-          }
+    const checkpoint =
+      this.player.Checkpoint ||
+      this.getEntities().find((e) => e.has("Checkpoint"))?.Checkpoint;
+
+    if (checkpoint) {
+      if (checkpoint.id === "SaloonFight") {
+        let local_initialize_after_cutscene = () => {
+          let index = 1;
+          this.getEntities().forEach((entity) => {
+            if (entity.isSaloonOutlaw || entity.blueprint === "SaloonOutlaw") {
+              entity.addComponent(
+                new ECS.Components.SaloonKnifeOutlaw(
+                  240 * index + Math.floor(Math.random() * 120)
+                )
+              );
+              index++;
+            }
+          });
+          this.outlawsActive = true;
+        };
+
+        this.playSaloonPart2(null, null, local_initialize_after_cutscene);
+      } else if (checkpoint.id === "BossFight") {
+        const boss = this.getEntities().find((e) => e.has("CrazedCowboy"));
+        if (boss) {
+          this.playBossAppearance(boss);
+        }
       }
+    }
   }
 
   update() {
@@ -147,80 +178,82 @@ class SaloonScene extends LevelScene {
     ECS.Systems.saloonBottleSystem(this.getEntities(), this.map, this);
 
     if (this.outlawsActive && !this.bossSpawned) {
-        let outlawCount = 0;
-        this.getEntities().forEach((entity) => {
-            if (
-                (entity.isSaloonOutlaw || entity.blueprint === "SaloonOutlaw") &&
-                !entity.dead
-            ) {
-                // Assuming dead flag or removal
-                outlawCount++;
-            }
-        });
-
-        if (outlawCount === 0) {
-            this.spawnBoss();
+      let outlawCount = 0;
+      this.getEntities().forEach((entity) => {
+        if (
+          (entity.isSaloonOutlaw || entity.blueprint === "SaloonOutlaw") &&
+          !entity.dead
+        ) {
+          // Assuming dead flag or removal
+          outlawCount++;
         }
+      });
+
+      if (outlawCount === 0) {
+        this.spawnBoss();
+      }
     }
 
     // if the player has collected the lasso and gun, play cutscene
-    if (this.player.has('PlayerState') &&
-        this.player.PlayerState.hasCollectedLasso &&
-        this.player.PlayerState.hasCollectedGun &&
-        !this.itemsCollectedCutscenePlayed) {
-
-        this.itemsCollectedCutscenePlayed = true;
-        this.playCutscene(
-            "saloon_items_collected",
-            { Player: this.player },
-            {
-                shouldSave: false,
-                onComplete: () => {
-
-                    // remove IsEnemy from boss
-                    const boss = this.getEntities().find(e => e.has('CrazedCowboy'));
-                    if (boss && boss.has('IsEnemy')) {
-                        console.log("Removing IsEnemy from boss after items collected cutscene");
-                        boss.removeComponent('IsEnemy');
-                    }
-
-                    // spawn a saloon outlaw in the sky to use as a dummy
-                    for(let i = 0; i < 2; ++i) {
-                        const dummyOutlaw = ECS.Blueprints.createSaloonOutlaw(64 + i * 64, 0);
-                        dummyOutlaw.addComponent(
-                            new ECS.Components.LooksBackAndForthIntermittently(120)
-                        );
-                        // remove DamagesPlayer component so it doesn't hurt the player
-                        dummyOutlaw.removeComponent('DamagesPlayer');
-                        this.addEntity(dummyOutlaw);
-
-                    }
-
-                    this.readyToTransitionToNextSceneWhenAllEnemiesDefeated = true;
-                },
+    if (
+      this.player.has("PlayerState") &&
+      this.player.PlayerState.hasCollectedLasso &&
+      this.player.PlayerState.hasCollectedGun &&
+      !this.itemsCollectedCutscenePlayed
+    ) {
+      this.itemsCollectedCutscenePlayed = true;
+      this.playCutscene(
+        "saloon_items_collected",
+        { Player: this.player },
+        {
+          shouldSave: false,
+          onComplete: () => {
+            // remove IsEnemy from boss
+            const boss = this.getEntities().find((e) => e.has("CrazedCowboy"));
+            if (boss && boss.has("IsEnemy")) {
+              console.log(
+                "Removing IsEnemy from boss after items collected cutscene"
+              );
+              boss.removeComponent("IsEnemy");
             }
-        );
+
+            // spawn a saloon outlaw in the sky to use as a dummy
+            for (let i = 0; i < 2; ++i) {
+              const dummyOutlaw = ECS.Blueprints.createSaloonOutlaw(
+                64 + i * 64,
+                0
+              );
+              dummyOutlaw.addComponent(
+                new ECS.Components.LooksBackAndForthIntermittently(120)
+              );
+              // remove DamagesPlayer component so it doesn't hurt the player
+              dummyOutlaw.removeComponent("DamagesPlayer");
+              this.addEntity(dummyOutlaw);
+            }
+
+            this.readyToTransitionToNextSceneWhenAllEnemiesDefeated = true;
+          },
+        }
+      );
     }
 
     // if there are no enemies left and readyToTransitionToNextSceneWhenAllEnemiesDefeated is true, transition to next scene
     if (this.readyToTransitionToNextSceneWhenAllEnemiesDefeated) {
-        let enemyCount = 0;
-        this.getEntities().forEach((entity) => {
-            if (entity.has('IsEnemy') && !entity.dead) {
-                enemyCount++;
-            }
-        });
-        if (enemyCount === 0) {
-            this.transitionToNextScene();
+      let enemyCount = 0;
+      this.getEntities().forEach((entity) => {
+        if (entity.has("IsEnemy") && !entity.dead) {
+          enemyCount++;
         }
+      });
+      if (enemyCount === 0) {
+        this.transitionToNextScene();
+      }
     }
-
-
   }
 
   updateLevelSpecificSystems() {
-        ECS.Systems.saloonItemCollectibleSystem(this.entities, this.map, this);
-        ECS.Systems.saloonOutlawSystem(this.entities, this.map, this);
+    ECS.Systems.saloonItemCollectibleSystem(this.entities, this.map, this);
+    ECS.Systems.saloonOutlawSystem(this.entities, this.map, this);
   }
 
   spawnBoss() {
@@ -250,7 +283,9 @@ class SaloonScene extends LevelScene {
         {
           shouldSave: true,
           onComplete: () => {
-            this.player.addComponent(new ECS.Components.Checkpoint('BossFight'));
+            this.player.addComponent(
+              new ECS.Components.Checkpoint("BossFight")
+            );
             this.playBossAppearance(boss);
           },
         }
@@ -281,7 +316,8 @@ class SaloonScene extends LevelScene {
 
   transitionToNextScene() {
     // skips to the next scene, regardless of what's happeniung in the current scene
-    GlobalState.sceneManager.switchScene(new DesertScene(Loader.levels['desert'].xml));
+    GlobalState.sceneManager.switchScene(
+      new DesertScene(Loader.levels["desert"].xml)
+    );
   }
-
 }
