@@ -378,6 +378,8 @@ document.body.onload = () => {
       "assets/images/cowboy/Bullet.json",
       "assets/images/cowboy/BulletSmall.json",
       "assets/images/cowboy/Lasso.json",
+      "assets/images/cowboy/BigHat.json",
+      "assets/images/cowboy/BigHatHat.json",
 
       "assets/cutscenes/saloon/saloon.cutscene",
       "assets/cutscenes/saloon/saloon_start_part_2.cutscene",
@@ -400,7 +402,7 @@ document.body.onload = () => {
       "assets/music/cowboy/RagAttackFinished.mp3",
       "assets/music/cowboy/TenseBase.mp3",
 
-      "assets/music/Bones and Demons -Decending baseline.mp3",
+      // "assets/music/Bones and Demons -Decending baseline.mp3",
 
       "assets/sfx/cowboy/bottlebounce.wav",
       "assets/sfx/cowboy/gruntthrow.wav",

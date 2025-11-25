@@ -266,6 +266,6 @@ class DesertScene extends LevelScene {
         // play cutscene, etc.
 
         // transition to next scene
-        GlobalState.sceneManager.switchScene(new TownBitHatScene(Loader.levels["town_big_hat"].xml));
+        GlobalState.sceneManager.switchScene(new TownBigHatScene(Loader.levels["town_big_hat"].xml));
     }
 }
