@@ -119,6 +119,7 @@ ECS.Helpers.scorePoints = function(points, x, y, color = 'yellow', duration = 60
     let entity = new ECS.Entity();
     entity.addComponent(new ECS.Components.Position(x, y));
     entity.addComponent(new ECS.Components.ScoreText(points.toString(), color, duration, floatSpeed));
+    entity.addComponent(new ECS.Components.DoNotSave());
     
     if (GlobalState.currentScene) {
         GlobalState.currentScene.addEntity(entity);
