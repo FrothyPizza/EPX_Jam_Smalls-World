@@ -30,36 +30,36 @@
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 89.25,
-                "y": 127.25
+                "x": 88.5,
+                "y": 126.75
             }
         },
         "levels/charon.tmx": {
             "scale": 3.518958333333333,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 119.06932686045825,
-                "y": 87.38381386537209
+                "x": 118.50097685157778,
+                "y": 87.09963886093186
             }
         },
         "levels/desert.tmx": {
             "expandedObjectLayers": [
-                7,
-                9
+                9,
+                7
             ],
-            "scale": 4,
-            "selectedLayer": 2,
+            "scale": 3,
+            "selectedLayer": 7,
             "viewCenter": {
-                "x": 121.625,
-                "y": 106.875
+                "x": 110.33333333333333,
+                "y": 98.16666666666669
             }
         },
         "levels/hades.tmx": {
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 119.75,
-                "y": 880.25
+                "x": 215.5,
+                "y": 950.75
             }
         },
         "levels/harpy.tmx": {
@@ -69,8 +69,8 @@
             "scale": 1.5,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 311,
-                "y": 117.66666666666663
+                "x": 310,
+                "y": 116.99999999999997
             }
         },
         "levels/level_1.tmx": {
@@ -268,14 +268,14 @@
         },
         "levels/saloon.tmx": {
             "expandedObjectLayers": [
-                7,
-                9
+                9,
+                7
             ],
-            "scale": 3,
+            "scale": 2,
             "selectedLayer": 8,
             "viewCenter": {
-                "x": 134.16666666666666,
-                "y": 103.49999999999999
+                "x": 206,
+                "y": 89.75
             }
         },
         "levels/styx_level.tmx": {
@@ -285,27 +285,27 @@
             "scale": 0.125,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 1452,
-                "y": 84
+                "x": 1816,
+                "y": 76
             }
         },
         "levels/tower-tileset.tsx": {
             "scaleInDock": 1
         },
         "levels/town_big_hat.tmx": {
-            "scale": 4,
+            "scale": 3.8910416666666663,
             "selectedLayer": 8,
             "viewCenter": {
-                "x": 116.375,
-                "y": 102.375
+                "x": 120.019275044172,
+                "y": 87.5087005407721
             }
         },
         "levels/town_goons.tmx": {
-            "scale": 4.164166666666667,
-            "selectedLayer": 8,
+            "scale": 3.8910416666666663,
+            "selectedLayer": 7,
             "viewCenter": {
-                "x": 112.26736041624974,
-                "y": 98.5791474884931
+                "x": 120.019275044172,
+                "y": 87.76570112973177
             }
         },
         "levels/underworld_level.tmx": {
@@ -315,8 +315,8 @@
             "scale": 5.5,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 351.6363636363636,
-                "y": 175.36363636363637
+                "x": 351.4545454545455,
+                "y": 175.1818181818182
             }
         },
         "tower-tileset.tsx": {
@@ -335,9 +335,9 @@
     ],
     "project": "untitled.tiled-project",
     "recentFiles": [
+        "levels/town_big_hat.tmx",
         "levels/town_goons.tmx",
         "levels/saloon.tmx",
-        "levels/town_big_hat.tmx",
         "levels/desert.tmx",
         "levels/styx_level.tmx",
         "levels/hades.tmx",

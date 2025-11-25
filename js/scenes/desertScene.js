@@ -19,7 +19,7 @@ class DesertScene extends LevelScene {
     constructor(mapXml) {
         super(mapXml);
 
-        this.totalFrames = 3600; // 1 minute at 60 FPS
+        this.totalFrames = CONSTANTS.SPEEDY_MODE ? 120 : 3600; // 1 minute at 60 FPS
         this.framesToCompletion = this.totalFrames; // 1 minute at 60 FPS
 
         this.spawners = [];
@@ -138,6 +138,7 @@ class DesertScene extends LevelScene {
         if (this.framesToCompletion > 0) {
             this.framesToCompletion--;
         } else {
+            this.onSunset();
             // scene is over here
             // ...
         }
@@ -258,5 +259,13 @@ class DesertScene extends LevelScene {
                 this.enemiesActive = true;
             }
         });
+    }
+
+
+    onSunset() {
+        // play cutscene, etc.
+
+        // transition to next scene
+        GlobalState.sceneManager.switchScene(new TownBitHatScene(Loader.levels["town_big_hat"].xml));
     }
 }

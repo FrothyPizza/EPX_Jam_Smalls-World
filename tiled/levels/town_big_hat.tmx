@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.11" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="22" tilewidth="8" tileheight="8" infinite="0" nextlayerid="14" nextobjectid="60">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="30" height="22" tilewidth="8" tileheight="8" infinite="0" nextlayerid="14" nextobjectid="61">
  <tileset firstgid="1" source="../CowboyTilemap.tsx"/>
  <layer id="5" name="Background_2(Solid Color)" width="30" height="22">
   <data encoding="csv">
@@ -105,48 +105,11 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="9" name="Enemies" visible="0">
-  <object id="47" name="SaloonOutlaw" x="24" y="104">
-   <point/>
-  </object>
-  <object id="48" name="SaloonOutlawInitial" x="32" y="104">
-   <point/>
-  </object>
-  <object id="49" name="SaloonOutlaw" x="40" y="104">
-   <point/>
-  </object>
-  <object id="50" name="SaloonOutlaw" x="48" y="104">
-   <point/>
-  </object>
-  <object id="51" name="SaloonOutlaw" x="184" y="104">
-   <point/>
-  </object>
-  <object id="52" name="SaloonOutlawInitial" x="192" y="104">
-   <point/>
-  </object>
-  <object id="53" name="SaloonOutlaw" x="200" y="104">
-   <point/>
-  </object>
-  <object id="54" name="SaloonOutlaw" x="208" y="104">
-   <point/>
-  </object>
-  <object id="55" name="SaloonOutlaw" x="79.6364" y="128.545">
-   <point/>
-  </object>
-  <object id="56" name="SaloonOutlaw" x="127.636" y="128">
-   <point/>
-  </object>
-  <object id="57" name="SaloonOutlaw" x="88.3636" y="128.364">
-   <point/>
-  </object>
-  <object id="58" name="SaloonOutlaw" x="160" y="128.364">
-   <point/>
-  </object>
- </objectgroup>
- <objectgroup id="11" name="CrateLocations" visible="0"/>
- <objectgroup id="10" name="BossCues" visible="0"/>
- <objectgroup id="7" name="Spawns" visible="0">
-  <object id="2" name="PlayerSpawn" x="103.955" y="127.818">
+ <objectgroup id="9" name="Enemies"/>
+ <objectgroup id="11" name="CrateLocations"/>
+ <objectgroup id="10" name="BossCues"/>
+ <objectgroup id="7" name="Spawns">
+  <object id="60" name="PlayerSpawn" x="47.8021" y="111.795">
    <point/>
   </object>
  </objectgroup>

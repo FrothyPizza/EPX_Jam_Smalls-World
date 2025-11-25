@@ -48,6 +48,13 @@
             "width": 240,
             "x": 6520,
             "y": -992
+        },
+        {
+            "fileName": "town_big_hat.tmx",
+            "height": 1760,
+            "width": 240,
+            "x": 6520,
+            "y": -992
         }
     ],
     "onlyShowAdjacentMaps": false,
