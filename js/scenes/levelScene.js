@@ -71,7 +71,9 @@ class LevelScene extends Scene {
         ECS.Systems.physicsSystem(this.entities);
 
         ECS.Systems.ComposedPlayerPhysicsSystem(this.entities, this.map);
-
+        
+        // Run core ECS systems
+        ECS.Systems.mapCollisionSystem(this.entities, this.map);
 
 
         // Run player collision systems
@@ -104,8 +106,7 @@ class LevelScene extends Scene {
         }
 
         
-        // Run core ECS systems
-        ECS.Systems.mapCollisionSystem(this.entities, this.map);
+
 
         
 

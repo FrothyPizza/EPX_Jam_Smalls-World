@@ -20,9 +20,11 @@ ECS.Systems.physicsSystem = function(entities) {
         position.lastPos.x = position.x;
         position.lastPos.y = position.y;
 
-        // Apply velocity to position (will be refined by collision system)
-        position.x += velocity.x;
-        position.y += velocity.y;
+        // if it doesn't have map collision state, just apply velocity directly
+        if (!entity.has('MapCollisionState') || !entity.has('CollidesWithMap')) {
+            position.x += velocity.x;
+            position.y += velocity.y;
+        }
     });
 
 
