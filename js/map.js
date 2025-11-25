@@ -30,8 +30,10 @@ class Map {
                     }
                 }
                 if (group.getAttribute("name") === "Enemies") {
+                    const name = object.getAttribute("name") || object.getAttribute("type") || "";
                     this.enemies.push({
-                        name: object.getAttribute("name"),
+                        name,
+                        type: object.getAttribute("type") || null,
                         x: parseInt(object.getAttribute("x")),
                         y: parseInt(object.getAttribute("y")),
                     });

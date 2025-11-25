@@ -32,6 +32,31 @@ class DesertScene extends LevelScene {
 
     init() {
         super.init();
+
+        this.enemiesActive = false;
+        let outlawLeft = null;
+        let outlawRight = null;
+
+        this.map.enemies.forEach((spawn) => {
+            // Find OutlawLeft and OutlawRight and set their names for cutscene desert_initial reference 
+            // they walk off screen in the cutscene and then disappear btw
+            // desert_level_start.cutscene is what plays after this cutscene (and every time after the game saves)
+            if (spawn.name === "OutlawLeft") {
+                // Left side guy (Deputy)
+                outlawLeft = ECS.Blueprints.createDesertGunOutlaw(spawn.x, spawn.y, false);
+                outlawLeft.name = "OutlawLeft";
+                // Remove behavior components so they don't act during cutscene
+                outlawLeft.removeComponent('DesertGunOutlaw');
+                this.addEntity(outlawLeft);
+            } else if (spawn.name === "OutlawRight") {
+                // Right side guy (KnifeOutlaw)
+                outlawRight = ECS.Blueprints.createDesertKnifeOutlaw(spawn.x, spawn.y, true);
+                outlawRight.name = "OutlawRight";
+                // Remove behavior components so they don't act during cutscene
+                outlawRight.removeComponent('DesertKnifeOutlaw');
+                this.addEntity(outlawRight);
+            }
+        });
         
         this.map.enemies.forEach((spawn) => {
             // if name starts with EnemySpawner, add to spawners with name and position
@@ -65,7 +90,34 @@ class DesertScene extends LevelScene {
         });
 
 
+        if (Loader.cutscenes && Loader.cutscenes.desert_initial) {
+            CONSTANTS.SPEEDY_MODE = false; // for testing
+            if (CONSTANTS.SPEEDY_MODE) {
+                this.playCutscene("desert_level_start", { Player: this.player }, {
+                    onComplete: () => {
+                        this.enemiesActive = true;
+                    }
+                });
+            } else {
+                this.playCutscene("desert_initial", { LeftOutlaw: outlawLeft, RightOutlaw: outlawRight }, {
+                    shouldSave: true,
+                    onComplete: () => {
+                        // Remove the cutscene actors if they are still around (they should have walked off)
+                        if (outlawLeft) this.removeEntity(outlawLeft.id);
+                        if (outlawRight) this.removeEntity(outlawRight.id);
 
+                        this.playCutscene("desert_level_start", { Player: this.player }, {
+                            shouldSave: false,
+                            onComplete: () => {
+                                this.enemiesActive = true;
+                            }
+                        });
+                    }
+                });
+            }
+        } else {
+            this.enemiesActive = true;
+        }
 
     }
 
@@ -83,7 +135,7 @@ class DesertScene extends LevelScene {
             CONSTANTS.BACKGROUND_COLOR_DARKEN_ALPHA_MAX * (1 - this.framesToCompletion / this.totalFrames));
 
 
-
+        if (!this.enemiesActive) return;
 
         // Handle enemy spawning
         
@@ -158,5 +210,14 @@ class DesertScene extends LevelScene {
 
     updateLevelSpecificSystems() {
         ECS.Systems.DesertEnemySystem(this.entities);
+    }
+
+    onStateLoaded() {
+        this.enemiesActive = false;
+        this.playCutscene("desert_level_start", { Player: this.player }, {
+            onComplete: () => {
+                this.enemiesActive = true;
+            }
+        });
     }
 }

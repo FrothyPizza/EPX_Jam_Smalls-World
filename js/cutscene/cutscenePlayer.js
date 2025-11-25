@@ -350,6 +350,8 @@ const Cutscene = (() => {
                     const explicitSpeed = toNumber(action.speed ?? action.frameDelay ?? action.delay);
                     const fpsTarget = toNumber(action.fps ?? action.framesPerSecond);
                     const multiplier = toNumber(action.speedMultiplier ?? action.playbackRate ?? action.rate);
+                    const hidden = action.hidden === true || action.hide === true;
+                    sprite.hidden = hidden;
 
                     if (fpsTarget !== null && fpsTarget > 0) {
                         sprite.animationSpeed = Math.max(0.1, baseFps / fpsTarget);

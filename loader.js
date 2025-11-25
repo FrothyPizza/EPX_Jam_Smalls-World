@@ -391,6 +391,9 @@ document.body.onload = () => {
       "assets/cutscenes/saloon/saloon_boss_appearance.cutscene",
       "assets/cutscenes/saloon/saloon_items_collected.cutscene",
 
+      "assets/cutscenes/desert/desert_initial.cutscene",
+      "assets/cutscenes/desert/desert_level_start.cutscene",
+
       // "tiled/GameJamSpriteSheet.tsx",
       // "tiled/new-tiles.png",
       // "tiled/GameJamSpriteSheet.png",
