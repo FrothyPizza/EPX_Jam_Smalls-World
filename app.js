@@ -139,8 +139,8 @@ function update() {
       
       const startX = (40) - (totalWidth / 2);
       
-      scene.drawBitmapText(context, label, startX, 5, 'left', 'white');
-      scene.drawBitmapText(context, numberText, startX + labelWidth, 5, 'left', score < 0 ? 'maroon' : 'white');
+      scene.drawBitmapText(context, label, startX, 4, 'left', 'white');
+      scene.drawBitmapText(context, numberText, startX + labelWidth, 4, 'left', score < 0 ? 'maroon' : 'white');
   }
 
   // draw border around outside of screen

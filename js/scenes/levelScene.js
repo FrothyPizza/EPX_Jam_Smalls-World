@@ -118,10 +118,23 @@ class LevelScene extends Scene {
                 // If player dies, load save state
                 if (entity.has('PlayerState')) {
                     if (this.savedState) {
+                        // Calculate total loss: (Current Score - (Saved Score - 400))
+                        // This represents everything earned since save + the 400 penalty
+                        const currentScore = this.player ? this.player.PlayerState.score : 0;
+                        
                         this.loadSaveState();
+                        
                         // Apply death penalty
                         if (this.player && this.player.has('PlayerState')) {
-                            ECS.Helpers.scorePoints(-400, this.player.Position.x, this.player.Position.y - 10, 'maroon');
+                            const savedScore = this.player.PlayerState.score;
+                            const totalLoss = currentScore - (savedScore - 200);
+                            
+                            // Apply the actual penalty to the score
+                            this.player.PlayerState.score -= 200;
+                            
+                            // Show the visual text for the total amount lost, but don't apply it to score again
+                            ECS.Helpers.scorePoints(-totalLoss, this.player.Position.x, this.player.Position.y - 10, 'maroon', 60, 0.5, false);
+                            
                             // Save the new state with the penalty applied so it persists across multiple deaths
                             this.createSaveState();
                         }

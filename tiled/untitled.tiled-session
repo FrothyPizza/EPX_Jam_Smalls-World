@@ -335,18 +335,18 @@
     ],
     "project": "untitled.tiled-project",
     "recentFiles": [
+        "levels/town_goons.tmx",
+        "levels/saloon.tmx",
+        "levels/town_big_hat.tmx",
         "levels/desert.tmx",
         "levels/styx_level.tmx",
         "levels/hades.tmx",
         "CowboyTilemap.tsx",
-        "levels/saloon.tmx",
         "levels/harpy.tmx",
         "levels/charon.tmx",
         "levels/underworld_level.tmx",
         "GameJamSpriteSheet.tsx",
-        "levels/level_7.tmx",
-        "levels/level_run_1.tmx",
-        "levels/level_run_2.tmx"
+        "levels/level_7.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {

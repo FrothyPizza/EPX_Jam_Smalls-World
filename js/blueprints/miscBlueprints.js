@@ -110,9 +110,9 @@ ECS.Helpers.addExclamationToEntity = function(entity, scene) {
 
 }
 
-ECS.Helpers.scorePoints = function(points, x, y, color = 'yellow', duration = 60, floatSpeed = 0.5) {
+ECS.Helpers.scorePoints = function(points, x, y, color = 'yellow', duration = 60, floatSpeed = 0.5, applyToScore = true) {
     // Update player score if available
-    if (GlobalState.currentScene && GlobalState.currentScene.player && GlobalState.currentScene.player.has('PlayerState')) {
+    if (applyToScore && GlobalState.currentScene && GlobalState.currentScene.player && GlobalState.currentScene.player.has('PlayerState')) {
         GlobalState.currentScene.player.PlayerState.score += points;
     }
 
