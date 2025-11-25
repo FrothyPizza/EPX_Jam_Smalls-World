@@ -35,6 +35,8 @@ class DesertScene extends LevelScene {
     init() {
         super.init();
 
+        this.framesToCompletion = this.totalFrames;
+
         this.enemiesActive = false;
         let outlawLeft = null;
         let outlawRight = null;
@@ -126,6 +128,12 @@ class DesertScene extends LevelScene {
     update() {
         super.update();
 
+
+        CONSTANTS.BACKGROUND_COLOR_DARKEN_ALPHA = Math.min(CONSTANTS.BACKGROUND_COLOR_DARKEN_ALPHA_MAX, 
+            CONSTANTS.BACKGROUND_COLOR_DARKEN_ALPHA_MAX * (1 - this.framesToCompletion / this.totalFrames));
+
+        if (!this.enemiesActive) return;
+
         // Decrease frames to completion to update background darkening
         if (this.framesToCompletion > 0) {
             this.framesToCompletion--;
@@ -133,11 +141,7 @@ class DesertScene extends LevelScene {
             // scene is over here
             // ...
         }
-        CONSTANTS.BACKGROUND_COLOR_DARKEN_ALPHA = Math.min(CONSTANTS.BACKGROUND_COLOR_DARKEN_ALPHA_MAX, 
-            CONSTANTS.BACKGROUND_COLOR_DARKEN_ALPHA_MAX * (1 - this.framesToCompletion / this.totalFrames));
 
-
-        if (!this.enemiesActive) return;
 
         // Handle pending spawns
         for (let i = this.pendingSpawns.length - 1; i >= 0; i--) {
@@ -247,6 +251,8 @@ class DesertScene extends LevelScene {
 
     onStateLoaded() {
         this.enemiesActive = false;
+        this.framesToCompletion = this.totalFrames;
+
         this.playCutscene("desert_level_start", { Player: this.player }, {
             onComplete: () => {
                 this.enemiesActive = true;

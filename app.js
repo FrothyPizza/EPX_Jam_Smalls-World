@@ -86,6 +86,33 @@ function update() {
     "rgba(0, 0, 0, " + CONSTANTS.BACKGROUND_COLOR_DARKEN_ALPHA + ")";
   context.fillRect(0, 0, WIDTH, HEIGHT);
 
+  // draw "sun" in desert scene
+  if (GlobalState.sceneManager && GlobalState.sceneManager.currentScene instanceof DesertScene) {
+    const scene = GlobalState.sceneManager.currentScene;
+    const progress = 1 - (scene.framesToCompletion / scene.totalFrames);
+
+    const startX = 32;
+    const endX = 90;
+    const startY = 16;
+    const endY = HEIGHT - 44;
+
+    // Linear movement for now, effectively an arc if we consider the sky dome
+    const x = startX + (endX - startX) * progress;
+    const y = startY + (endY - startY) * progress;
+
+    // Color interpolation from #FDB813 (253, 184, 19) to #FF4500 (255, 69, 0)
+    const r = Math.floor(253 + (255 - 253) * progress);
+    const g = Math.floor(184 + (69 - 184) * progress);
+    const b = Math.floor(19 + (0 - 19) * progress);
+    const a = 0.7 - (0.4 * progress); // Ends at 0.8
+
+    context.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
+    context.beginPath();
+    context.arc(x, y, 12, 0, Math.PI * 2);
+    context.fill();
+  }
+
+
   if (!GAME_FROZEN) {
     if (GlobalState.sceneManager) {
       GlobalState.sceneManager.update();

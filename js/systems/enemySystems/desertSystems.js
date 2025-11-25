@@ -27,7 +27,7 @@ ECS.Systems.DesertEnemySystem = function(entities) {
             // Jump up logic
             const knife = entity.DesertKnifeOutlaw;
             const yDiff = player.Position.y - entity.Position.y;
-            if ((yDiff) < -24 && totalDistToPlayer < 48) {
+            if ((yDiff) < -24 && totalDistToPlayer < 40) {
                 knife.framesPlayerAbove++;
                 if (knife.framesPlayerAbove >= knife.jumpDelayFrames) {
                     if(entity.has('MapCollisionState') && entity.MapCollisionState.bottomHit) {
