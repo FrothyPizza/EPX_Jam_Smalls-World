@@ -1,14 +1,64 @@
 ECS.Systems.bigHatBossSystem = function(entities) {
     entities.forEach(entity => {
         if (entity.has('BigHatBossState')) {
-            // Initial behavior logic
             const state = entity.BigHatBossState;
             
             // Basic state machine placeholder
             switch (state.state) {
                 case "IDLE":
-                    // Idle behavior
+                    // --- Strafing Logic ---
+                    state.strafeTimer++;
+                    
+                    if (state.isStrafing) {
+                        if (entity.has('Velocity')) {
+                            entity.Velocity.x = state.strafeDirection * 0.5;
+                        }
+                        
+                        if (state.strafeTimer >= state.strafeDuration) {
+                            state.isStrafing = false;
+                            state.strafeTimer = 0;
+                            if (entity.has('Velocity')) {
+                                entity.Velocity.x = 0;
+                            }
+                        }
+                    } else {
+                        // Paused
+                        if (entity.has('Velocity')) {
+                            entity.Velocity.x = 0;
+                        }
+                        
+                        if (state.strafeTimer >= state.strafePauseDuration) {
+                            state.isStrafing = true;
+                            state.strafeTimer = 0;
+                            state.strafeDirection *= -1; // Switch direction
+                        }
+                    }
+
+                    // --- Level Jumping Logic ---
+                    state.jumpTimer++;
+                    if (state.jumpTimer >= state.jumpInterval) {
+                        state.jumpTimer = 0;
+                        
+                        // Pick a random level (0, 1, 2)
+                        const targetLevel = Math.floor(Math.random() * 3);
+                        
+                        if (targetLevel > state.currentLevel) {
+                            // Jump Up
+                            if (entity.has('Velocity')) {
+                                entity.Velocity.y = -2.8;
+                            }
+                            state.currentLevel++; // Assume we made it
+                        } else if (targetLevel < state.currentLevel) {
+                            // Fall Down
+                            if (entity.has('Position')) {
+                                entity.Position.y += 2; // Clip through floor
+                            }
+                            state.currentLevel--; // Assume we made it
+                        }
+                        // If targetLevel == currentLevel, do nothing
+                    }
                     break;
+                    
                 case "ATTACK":
                     // Attack behavior
                     break;
