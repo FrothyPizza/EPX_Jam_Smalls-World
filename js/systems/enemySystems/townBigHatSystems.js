@@ -336,7 +336,7 @@ ECS.Systems.bigHatHatSystem = function(entities) {
                             entity.Velocity.y = 0;
                         }
                         if(!entity.has('InvincibilityFrames')) {
-                            entity.addComponent('InvincibilityFrames');
+                            entity.addComponent(new ECS.Components.InvincibilityFrames(300));
                         }
                         state.state = "CENTERING";
                     }
@@ -381,6 +381,9 @@ ECS.Systems.bigHatHatSystem = function(entities) {
                         state.isSineWave = true;
                         state.sineTime = 0; // Start sine at 0 (center)
                         entity.addComponent(new ECS.Components.DamagesPlayer(true));
+                        if(entity.has('InvincibilityFrames')) {
+                            entity.removeComponent('InvincibilityFrames');
+                        }
                     } else {
                         const speed = 0.5; // Slow move to center
                         pos.x += (dx/dist) * speed;

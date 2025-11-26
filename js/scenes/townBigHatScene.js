@@ -34,6 +34,23 @@ class TownBigHatScene extends LevelScene {
                 this.addEntity(enemyEntity);
             }
         });
+
+    }
+
+    update() {
+        super.update();
+
+        // check if boss state has 0 health
+        ECS.getEntitiesWithComponents('BigHatBossState').forEach(bossEntity => {
+            if(bossEntity.BigHatBossState.health <= 0 && !(bossEntity.BigHatBossState.state == 'DEFEATED')) {
+                bossEntity.BigHatBossState.state = 'DEFEATED';
+
+                console.log("Big Hat defeated!");
+
+                // play cutscene here (boss defeated)
+                // this.playCutscene('BigHatDefeat', { boss: bossEntity }, { shouldSave: true });
+            }
+        });
     }
 
     updateLevelSpecificSystems() {
