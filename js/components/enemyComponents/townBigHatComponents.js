@@ -1,6 +1,9 @@
 ECS.Components.BigHatBossState = class BigHatBossState {
     constructor() {
         this.state = "IDLE"; // IDLE, ATTACK, VULNERABLE, DEAD
+        this.phase = 1;
+        this.health = 20;
+        this.maxHealth = 20;
 
         // Strafe params
         this.strafeTimer = 0;
@@ -43,7 +46,12 @@ ECS.Components.BigHatBossState = class BigHatBossState {
 
 ECS.Components.BigHatHatState = class BigHatHatState {
     constructor() {
-        this.state = "ATTACHED"; // ATTACHED, THROWN, RETURNING
+        this.state = "ATTACHED"; // ATTACHED, DETACHING, MOVING_LEFT, MOVING_RIGHT
+        this.cues = {};
+        this.moveSpeed = 1.5;
+        this.returnSpeed = 0.75;
+        this.shootTimer = 0;
+        this.shootInterval = 30;
     }
 }
 

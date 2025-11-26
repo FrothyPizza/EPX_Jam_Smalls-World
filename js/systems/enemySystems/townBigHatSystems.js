@@ -3,19 +3,50 @@ ECS.Systems.bigHatBossSystem = function(entities) {
         if (entity.has('BigHatBossState')) {
             const state = entity.BigHatBossState;
 
+            // Phase Logic
+            // Assuming max health is around 10-12 based on previous context or defaults
+            // Phase 1: > 6
+            // Phase 2: <= 6
+            
+            // if (state.health <= 6 && state.phase === 1) {
+            //     state.phase = 2;
+            //     console.log("Boss entering Phase 2");
+            // }
+
             if(state.health <= this.initialHealth) {
                 state.phase = 1;
             }
-            if(this.health < 4) {
+            if(state.health < 4) {
                 state.phase = 2;
             }
-            if(this.health < 2) {
+            if(state.health < 2) {
                 state.phase = 3;
             }
+            state.phase = 2;
             console.log("Boss Phase: " + state.phase);
 
             if(state.phase === 2 && entity.has('BoundEntities')) {
-                // here, we remove the boundEntities component if it exists and spawn the flying hat in
+                // Find the hat in bound entities
+                const boundHatIndex = entity.BoundEntities.entitiesWithOffsets.findIndex(e => e.entity.has('BigHatHatState'));
+                
+                if (boundHatIndex !== -1) {
+                    const boundHat = entity.BoundEntities.entitiesWithOffsets[boundHatIndex];
+                    const hatEntity = boundHat.entity;
+                    
+                    // Unbind
+                    entity.BoundEntities.entitiesWithOffsets.splice(boundHatIndex, 1);
+                    if (entity.BoundEntities.entitiesWithOffsets.length === 0) {
+                        entity.removeComponent('BoundEntities');
+                    }
+
+                    // Setup Hat
+                    if (hatEntity.has('BigHatHatState')) {
+                        hatEntity.AnimatedSprite.animationSpeed = 6;
+                        const hatState = hatEntity.BigHatHatState;
+                        hatState.state = "DETACHING";
+                        hatState.cues = state.bossCues; // Pass cues to hat
+                    }
+                }
             }
 
 
@@ -31,6 +62,14 @@ ECS.Systems.bigHatBossSystem = function(entities) {
             // Basic state machine placeholder
             switch (state.state) {
                 case "IDLE":
+                    // Check if hat is detaching (Phase 2 transition)
+                    const hats = ECS.getEntitiesWithComponents('BigHatHatState');
+                    if (hats.length > 0 && hats[0].BigHatHatState.state === "DETACHING") {
+                        if (entity.has('Velocity')) entity.Velocity.x = 0;
+                        entity.AnimatedSprite.setAnimation("Idle");
+                        break; 
+                    }
+
                     // --- Strafing Logic ---
                     state.strafeTimer++;
                     
@@ -96,7 +135,7 @@ ECS.Systems.bigHatBossSystem = function(entities) {
                                 if (state.bossCues && state.bossCues[cueName]) {
                                     const cue = state.bossCues[cueName];
                                     // Spawn exclamation
-                                    const exclamation = ECS.Blueprints.createExclamation(cue.x, cue.y);
+                                    const exclamation = ECS.Blueprints.createExclamation(cue.x, cue.y - 4);
                                     if (GlobalState.currentScene) {
                                         GlobalState.currentScene.addEntity(exclamation);
                                     }
@@ -241,20 +280,97 @@ ECS.Systems.bigHatBossSystem = function(entities) {
 
 ECS.Systems.bigHatHatSystem = function(entities) {
     entities.forEach(entity => {
-        if (entity.has('BigHatHatState')) {
-            // Initial behavior logic
+        if (entity.has('BigHatHatState') && entity.has('Position')) {
             const state = entity.BigHatHatState;
-            
-            // Basic state machine placeholder
+            const pos = entity.Position;
+
             switch (state.state) {
                 case "ATTACHED":
-                    // Behavior when attached to boss
+                    // Do nothing, moved by boss via BoundEntities
                     break;
-                case "THROWN":
-                    // Behavior when thrown
+
+                case "DETACHING":
+                    // Move to Top Right Cue
+                    if (state.cues && state.cues.hatTopRight) {
+                        const target = state.cues.hatTopRight;
+                        const dx = target.x - pos.x;
+                        const dy = target.y - pos.y;
+                        const dist = Math.sqrt(dx*dx + dy*dy);
+                        
+                        if (dist < 2) {
+                            pos.x = target.x;
+                            pos.y = target.y;
+                            state.state = "MOVING_LEFT";
+                        } else {
+                            const speed = 0.5; // Much slower rise
+                            pos.x += (dx/dist) * speed;
+                            pos.y += (dy/dist) * speed;
+                        }
+                    }
                     break;
-                case "RETURNING":
-                    // Behavior when returning to boss
+
+                case "MOVING_LEFT":
+                    // Move to Top Left Cue
+                    if (state.cues && state.cues.hatTopLeft) {
+                        const target = state.cues.hatTopLeft;
+                        const dx = target.x - pos.x;
+                        const dy = target.y - pos.y;
+                        const dist = Math.sqrt(dx*dx + dy*dy);
+
+                        if (dist < 2) {
+                            pos.x = target.x;
+                            pos.y = target.y;
+                            state.state = "MOVING_RIGHT"; // Loop back
+                        } else {
+                            const speed = (state.moveSpeed || 1) * 0.5; // Half speed
+                            pos.x += (dx/dist) * speed;
+                            pos.y += (dy/dist) * speed;
+                        }
+
+                        entity.AnimatedSprite.setAnimation("Shooting");
+                        entity.AnimatedSprite.direction = -1;
+
+                        // Shoot
+                        state.shootTimer++;
+                        if (state.shootTimer >= state.shootInterval) {
+                            state.shootTimer = 0;
+                            // Shoot 45 degrees down-left
+                            // vx = -1, vy = 1 (normalized direction)
+                            const bulletSpeed = 2;
+                            const vx = -0.707 * bulletSpeed;
+                            const vy = 0.707 * bulletSpeed;
+                            
+                            const bullet = ECS.Blueprints.createBigHatBullet(pos.x + 3, pos.y + 12, vx, vy);
+                            const bullet2 = ECS.Blueprints.createBigHatBullet(pos.x + 9, pos.y + 12, vx, vy);
+                            if (GlobalState.currentScene) {
+                                GlobalState.currentScene.addEntity(bullet);
+                                GlobalState.currentScene.addEntity(bullet2);
+                            }
+                        }
+                    }
+                    break;
+
+                case "MOVING_RIGHT":
+                    // Move back to Top Right
+                    if (state.cues && state.cues.hatTopRight) {
+                        const target = state.cues.hatTopRight;
+                        const dx = target.x - pos.x;
+                        const dy = target.y - pos.y;
+                        const dist = Math.sqrt(dx*dx + dy*dy);
+
+                        // set animation to idle when moving right
+                        entity.AnimatedSprite.setAnimation("Moving");
+
+                        if (dist < 2) {
+                            pos.x = target.x;
+                            pos.y = target.y;
+                            state.state = "MOVING_LEFT"; // Loop
+                        } else {
+                            const speed = (state.returnSpeed || 0.5) * 0.5; // Half speed
+                            pos.x += (dx/dist) * speed;
+                            pos.y += (dy/dist) * speed;
+                        }
+                    }
                     break;
             }
         }

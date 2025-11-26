@@ -62,13 +62,13 @@ ECS.Helpers.addBigHatHatToBoss = function(bossEntity, scene) {
 ECS.Blueprints.createBigHatSmallHatProjectile = function(x, y, velocityX, velocityY) {
     const entity = new ECS.Entity();
     entity.addComponent(new ECS.Components.Position(x, y));
-    entity.addComponent(new ECS.Components.Dimensions(16, 16));
+    entity.addComponent(new ECS.Components.Dimensions(8, 8));
     entity.addComponent(new ECS.Components.Velocity(velocityX, velocityY));
     entity.addComponent(new ECS.Components.BigHatSmallHatProjectile());
     entity.addComponent(new ECS.Components.AnimatedSprite(Loader.spriteSheets.BigHatSmallHatProjectile, "Rotate", 6));
     entity.addComponent(new ECS.Components.IsEnemy(true));
-    entity.addComponent(new ECS.Components.Hitbox([{x: 2, y: 2, w: 12, h: 12}]));
-    entity.addComponent(new ECS.Components.Hurtbox([{x: 2, y: 2, w: 12, h: 12}]));
+    entity.addComponent(new ECS.Components.Hitbox([{x: 0, y: 0, w: 8, h: 8}]));
+    entity.addComponent(new ECS.Components.Hurtbox([{x: 1, y: 1, w: 6, h: 6}]));
     entity.addComponent(new ECS.Components.DamagesPlayer(true));
     
     entity.interactWith = ECS.Blueprints.BigHatSmallHatProjectileInteract;
@@ -117,6 +117,31 @@ ECS.Blueprints.BigHatSmallHatProjectileInteract = function(other) {
         // Apply damage/stun to boss
         // other.addComponent(new ECS.Components.Stunned(...)); 
     }
+}
+
+ECS.Blueprints.createBigHatBullet = function(x, y, vx, vy) {
+    const entity = new ECS.Entity();
+    entity.addComponent(new ECS.Components.Position(x, y));
+    entity.addComponent(new ECS.Components.Velocity(vx, vy));
+    entity.addComponent(new ECS.Components.Dimensions(4, 4));
+    entity.addComponent(new ECS.Components.IsEnemy(true)); // Damages player
+    entity.addComponent(new ECS.Components.DamagesPlayer(true));
+    entity.addComponent(new ECS.Components.Hitbox([{x: 0, y: 0, w: 4, h: 4}]));
+    entity.addComponent(new ECS.Components.Hurtbox([{x: 0, y: 0, w: 4, h: 4}]));
+    
+    // Use bullet sprite or small dot
+    entity.addComponent(new ECS.Components.AnimatedSprite(Loader.spriteSheets.BulletSmall, "Idle", 12));
+    
+    // Cleanup after some time
+    entity.addComponent(new ECS.Components.Bullet(300)); // 5 seconds lifetime
+    
+    entity.interactWith = function(other) {
+        if (other.has('MapCollisionState') && (other.MapCollisionState.leftHit || other.MapCollisionState.rightHit || other.MapCollisionState.topHit || other.MapCollisionState.bottomHit)) {
+             this.addComponent(new ECS.Components.RemoveFromScene(true));
+        }
+    };
+
+    return entity;
 }
 
 
