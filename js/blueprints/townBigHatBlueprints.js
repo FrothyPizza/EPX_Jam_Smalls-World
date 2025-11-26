@@ -105,7 +105,7 @@ ECS.Blueprints.BigHatSmallHatProjectileInteract = function(other) {
     }
     
     // If hitting boss while returning
-    if (other.has('BigHatBossState') && this.BigHatSmallHatProjectile.state === "RETURNING") {
+    if (other.has('BigHatBossState') && this.BigHatSmallHatProjectile.state === "RETURNING" && !other.has('Stunned')) {
         // Damage boss logic here
         console.log("Boss hit by returning hat!");
         this.addComponent(new ECS.Components.RemoveFromScene(true));

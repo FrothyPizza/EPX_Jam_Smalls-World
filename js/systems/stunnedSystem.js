@@ -4,6 +4,7 @@ ECS.Systems.stunnedSystem = function(entities, scene) {
         if (!entity.has('Stunned')) return;
 
         const stunned = entity.Stunned;
+
         
         // Initialize: Apply knockback
         if (stunned.state === 'INIT') {
