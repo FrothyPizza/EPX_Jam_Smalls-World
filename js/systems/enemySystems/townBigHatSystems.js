@@ -4,45 +4,63 @@ ECS.Systems.bigHatBossSystem = function(entities) {
             const state = entity.BigHatBossState;
 
             // Phase Logic
-            // Assuming max health is around 10-12 based on previous context or defaults
-            // Phase 1: > 6
-            // Phase 2: <= 6
-            
-            // if (state.health <= 6 && state.phase === 1) {
-            //     state.phase = 2;
-            //     console.log("Boss entering Phase 2");
-            // }
+            let nextPhase = 1;
+            if (state.health < 4) nextPhase = 2;
+            if (state.health < 2) nextPhase = 3;
 
-            if(state.health <= this.initialHealth) {
-                state.phase = 1;
-            }
-            if(state.health < 4) {
-                state.phase = 2;
-            }
-            if(state.health < 2 && state.phase === 2) {
-                state.phase = 3;
-                console.log("Boss entering Phase 3");
-                
-                // Trigger Hat Phase 3
-                const hats = ECS.getEntitiesWithComponents('BigHatHatState');
-                if (hats.length > 0) {
-                    const hatState = hats[0].BigHatHatState;
-                    hatState.isSineWave = true;
+            if (nextPhase > state.phase) {
+                state.phase = nextPhase;
+                console.log("Boss entering Phase " + state.phase);
+
+                if (state.phase === 3) {
+                    // Phase 3 Init
+                    let hatEntity = null;
                     
-                    // Calculate sine params based on cues if available
-                    if (state.bossCues && state.bossCues.top && state.bossCues.bottom) {
-                        const topY = state.bossCues.top.y;
-                        const bottomY = state.bossCues.bottom.y;
-                        hatState.sineCenterY = (topY + bottomY) / 2;
-                        hatState.sineAmplitude = (bottomY - topY) / 2;
+                    // Detach if bound
+                    if (entity.has('BoundEntities')) {
+                        const boundHatIndex = entity.BoundEntities.entitiesWithOffsets.findIndex(e => e.entity.has('BigHatHatState'));
+                        if (boundHatIndex !== -1) {
+                            const boundHat = entity.BoundEntities.entitiesWithOffsets[boundHatIndex];
+                            hatEntity = boundHat.entity;
+                            
+                            // Unbind
+                            entity.BoundEntities.entitiesWithOffsets.splice(boundHatIndex, 1);
+                            if (entity.BoundEntities.entitiesWithOffsets.length === 0) {
+                                entity.removeComponent('BoundEntities');
+                            }
+                        }
                     } else {
-                        // Fallback if cues missing (shouldn't happen if setup correctly)
-                        hatState.sineCenterY = 100; 
-                        hatState.sineAmplitude = 60;
+                        // Already detached
+                        const hats = ECS.getEntitiesWithComponents('BigHatHatState');
+                        if (hats.length > 0) hatEntity = hats[0];
+                    }
+
+                    // Setup Hat for Phase 3
+                    if (hatEntity && hatEntity.has('BigHatHatState')) {
+                        hatEntity.AnimatedSprite.animationSpeed = 6;
+                        const hatState = hatEntity.BigHatHatState;
+                        hatState.state = "CENTERING";
+                        hatState.cues = state.bossCues;
+                        
+                        // Sine params
+                        if (state.bossCues && state.bossCues.top && state.bossCues.bottom) {
+                            const topY = state.bossCues.top.y;
+                            const bottomY = state.bossCues.bottom.y;
+                            hatState.sineCenterY = (topY + bottomY) / 2;
+                            hatState.sineAmplitude = (bottomY - topY) / 2;
+                        } else {
+                            hatState.sineCenterY = 100; 
+                            hatState.sineAmplitude = 80;
+                        }
+
+                        if (state.bossCues && state.bossCues.hatTopLeft && state.bossCues.hatTopRight) {
+                            hatState.sineCenterX = (state.bossCues.hatTopLeft.x + state.bossCues.hatTopRight.x) / 2;
+                        } else {
+                            hatState.sineCenterX = 100;
+                        }
                     }
                 }
             }
-            console.log("Boss Phase: " + state.phase);
 
             if(state.phase === 2 && entity.has('BoundEntities')) {
                 // Find the hat in bound entities
@@ -307,6 +325,22 @@ ECS.Systems.bigHatHatSystem = function(entities) {
                 case "ATTACHED":
                     // Do nothing, moved by boss via BoundEntities
                     break;
+                case "RETURNING":
+                    // if off screen, switch back to CENTERING
+                    if (pos.x > WIDTH - 24) {
+                        // remove DamagesPlayer component
+                        console.log("Hat returned offscreen, centering.");
+                        // remove velocity
+                        if(entity.has('Velocity')) {
+                            entity.Velocity.x = 0;
+                            entity.Velocity.y = 0;
+                        }
+                        if(!entity.has('InvincibilityFrames')) {
+                            entity.addComponent('InvincibilityFrames');
+                        }
+                        state.state = "CENTERING";
+                    }
+                    break;
 
                 case "DETACHING":
                     // Move to Top Right Cue
@@ -325,6 +359,32 @@ ECS.Systems.bigHatHatSystem = function(entities) {
                             pos.x += (dx/dist) * speed;
                             pos.y += (dy/dist) * speed;
                         }
+                    }
+                    break;
+
+                case "CENTERING":
+                    console.log("Hat centering...");
+                    // Move to Center
+                    const targetX = state.sineCenterX;
+                    const targetY = state.sineCenterY;
+                    const dx = targetX - pos.x;
+                    const dy = targetY - pos.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+
+                    // set animation to Idle
+                    entity.AnimatedSprite.setAnimation("Idle");
+
+                    if (dist < 2) {
+                        pos.x = targetX;
+                        pos.y = targetY;
+                        state.state = "MOVING_LEFT"; // Start moving left
+                        state.isSineWave = true;
+                        state.sineTime = 0; // Start sine at 0 (center)
+                        entity.addComponent(new ECS.Components.DamagesPlayer(true));
+                    } else {
+                        const speed = 0.5; // Slow move to center
+                        pos.x += (dx/dist) * speed;
+                        pos.y += (dy/dist) * speed;
                     }
                     break;
 
@@ -356,24 +416,26 @@ ECS.Systems.bigHatHatSystem = function(entities) {
                             }
                         }
 
-                        entity.AnimatedSprite.setAnimation("Shooting");
-                        entity.AnimatedSprite.direction = -1;
+                        if(!state.isSineWave) {
+                            entity.AnimatedSprite.setAnimation("Shooting");
+                            entity.AnimatedSprite.direction = -1;
 
-                        // Shoot
-                        state.shootTimer++;
-                        if (state.shootTimer >= state.shootInterval) {
-                            state.shootTimer = 0;
-                            // Shoot 45 degrees down-left
-                            // vx = -1, vy = 1 (normalized direction)
-                            const bulletSpeed = 2;
-                            const vx = -0.707 * bulletSpeed;
-                            const vy = 0.707 * bulletSpeed;
-                            
-                            const bullet = ECS.Blueprints.createBigHatBullet(pos.x + 3, pos.y + 12, vx, vy);
-                            const bullet2 = ECS.Blueprints.createBigHatBullet(pos.x + 9, pos.y + 12, vx, vy);
-                            if (GlobalState.currentScene) {
-                                GlobalState.currentScene.addEntity(bullet);
-                                GlobalState.currentScene.addEntity(bullet2);
+                            // Shoot
+                            state.shootTimer++;
+                            if (state.shootTimer >= state.shootInterval) {
+                                state.shootTimer = 0;
+                                // Shoot 45 degrees down-left
+                                // vx = -1, vy = 1 (normalized direction)
+                                const bulletSpeed = 2;
+                                const vx = -0.707 * bulletSpeed;
+                                const vy = 0.707 * bulletSpeed;
+                                
+                                const bullet = ECS.Blueprints.createBigHatBullet(pos.x + 3, pos.y + 12, vx, vy);
+                                const bullet2 = ECS.Blueprints.createBigHatBullet(pos.x + 9, pos.y + 12, vx, vy);
+                                if (GlobalState.currentScene) {
+                                    GlobalState.currentScene.addEntity(bullet);
+                                    GlobalState.currentScene.addEntity(bullet2);
+                                }
                             }
                         }
                     }

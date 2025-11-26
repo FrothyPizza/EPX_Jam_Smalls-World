@@ -31,6 +31,9 @@ ECS.Blueprints.createBigHatHat = function(x, y) {
     entity.addComponent(new ECS.Components.IsEnemy(true));
     entity.addComponent(new ECS.Components.Hitbox([{x: 0, y: 0, w: 20, h: 20}]));
     entity.addComponent(new ECS.Components.Hurtbox([{x: 0, y: 0, w: 20, h: 20}]));
+    entity.addComponent(new ECS.Components.Velocity(0, 0));
+
+    entity.interactWith = ECS.Blueprints.BigHatHatInteract;
     
     return entity;
 }
@@ -88,7 +91,6 @@ ECS.Blueprints.BigHatSmallHatProjectileInteract = function(other) {
         other.addComponent(new ECS.Components.RemoveFromScene(true));
     }
     
-    console.log("Big Hat Small Hat Projectile interacted with", other);
     // If hit by player lasso while stunned
     if (other.has('Weapon') && other.Weapon.type === 'Lasso' && this.has('BigHatStunned')) {
         const speed = 4;
@@ -118,6 +120,59 @@ ECS.Blueprints.BigHatSmallHatProjectileInteract = function(other) {
         // other.addComponent(new ECS.Components.Stunned(...)); 
     }
 }
+
+
+ECS.Blueprints.BigHatHatInteract = function(other) {
+
+    if(!this.BigHatHatState.isSineWave) return;
+
+    if(this.has('InvincibilityFrames')) return;
+
+    // If hit by player bullet
+    if (other.has('Bullet') && !this.has('BigHatStunned')) {
+        console.log("Big Hat Hat hit by bullet, stunning!");
+
+        this.addComponent(new ECS.Components.BigHatStunned());
+        this.AnimatedSprite.setAnimation("Idle");
+        this.Velocity.x = 0;
+        this.Velocity.y = 0;
+
+        this.BigHatHatState.state = "STUNNED";
+        
+        // Remove bullet
+        other.addComponent(new ECS.Components.RemoveFromScene(true));
+    }
+    
+    // If hit by player lasso while stunned
+    if (other.has('Weapon') && other.Weapon.type === 'Lasso' && this.has('BigHatStunned')) {
+        const speed = 4;
+        this.Velocity.x = speed;
+        this.Velocity.y = 0;
+
+        
+        this.BigHatHatState.state = "RETURNING";
+        this.removeComponent('BigHatStunned'); // No longer stunned, now a projectile against boss
+        this.removeComponent('DamagesPlayer');
+        this.AnimatedSprite.setAnimation("Rotate");
+    }
+    
+    // If hitting boss while returning
+    if (other.has('BigHatBossState') && this.BigHatHatState.state === "RETURNING") {
+        // Damage boss logic here
+        console.log("Boss hit by returning hat!");
+        this.addComponent(new ECS.Components.RemoveFromScene(true));
+
+        const dir = Math.sign(this.Velocity.x) || 1;
+        let duration = 120;
+        other.addComponent(new ECS.Components.Stunned({x: 0, y: -1.5}, 20, duration, false));
+
+        other.BigHatBossState.health -= 1;
+        
+        // Apply damage/stun to boss
+        // other.addComponent(new ECS.Components.Stunned(...)); 
+    }
+}
+
 
 ECS.Blueprints.createBigHatBullet = function(x, y, vx, vy) {
     const entity = new ECS.Entity();

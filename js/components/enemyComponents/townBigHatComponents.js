@@ -46,7 +46,7 @@ ECS.Components.BigHatBossState = class BigHatBossState {
 
 ECS.Components.BigHatHatState = class BigHatHatState {
     constructor() {
-        this.state = "ATTACHED"; // ATTACHED, DETACHING, MOVING_LEFT, MOVING_RIGHT
+        this.state = "ATTACHED"; // ATTACHED, DETACHING, MOVING_LEFT, MOVING_RIGHT, CENTERING
         this.cues = {};
         this.moveSpeed = 1.5;
         this.returnSpeed = 0.75;
@@ -55,10 +55,11 @@ ECS.Components.BigHatHatState = class BigHatHatState {
 
         // Phase 3 Sine Wave
         this.isSineWave = false;
-        this.sineAmplitude = 60; 
-        this.sineFrequency = 0.05; // Tight period
+        this.sineAmplitude = 80; // Higher amplitude
+        this.sineFrequency = 0.03; // Slower frequency
         this.sineSpeed = 1.0; 
         this.sineCenterY = 0;
+        this.sineCenterX = 0;
         this.sineTime = 0;
     }
 }
