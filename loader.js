@@ -391,6 +391,8 @@ document.body.onload = () => {
 
       "assets/cutscenes/desert/desert_initial.cutscene",
       "assets/cutscenes/desert/desert_level_start.cutscene",
+      "assets/cutscenes/big_hat/big_hat_initial.cutscene",
+      "assets/cutscenes/big_hat/big_hat_level_start.cutscene",
 
       // "tiled/GameJamSpriteSheet.tsx",
       // "tiled/new-tiles.png",

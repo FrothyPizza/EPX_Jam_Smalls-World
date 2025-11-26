@@ -238,7 +238,7 @@ ECS.Systems.bigHatBossSystem = function(entities) {
                             }
                             entity.BoundEntities.entitiesWithOffsets.push({ 
                                 entity: exclamation, 
-                                offsetX: -12, 
+                                offsetX: 12, 
                                 offsetY: 0 
                             });
                             
