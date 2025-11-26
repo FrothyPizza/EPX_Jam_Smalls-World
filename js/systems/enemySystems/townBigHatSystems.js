@@ -61,6 +61,9 @@ ECS.Systems.bigHatBossSystem = function(entities) {
                             hatState.sineCenterX = 100;
                         }
                     }
+
+                    // Add Shotgun
+                    ECS.Blueprints.addBigHatShotgunToBoss(entity, GlobalState.currentScene);
                 }
             }
 
@@ -216,85 +219,127 @@ ECS.Systems.bigHatBossSystem = function(entities) {
                         }
                     }
 
+                    // --- Shotgun Logic (Phase 3) ---
+                    if (state.phase === 3) {
+                        state.shotgunTimer = (state.shotgunTimer || 0) + 1;
+                        if (state.shotgunTimer >= 120) {
+                            state.shotgunTimer = 0;
+                            
+                            if (entity.has('BoundEntities')) {
+                                const boundShotgun = entity.BoundEntities.entitiesWithOffsets.find(e => e.entity.AnimatedSprite && e.entity.AnimatedSprite.jsonData === Loader.spriteSheets.GunBigHat);
+                                if (boundShotgun) {
+                                    const shotgun = boundShotgun.entity;
+                                    shotgun.AnimatedSprite.setAnimation("Shot");
+                                    shotgun.AnimatedSprite.nextAnimation = "Idle";
+                                    
+                                    // Shoot Bullet
+                                    const players = ECS.getEntitiesWithComponents('PlayerState');
+                                    if (players.length > 0) {
+                                        const player = players[0];
+                                        const dx = player.Position.x - shotgun.Position.x;
+                                        const dy = player.Position.y - shotgun.Position.y;
+                                        const speed = 2;
+                                        
+                                        const baseAngle = Math.atan2(dy, dx);
+                                        const angleStep = 2 * (Math.PI / 180); // 2 degrees in radians
+
+                                        for (let i = -2; i <= 2; i++) {
+                                            const angle = baseAngle + (i * angleStep);
+                                            const vx = Math.cos(angle) * speed;
+                                            const vy = Math.sin(angle) * speed;
+
+                                            const bullet = ECS.Blueprints.createBigHatBullet(shotgun.Position.x + (vx > 0 ? 16 : 0), shotgun.Position.y + 4, vx, vy);
+                                            if (GlobalState.currentScene) {
+                                                GlobalState.currentScene.addEntity(bullet);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     // --- Hat Burst Logic ---
-                    if (!state.isWarning && !state.isBursting) {
-                        state.burstTimer++;
-                        if (state.burstTimer >= state.burstInterval) {
-                            state.isWarning = true;
-                            state.warningTimer = 0;
-                            
-                            // Add exclamation to the left
-                            const exX = entity.Position.x - 12;
-                            const exY = entity.Position.y;
-                            const exclamation = ECS.Blueprints.createExclamation(exX, exY);
-                            
-                            if (GlobalState.currentScene) {
-                                GlobalState.currentScene.addEntity(exclamation);
-                            }
-                            
-                            // Bind it so it moves with boss
-                            if(!entity.has('BoundEntities')) {
-                                entity.addComponent(new ECS.Components.BoundEntities());
-                            }
-                            entity.BoundEntities.entitiesWithOffsets.push({ 
-                                entity: exclamation, 
-                                offsetX: 12, 
-                                offsetY: 0 
-                            });
-                            
-                            state.exclamationEntity = exclamation;
-                        }
-                    } else if (state.isWarning) {
-                        state.warningTimer++;
-                        if (state.warningTimer >= state.warningDuration) {
-                            state.isWarning = false;
-                            state.isBursting = true;
-                            state.burstCurrentCount = 0;
-                            state.burstDelayTimer = state.burstDelay; // Ready to fire immediately
-                            
-                            // Remove exclamation
-                            if (state.exclamationEntity) {
-                                if (GlobalState.currentScene) {
-                                    GlobalState.currentScene.removeEntity(state.exclamationEntity.id);
-                                } else {
-                                    ECS.removeEntity(state.exclamationEntity.id);
-                                }
-                                // Remove from bound entities
-                                if (entity.has('BoundEntities')) {
-                                    entity.BoundEntities.entitiesWithOffsets = entity.BoundEntities.entitiesWithOffsets.filter(
-                                        b => b.entity.id !== state.exclamationEntity.id
-                                    );
-                                }
-                                state.exclamationEntity = null;
-                            }
-                        }
-                    } else if (state.isBursting) {
-                        state.burstDelayTimer++;
-                        if (state.burstDelayTimer >= state.burstDelay) {
-                            state.burstDelayTimer = 0;
-                            
-                            // Throw Hat
-                            const players = ECS.getEntitiesWithComponents('PlayerState');
-                            if (players.length > 0) {
-                                const player = players[0];
-                                const dx = player.Position.x - entity.Position.x;
-                                const dy = player.Position.y - entity.Position.y;
-                                const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (state.phase < 3) {
+                        if (!state.isWarning && !state.isBursting) {
+                            state.burstTimer++;
+                            if (state.burstTimer >= state.burstInterval) {
+                                state.isWarning = true;
+                                state.warningTimer = 0;
                                 
-                                const speed = 2;
-                                const vx = (dx / dist) * speed;
-                                const vy = (dy / dist) * speed;
+                                // Add exclamation to the left
+                                const exX = entity.Position.x - 12;
+                                const exY = entity.Position.y;
+                                const exclamation = ECS.Blueprints.createExclamation(exX, exY);
                                 
-                                const projectile = ECS.Blueprints.createBigHatSmallHatProjectile(entity.Position.x, entity.Position.y, vx, vy);
                                 if (GlobalState.currentScene) {
-                                    GlobalState.currentScene.addEntity(projectile);
+                                    GlobalState.currentScene.addEntity(exclamation);
+                                }
+                                
+                                // Bind it so it moves with boss
+                                if(!entity.has('BoundEntities')) {
+                                    entity.addComponent(new ECS.Components.BoundEntities());
+                                }
+                                entity.BoundEntities.entitiesWithOffsets.push({ 
+                                    entity: exclamation, 
+                                    offsetX: 12, 
+                                    offsetY: 0 
+                                });
+                                
+                                state.exclamationEntity = exclamation;
+                            }
+                        } else if (state.isWarning) {
+                            state.warningTimer++;
+                            if (state.warningTimer >= state.warningDuration) {
+                                state.isWarning = false;
+                                state.isBursting = true;
+                                state.burstCurrentCount = 0;
+                                state.burstDelayTimer = state.burstDelay; // Ready to fire immediately
+                                
+                                // Remove exclamation
+                                if (state.exclamationEntity) {
+                                    if (GlobalState.currentScene) {
+                                        GlobalState.currentScene.removeEntity(state.exclamationEntity.id);
+                                    } else {
+                                        ECS.removeEntity(state.exclamationEntity.id);
+                                    }
+                                    // Remove from bound entities
+                                    if (entity.has('BoundEntities')) {
+                                        entity.BoundEntities.entitiesWithOffsets = entity.BoundEntities.entitiesWithOffsets.filter(
+                                            b => b.entity.id !== state.exclamationEntity.id
+                                        );
+                                    }
+                                    state.exclamationEntity = null;
                                 }
                             }
-                            
-                            state.burstCurrentCount++;
-                            if (state.burstCurrentCount >= state.burstCount) {
-                                state.isBursting = false;
-                                state.burstTimer = 0;
+                        } else if (state.isBursting) {
+                            state.burstDelayTimer++;
+                            if (state.burstDelayTimer >= state.burstDelay) {
+                                state.burstDelayTimer = 0;
+                                
+                                // Throw Hat
+                                const players = ECS.getEntitiesWithComponents('PlayerState');
+                                if (players.length > 0) {
+                                    const player = players[0];
+                                    const dx = player.Position.x - entity.Position.x;
+                                    const dy = player.Position.y - entity.Position.y;
+                                    const dist = Math.sqrt(dx*dx + dy*dy);
+                                    
+                                    const speed = 2;
+                                    const vx = (dx / dist) * speed;
+                                    const vy = (dy / dist) * speed;
+                                    
+                                    const projectile = ECS.Blueprints.createBigHatSmallHatProjectile(entity.Position.x, entity.Position.y, vx, vy);
+                                    if (GlobalState.currentScene) {
+                                        GlobalState.currentScene.addEntity(projectile);
+                                    }
+                                }
+                                
+                                state.burstCurrentCount++;
+                                if (state.burstCurrentCount >= state.burstCount) {
+                                    state.isBursting = false;
+                                    state.burstTimer = 0;
+                                }
                             }
                         }
                     }

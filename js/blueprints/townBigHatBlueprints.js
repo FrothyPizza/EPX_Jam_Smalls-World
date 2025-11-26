@@ -130,6 +130,8 @@ ECS.Blueprints.BigHatHatInteract = function(other) {
 
     // If hit by player bullet
     if (other.has('Bullet') && !this.has('BigHatStunned')) {
+        if (other.has('IsEnemy')) return;
+
         console.log("Big Hat Hat hit by bullet, stunning!");
 
         this.addComponent(new ECS.Components.BigHatStunned());
@@ -200,4 +202,35 @@ ECS.Blueprints.createBigHatBullet = function(x, y, vx, vy) {
 }
 
 
+// uses animated sprite GunBigHat
+ECS.Blueprints.createBigHatShotgun = function(x, y) {
+    const entity = new ECS.Entity();
+    entity.addComponent(new ECS.Components.Position(x, y));
+    entity.addComponent(new ECS.Components.Dimensions(16, 16));
+    entity.addComponent(new ECS.Components.AnimatedSprite(Loader.spriteSheets.GunBigHat, "Idle", 8));
 
+    return entity;
+}
+
+ECS.Blueprints.addBigHatShotgunToBoss = function(bossEntity, scene) {
+    if(!bossEntity.has('BoundEntities')) {
+        bossEntity.addComponent(new ECS.Components.BoundEntities());
+    }
+    
+    const offsetX = 16; 
+    const offsetY = 0;
+    
+    const shotgun = ECS.Blueprints.createBigHatShotgun(bossEntity.Position.x + offsetX, bossEntity.Position.y + offsetY);
+    
+    bossEntity.BoundEntities.entitiesWithOffsets.push({
+        entity: shotgun,
+        offsetX: offsetX,
+        offsetY: offsetY
+    });
+    
+    if (scene) {
+        scene.addEntity(shotgun);
+    } else {
+        ECS.register(shotgun);
+    }
+}

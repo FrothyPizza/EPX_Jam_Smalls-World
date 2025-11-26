@@ -380,6 +380,7 @@ document.body.onload = () => {
       "assets/images/cowboy/Lasso.json",
       "assets/images/cowboy/BigHat.json",
       "assets/images/cowboy/BigHatHat.json",
+      "assets/images/cowboy/GunBigHat.json",
       "assets/images/cowboy/BigHatSmallHatProjectile.json",
       
       "assets/cutscenes/saloon/saloon.cutscene",
