@@ -19,11 +19,11 @@
     { "type": "wait", "duration": 60 },
     {
       "type": "dialogue",
-      "speaker": "Outlaw Jimbo",
+      "speaker": "Rapscallion Jimbo",
       "text": "I am the GREATEST cowboy in the North Sourtherly East!",
-      "hold": 180,
+      "hold": 120,
       "charsPerFrame": 1.5,
-      "box": { "x": 10, "y": 40, "width": 120, "height": 40 }
+      "box": { "x": 20, "y": 32, "width": 120, "height": 44 }
     },
 
     
@@ -40,11 +40,19 @@
     { "type": "wait", "duration": 60 },
     {
       "type": "dialogue",
-      "speaker": "Outlaw Timothy",
-      "text": "No, I am the GREATEREST cowboy in the North Sourtherly East!",
-      "hold": 180,
+      "speaker": "Troublemaker Timothy",
+      "text": "No, that can't be true",
+      "hold": 60,
       "charsPerFrame": 2.5,
-      "box": { "x": 100, "y": 40, "width": 120, "height": 48 }
+      "box": { "x": 100, "y": 32, "width": 120, "height": 44 }
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Troublemaker Timothy",
+      "text": "After all, I'm the GREATEREST cowboy in the North Sourtherly East!",
+      "hold": 120,
+      "charsPerFrame": 2.5,
+      "box": { "x": 100, "y": 32, "width": 120, "height": 44 }
     },
     { "type": "wait", "duration": 60 },
 
@@ -90,11 +98,20 @@
     { "type": "wait", "duration": 60 },
     {
       "type": "dialogue",
-      "speaker": "Outlaw",
-      "text": "\n\n...           BAR FIGHT!",
-      "hold": 180,
+      "speaker": "Outlaw Jerry",
+      "text": "well uh,",
+      "hold": 80,
       "charsPerFrame": 0.5,
-      "box": { "x": 40, "y": 16, "width": 160, "height": 64 }
+      "box": { "x": 88, "y": 80, "width": 60, "height": 24 }
+    },
+
+    {
+      "type": "dialogue",
+      "speaker": "Outlaw Jerry",
+      "text": "BAR FIGHT!",
+      "hold": 80,
+      "charsPerFrame": 0.5,
+      "box": { "x": 88, "y": 80, "width": 60, "height": 24 }
     }
 
 

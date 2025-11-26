@@ -6,7 +6,7 @@
 
     {
       "type": "dialogue",
-      "text": "Press 'X' to use the GUN.\nPress 'S' to use the LASSO.",
+      "text": "Press 'X' to use the GUN.\nPress 'C' to use the LASSO.",
       "speaker": "God",
       "hold": 180,
       "charsPerFrame": 0.5,
