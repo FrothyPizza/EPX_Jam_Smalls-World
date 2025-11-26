@@ -263,7 +263,15 @@ class DesertScene extends LevelScene {
 
 
     onSunset() {
+
+
         // play cutscene, etc.
+
+        // TODO FOR RICHIE: if you want to add a cutscene here after sunset, you can do that
+        // just make the onComplete transition to the next scene
+        // you might want to like clear all entities except for the player (gemini can do that)
+        // then spawn in two guys, then play the cutscene and pass those guys into the cutscene references,
+        // gemini should be able to help
 
         // transition to next scene
         GlobalState.sceneManager.switchScene(new TownBigHatScene(Loader.levels["town_big_hat"].xml));
