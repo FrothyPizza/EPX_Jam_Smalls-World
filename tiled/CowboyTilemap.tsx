@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.10.1" name="CowboyTilemap" tilewidth="8" tileheight="8" tilecount="4000" columns="40">
+<tileset version="1.11" tiledversion="1.11.2" name="CowboyTilemap" tilewidth="8" tileheight="8" tilecount="4000" columns="40">
  <image source="CowboyTilemap.png" width="320" height="800"/>
  <tile id="7" type="wall"/>
  <tile id="8" type="wall"/>
@@ -125,4 +125,10 @@
  <tile id="840" type="wall"/>
  <tile id="841" type="wall"/>
  <tile id="842" type="wall"/>
+ <tile id="1175" type="onewaywall"/>
+ <tile id="1176" type="onewaywall"/>
+ <tile id="1178" type="onewaywall"/>
+ <tile id="1179" type="onewaywall"/>
+ <tile id="1181" type="onewaywall"/>
+ <tile id="1182" type="onewaywall"/>
 </tileset>
