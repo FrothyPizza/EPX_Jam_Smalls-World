@@ -110,6 +110,15 @@
     {
       "type": "dialogue",
       "speaker": "Drunken Sheriff",
+      "text": "hiccup",
+      "hold": 30,
+      "charsPerFrame": 0.5,
+      "box": { "x": 90, "y": 80, "width": 100, "height": 30 }
+    },
+    { "type": "wait", "duration": 15 },
+    {
+      "type": "dialogue",
+      "speaker": "Drunken Sheriff",
       "text": "You are so weak I won't even need my gun",
       "hold": 40,
       "charsPerFrame": 0.5,

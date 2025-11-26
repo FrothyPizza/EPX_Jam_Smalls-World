@@ -113,7 +113,7 @@
     {
       "type": "dialogue",
       "speaker": "Outlaw Jerry",
-      "text": "well uh,",
+      "text": "Well uh,",
       "hold": 40,
       "charsPerFrame": 0.5,
       "box": { "x": 88, "y": 80, "width": 60, "height": 24 }
