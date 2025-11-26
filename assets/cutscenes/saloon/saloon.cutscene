@@ -21,7 +21,7 @@
       "type": "dialogue",
       "speaker": "Rapscallion Jimbo",
       "text": "I am the GREATEST cowboy in the North Sourtherly East!",
-      "hold": 120,
+      "hold": 140,
       "charsPerFrame": 1.5,
       "box": { "x": 20, "y": 32, "width": 120, "height": 44 }
     },
@@ -41,21 +41,35 @@
     {
       "type": "dialogue",
       "speaker": "Troublemaker Timothy",
-      "text": "No, that can't be true",
-      "hold": 60,
-      "charsPerFrame": 2.5,
+      "text": "No, that cant be true",
+      "hold": 90,
+      "charsPerFrame": 1.5,
       "box": { "x": 100, "y": 32, "width": 120, "height": 44 }
     },
+
+    { "type": "wait", "duration": 30 },
+
     {
       "type": "dialogue",
       "speaker": "Troublemaker Timothy",
-      "text": "After all, I'm the GREATEREST cowboy in the North Sourtherly East!",
-      "hold": 120,
-      "charsPerFrame": 2.5,
+      "text": "After all, I am the GREATER-EST cowboy in the North Sourtherly East!",
+      "hold": 140,
+      "charsPerFrame": 1.5,
       "box": { "x": 100, "y": 32, "width": 120, "height": 44 }
     },
-    { "type": "wait", "duration": 60 },
 
+    { "type": "wait", "duration": 30 },
+
+    {
+      "type": "dialogue",
+      "speaker": "Rapscallion Jimbo",
+      "text": "Well, this town aint big enough for 2 GREATER-EST-ER cowboys!",
+      "hold": 200,
+      "charsPerFrame": 1.5,
+      "box": { "x": 20, "y": 32, "width": 120, "height": 44 }
+    },
+
+    { "type": "wait", "duration": 60 },
 
     { "type": "setVelocity", "entity": "OutlawRight", "amount": { "x": -1, "y": 0 } },
     { "type": "setVelocity", "entity": "OutlawLeft", "amount": { "x": 1, "y": 0 } },
@@ -100,10 +114,12 @@
       "type": "dialogue",
       "speaker": "Outlaw Jerry",
       "text": "well uh,",
-      "hold": 80,
+      "hold": 40,
       "charsPerFrame": 0.5,
       "box": { "x": 88, "y": 80, "width": 60, "height": 24 }
     },
+
+    { "type": "wait", "duration": 15 },
 
     {
       "type": "dialogue",
