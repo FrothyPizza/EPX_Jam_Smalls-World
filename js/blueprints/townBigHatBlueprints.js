@@ -187,7 +187,7 @@ ECS.Blueprints.createBigHatBullet = function(x, y, vx, vy) {
     entity.addComponent(new ECS.Components.Hurtbox([{x: 0, y: 0, w: 4, h: 4}]));
     
     // Use bullet sprite or small dot
-    entity.addComponent(new ECS.Components.AnimatedSprite(Loader.spriteSheets.BulletSmall, "Idle", 12));
+    entity.addComponent(new ECS.Components.AnimatedSprite(Loader.spriteSheets.BulletSmallBigHat, "Idle", 12));
     
     // Cleanup after some time
     entity.addComponent(new ECS.Components.Bullet(300)); // 5 seconds lifetime
