@@ -45,7 +45,7 @@ ECS.Helpers.addStunnedBirdsToEntity = function(entity, scene) {
     const birds = ECS.Blueprints.createStunnedBirds(entity.Position.x + offsetX, entity.Position.y + offsetY);
     boundEntities.entitiesWithOffsets.push({ entity: birds, offsetX: offsetX, offsetY: offsetY });
 
-    console.log("Adding stunned birds to entity", entity, "birds entity:", birds);
+    // console.log("Adding stunned birds to entity", entity, "birds entity:", birds);
 
     if (scene && typeof scene.addEntity === 'function') {
         scene.addEntity(birds);

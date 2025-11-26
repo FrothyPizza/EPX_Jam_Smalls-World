@@ -29,7 +29,9 @@ ECS.Systems.bigHatBossSystem = function(entities) {
                                 entity.removeComponent('BoundEntities');
                             }
                         }
-                    } else {
+                    } 
+                    
+                    if (!hatEntity) {
                         // Already detached
                         const hats = ECS.getEntitiesWithComponents('BigHatHatState');
                         if (hats.length > 0) hatEntity = hats[0];

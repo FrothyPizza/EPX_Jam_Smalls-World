@@ -126,7 +126,7 @@ ECS.Systems.playerMovementSystem = function (entities) {
       if (collision.bottomTouchingOneWay && Inputs.down && !(GlobalState.currentScene instanceof SaloonScene)) {
         entity.Position.y += 1;
         entity.Position.lastPos.y += 1;
-        console.log("Falling through one-way platform");
+        // console.log("Falling through one-way platform");
       }
     }
   });
@@ -461,7 +461,7 @@ ECS.Systems.playerAttackSystem = function (entities, map) {
         // ECS.Blueprints.createBullet(...)
         // Play sound here
         Loader.playSound("gunshot.wav", 0.2);
-        console.log("Bang!");
+        // console.log("Bang!");
 
         let bullet = ECS.Blueprints.createBullet(
           entity.Position.x +
@@ -499,7 +499,7 @@ ECS.Systems.playerAttackSystem = function (entities, map) {
         if (gunEntity) gunEntity.AnimatedSprite.hidden = true;
 
         // Play sound here
-        console.log("Whip!");
+        // console.log("Whip!");
       }
     }
 

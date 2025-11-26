@@ -169,7 +169,7 @@ class DesertScene extends LevelScene {
                 rightSpawner.framesUntilNextSpawn = rightSpawner.spawnDelayFrames;
                 
                 this.pendingSpawns.splice(i, 1);
-                console.log("Spawned Knife Pair!");
+                // console.log("Spawned Knife Pair!");
             }
         }
 
@@ -240,7 +240,7 @@ class DesertScene extends LevelScene {
                     this.secondHalfKnifePairSpawnTimer :
                     this.initialKnifePairSpawnTimer;
                 this.knifePairSpawnTimer += Math.random() * 60;
-                console.log("Queueing Knife Pair Spawn!");
+                // console.log("Queueing Knife Pair Spawn!");
             }
         }
         
