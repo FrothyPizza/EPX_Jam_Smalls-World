@@ -37,7 +37,7 @@ ECS.Components.BigHatBossState = class BigHatBossState {
         this.burstDelayTimer = 0;
         this.exclamationEntity = null;
 
-        this.initialHealth = 6;
+        this.initialHealth = 5;
         this.health = this.initialHealth;
         this.phase = 1; // 1, 2, 3
     }
@@ -51,7 +51,15 @@ ECS.Components.BigHatHatState = class BigHatHatState {
         this.moveSpeed = 1.5;
         this.returnSpeed = 0.75;
         this.shootTimer = 0;
-        this.shootInterval = 30;
+        this.shootInterval = 45;
+
+        // Phase 3 Sine Wave
+        this.isSineWave = false;
+        this.sineAmplitude = 60; 
+        this.sineFrequency = 0.05; // Tight period
+        this.sineSpeed = 1.0; 
+        this.sineCenterY = 0;
+        this.sineTime = 0;
     }
 }
 

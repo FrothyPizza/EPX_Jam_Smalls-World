@@ -19,10 +19,29 @@ ECS.Systems.bigHatBossSystem = function(entities) {
             if(state.health < 4) {
                 state.phase = 2;
             }
-            if(state.health < 2) {
+            if(state.health < 2 && state.phase === 2) {
                 state.phase = 3;
+                console.log("Boss entering Phase 3");
+                
+                // Trigger Hat Phase 3
+                const hats = ECS.getEntitiesWithComponents('BigHatHatState');
+                if (hats.length > 0) {
+                    const hatState = hats[0].BigHatHatState;
+                    hatState.isSineWave = true;
+                    
+                    // Calculate sine params based on cues if available
+                    if (state.bossCues && state.bossCues.top && state.bossCues.bottom) {
+                        const topY = state.bossCues.top.y;
+                        const bottomY = state.bossCues.bottom.y;
+                        hatState.sineCenterY = (topY + bottomY) / 2;
+                        hatState.sineAmplitude = (bottomY - topY) / 2;
+                    } else {
+                        // Fallback if cues missing (shouldn't happen if setup correctly)
+                        hatState.sineCenterY = 100; 
+                        hatState.sineAmplitude = 60;
+                    }
+                }
             }
-            state.phase = 2;
             console.log("Boss Phase: " + state.phase);
 
             if(state.phase === 2 && entity.has('BoundEntities')) {
@@ -314,17 +333,27 @@ ECS.Systems.bigHatHatSystem = function(entities) {
                     if (state.cues && state.cues.hatTopLeft) {
                         const target = state.cues.hatTopLeft;
                         const dx = target.x - pos.x;
-                        const dy = target.y - pos.y;
-                        const dist = Math.sqrt(dx*dx + dy*dy);
-
-                        if (dist < 2) {
+                        
+                        // Check if reached left side (X only)
+                        if (Math.abs(dx) < 2) {
                             pos.x = target.x;
-                            pos.y = target.y;
                             state.state = "MOVING_RIGHT"; // Loop back
                         } else {
-                            const speed = (state.moveSpeed || 1) * 0.5; // Half speed
-                            pos.x += (dx/dist) * speed;
-                            pos.y += (dy/dist) * speed;
+                            if (state.isSineWave) {
+                                // Sine Wave Movement
+                                const speed = state.sineSpeed;
+                                pos.x -= speed; // Move left
+                                
+                                state.sineTime += state.sineFrequency;
+                                pos.y = state.sineCenterY + Math.sin(state.sineTime) * state.sineAmplitude;
+                            } else {
+                                // Linear Movement
+                                const dy = target.y - pos.y;
+                                const dist = Math.sqrt(dx*dx + dy*dy);
+                                const speed = (state.moveSpeed || 1) * 0.5; // Half speed
+                                pos.x += (dx/dist) * speed;
+                                pos.y += (dy/dist) * speed;
+                            }
                         }
 
                         entity.AnimatedSprite.setAnimation("Shooting");
@@ -355,21 +384,31 @@ ECS.Systems.bigHatHatSystem = function(entities) {
                     if (state.cues && state.cues.hatTopRight) {
                         const target = state.cues.hatTopRight;
                         const dx = target.x - pos.x;
-                        const dy = target.y - pos.y;
-                        const dist = Math.sqrt(dx*dx + dy*dy);
+                        
+                        // Check if reached right side (X only)
+                        if (Math.abs(dx) < 2) {
+                            pos.x = target.x;
+                            state.state = "MOVING_LEFT"; // Loop
+                        } else {
+                            if (state.isSineWave) {
+                                // Sine Wave Movement
+                                const speed = state.sineSpeed;
+                                pos.x += speed; // Move right
+                                
+                                state.sineTime += state.sineFrequency;
+                                pos.y = state.sineCenterY + Math.sin(state.sineTime) * state.sineAmplitude;
+                            } else {
+                                // Linear Movement
+                                const dy = target.y - pos.y;
+                                const dist = Math.sqrt(dx*dx + dy*dy);
+                                const speed = (state.returnSpeed || 0.5) * 0.5; // Half speed
+                                pos.x += (dx/dist) * speed;
+                                pos.y += (dy/dist) * speed;
+                            }
+                        }
 
                         // set animation to idle when moving right
                         entity.AnimatedSprite.setAnimation("Moving");
-
-                        if (dist < 2) {
-                            pos.x = target.x;
-                            pos.y = target.y;
-                            state.state = "MOVING_LEFT"; // Loop
-                        } else {
-                            const speed = (state.returnSpeed || 0.5) * 0.5; // Half speed
-                            pos.x += (dx/dist) * speed;
-                            pos.y += (dy/dist) * speed;
-                        }
                     }
                     break;
             }
