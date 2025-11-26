@@ -377,11 +377,15 @@ document.body.onload = () => {
       "assets/images/cowboy/Gun.json",
       "assets/images/cowboy/Bullet.json",
       "assets/images/cowboy/BulletSmall.json",
+      "assets/images/cowboy/BulletSmallBigHat.json",
       "assets/images/cowboy/Lasso.json",
       "assets/images/cowboy/BigHat.json",
       "assets/images/cowboy/BigHatHat.json",
       "assets/images/cowboy/GunBigHat.json",
       "assets/images/cowboy/BigHatSmallHatProjectile.json",
+      "assets/images/cowboy/Cannon.json",
+      "assets/images/cowboy/Barrel.json",
+
       
       "assets/cutscenes/saloon/saloon.cutscene",
       "assets/cutscenes/saloon/saloon_start_part_2.cutscene",
