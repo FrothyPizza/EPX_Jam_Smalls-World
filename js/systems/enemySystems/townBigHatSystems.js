@@ -243,6 +243,8 @@ ECS.Systems.bigHatBossSystem = function(entities) {
                                         const baseAngle = Math.atan2(dy, dx);
                                         const angleStep = 2 * (Math.PI / 180); // 2 degrees in radians
 
+                                        Loader.playSound("shotgunshot.wav", 0.3);
+
                                         for (let i = -2; i <= 2; i++) {
                                             const angle = baseAngle + (i * angleStep);
                                             const vx = Math.cos(angle) * speed;
@@ -332,6 +334,7 @@ ECS.Systems.bigHatBossSystem = function(entities) {
                                     const projectile = ECS.Blueprints.createBigHatSmallHatProjectile(entity.Position.x, entity.Position.y, vx, vy);
                                     if (GlobalState.currentScene) {
                                         GlobalState.currentScene.addEntity(projectile);
+                                        Loader.playSound("hatthrow.wav", 0.2);
                                     }
                                 }
                                 

@@ -137,9 +137,7 @@ function moveH(entity, map, value) {
       if (entity.has("BouncesOffWalls")) {
         // Play sound here (bottle bounces)
         // Sound effect on bounce
-
-        // This causes multiple sounds to play if stuck!
-        Loader.playSound("bottlebounce.wav", 0.1);
+        Loader.playSound("bottlebounce.wav", 0.5);
 
         const bounceComp = entity.BouncesOffWalls;
         // bounceComp.numberOfBounces += 1;

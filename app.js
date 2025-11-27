@@ -65,7 +65,7 @@ window.addEventListener(
   (e) => {
     //Loader.playMusic('TenseBase.mp3', true, 0.5);
 
-    Loader.playSound("Slash.wav", 0.7);
+    //Loader.playSound("shotgunshot.wav", 0.3);
     // Test sound here
 
     // remove this event listener after first key press

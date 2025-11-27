@@ -500,6 +500,7 @@ ECS.Systems.playerAttackSystem = function (entities, map) {
 
         // Play sound here
         // console.log("Whip!");
+        Loader.playSound("whip.wav", 0.2);
       }
     }
 
