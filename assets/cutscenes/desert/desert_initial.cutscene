@@ -52,6 +52,17 @@
       "hold": 120
     },
 
+    { "type": "wait", "duration": 15 },
+    {
+      "type": "dialogue",
+      "speaker": "Deputy Clark",
+      "text": "Hey boys over here, it's the one who took out the sheriff!",
+      "hold": 80,
+      "charsPerFrame": 0.5,
+      "box": { "x": 20, "y": 40, "width": 60, "height": 24 }
+    },
+    { "type": "wait", "duration": 15 },
+
     
     {
       "type": "setAnimation",
@@ -70,12 +81,46 @@
       "entity": "RightOutlaw",
       "animation": "Idle"
     },
+    { "type": "wait", "duration": 15 },
     {
       "type": "dialogue",
-      "entity": "RightOutlaw",
-      "text": "Time to die.",
-      "hold": 120
-    }
+      "speaker": "Big Hat Bandit Mark",
+      "text": "Well if it aint the deputys, we already took care of your little sheriff",
+      "hold": 80,
+      "charsPerFrame": 0.5,
+      "box": { "x": 100, "y": 40, "width": 60, "height": 24 }
+    },
+    { "type": "wait", "duration": 15 },
+    {
+      "type": "dialogue",
+      "speaker": "Big Hat Bandit Mark",
+      "text": "Looks like we gotta teach them another lesson",
+      "hold": 80,
+      "charsPerFrame": 0.5,
+      "box": { "x": 100, "y": 40, "width": 60, "height": 24 }
+    },
+    { "type": "wait", "duration": 15 },
+
+    {
+      "type": "dialogue",
+      "speaker": "Deputy Clark",
+      "text": "AFTER HIM!",
+      "hold": 80,
+      "charsPerFrame": 0.5,
+      "box": { "x": 20, "y": 40, "width": 60, "height": 24 }
+    },
+    { "type": "wait", "duration": 15 },
+
+    { "type": "wait", "duration": 15 },
+    {
+      "type": "dialogue",
+      "speaker": "Big Hat Bandit Mark",
+      "text": "GET EM BOYS!",
+      "hold": 80,
+      "charsPerFrame": 0.5,
+      "box": { "x": 100, "y": 40, "width": 60, "height": 24 }
+    },
+    { "type": "wait", "duration": 15 }
 
 
 
