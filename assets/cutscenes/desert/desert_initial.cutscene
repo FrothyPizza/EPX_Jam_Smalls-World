@@ -38,28 +38,22 @@
       "type": "moveOverride",
       "entity": "LeftOutlaw",
       "relative": true,
-      "path": [{ "x": 0, "y": 0, "t": 0 }, { "x": 16, "y": 0, "t": 30 }]
+      "path": [{ "x": 0, "y": 0, "t": 0 }, { "x": 16, "y": 0, "t": 48 }]
     },
     {
       "type": "setAnimation",
       "entity": "LeftOutlaw",
       "animation": "Idle"
     },
-    {
-      "type": "dialogue",
-      "entity": "LeftOutlaw",
-      "text": "Well look who it is.",
-      "hold": 120
-    },
 
     { "type": "wait", "duration": 15 },
     {
       "type": "dialogue",
       "speaker": "Deputy Clark",
-      "text": "Hey boys over here, it's the one who took out the sheriff!",
-      "hold": 80,
+      "text": "Hey boys over here, the one who took out the sheriff!",
+      "hold": 120,
       "charsPerFrame": 0.5,
-      "box": { "x": 20, "y": 40, "width": 60, "height": 24 }
+      "box": { "x": 20, "y": 40, "width": 120, "height": 48 }
     },
     { "type": "wait", "duration": 15 },
 
@@ -74,7 +68,7 @@
       "type": "moveOverride",
       "entity": "RightOutlaw",
       "relative": true,
-      "path": [{ "x": 0, "y": 0, "t": 0 }, { "x": -16, "y": 0, "t": 30 }]
+      "path": [{ "x": 0, "y": 0, "t": 0 }, { "x": -16, "y": 0, "t": 48 }]
     },
     {
       "type": "setAnimation",
@@ -85,19 +79,19 @@
     {
       "type": "dialogue",
       "speaker": "Big Hat Bandit Mark",
-      "text": "Well if it aint the deputys, we already took care of your little sheriff",
-      "hold": 80,
+      "text": "Well if it aint the deputys, I thought we already took care of ya little sheriff",
+      "hold": 120,
       "charsPerFrame": 0.5,
-      "box": { "x": 100, "y": 40, "width": 60, "height": 24 }
+      "box": { "x": 100, "y": 40, "width": 120, "height": 48 }
     },
     { "type": "wait", "duration": 15 },
     {
       "type": "dialogue",
       "speaker": "Big Hat Bandit Mark",
       "text": "Looks like we gotta teach them another lesson",
-      "hold": 80,
+      "hold": 120,
       "charsPerFrame": 0.5,
-      "box": { "x": 100, "y": 40, "width": 60, "height": 24 }
+      "box": { "x": 100, "y": 40, "width": 120, "height": 48 }
     },
     { "type": "wait", "duration": 15 },
 
@@ -105,9 +99,9 @@
       "type": "dialogue",
       "speaker": "Deputy Clark",
       "text": "AFTER HIM!",
-      "hold": 80,
+      "hold": 40,
       "charsPerFrame": 0.5,
-      "box": { "x": 20, "y": 40, "width": 60, "height": 24 }
+      "box": { "x": 20, "y": 50, "width": 120, "height": 24 }
     },
     { "type": "wait", "duration": 15 },
 
@@ -116,9 +110,9 @@
       "type": "dialogue",
       "speaker": "Big Hat Bandit Mark",
       "text": "GET EM BOYS!",
-      "hold": 80,
+      "hold": 40,
       "charsPerFrame": 0.5,
-      "box": { "x": 100, "y": 40, "width": 60, "height": 24 }
+      "box": { "x": 100, "y": 50, "width": 120, "height": 24 }
     },
     { "type": "wait", "duration": 15 }
 

@@ -119,7 +119,7 @@
     {
       "type": "dialogue",
       "speaker": "Drunken Sheriff",
-      "text": "You are so weak I won't even need my gun",
+      "text": "Your so weak I wont even need my gun",
       "hold": 40,
       "charsPerFrame": 0.5,
       "box": { "x": 60, "y": 50, "width": 120, "height": 48 }
