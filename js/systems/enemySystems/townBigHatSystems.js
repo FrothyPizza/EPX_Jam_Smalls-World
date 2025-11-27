@@ -377,6 +377,7 @@ ECS.Systems.bigHatHatSystem = function(entities) {
                     if (pos.x > WIDTH - 24) {
                         // remove DamagesPlayer component
                         console.log("Hat returned offscreen, centering.");
+                        if(entity.has('DamagesPlayer')) entity.removeComponent('DamagesPlayer');
                         // remove velocity
                         if(entity.has('Velocity')) {
                             entity.Velocity.x = 0;
@@ -427,7 +428,30 @@ ECS.Systems.bigHatHatSystem = function(entities) {
                         state.state = "MOVING_LEFT"; // Start moving left
                         state.isSineWave = true;
                         state.sineTime = 0; // Start sine at 0 (center)
-                        entity.addComponent(new ECS.Components.DamagesPlayer(true));
+                        if(!entity.has('DamagesPlayer')) {
+                            entity.addComponent(new ECS.Components.DamagesPlayer(true));
+                        }
+
+                        // remove all small hats from scene (stunned or not stunned). They should all have their map colliders removed and be given gravity so they fall off screen.
+                        ECS.getEntitiesWithComponents('BigHatSmallHatProjectile').forEach(smallHat => {
+                            if(smallHat.has('CollidesWithMap')) smallHat.removeComponent('CollidesWithMap');
+                            if(smallHat.has('MapCollisionState')) smallHat.removeComponent('MapCollisionState');
+                            
+                            // Stop system from freezing velocity if stunned
+                            if(smallHat.has('BigHatSmallHatProjectile')) smallHat.removeComponent('BigHatSmallHatProjectile');
+                            if(smallHat.has('DamagesPlayer')) smallHat.removeComponent('DamagesPlayer');
+
+                            if (!smallHat.has('Gravity')) {
+                                smallHat.addComponent(new ECS.Components.Gravity(0.2));
+                            } else {
+                                smallHat.Gravity.gravity = 0.2;
+                            }
+                            if(smallHat.has('Velocity')) {
+                                smallHat.Velocity.x = 0;
+                                smallHat.Velocity.y = -1.5;
+                            }
+                        });  
+                        shakeScreen(5);                      
                         if(entity.has('InvincibilityFrames')) {
                             entity.removeComponent('InvincibilityFrames');
                         }
@@ -439,6 +463,7 @@ ECS.Systems.bigHatHatSystem = function(entities) {
                     break;
 
                 case "MOVING_LEFT":
+                    if(entity.has('InvincibilityFrames')) entity.removeComponent('InvincibilityFrames');
                     // Move to Top Left Cue
                     if (state.cues && state.cues.hatTopLeft) {
                         const target = state.cues.hatTopLeft;
@@ -492,6 +517,7 @@ ECS.Systems.bigHatHatSystem = function(entities) {
                     break;
 
                 case "MOVING_RIGHT":
+                    if(entity.has('InvincibilityFrames')) entity.removeComponent('InvincibilityFrames');
                     // Move back to Top Right
                     if (state.cues && state.cues.hatTopRight) {
                         const target = state.cues.hatTopRight;
