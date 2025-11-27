@@ -1,4 +1,7 @@
 /**
+ * TEMP
+ * Copy of desertScene
+ * 
  * Guys spawn at edges in the 5 spawner locations (2 on left side, 3 on right side)
  * 
  * Knife guys just run at you
@@ -15,7 +18,7 @@
  * sunset gradually darkens the screen (overlay a semi-transparent black rectangle on top of everything)
  */
 
-class DesertScene extends LevelScene {
+class TownGoonsScene extends LevelScene {
     constructor(mapXml) {
         super(mapXml);
 
@@ -260,29 +263,17 @@ class DesertScene extends LevelScene {
         this.enemiesActive = false;
         this.framesToCompletion = this.totalFrames;
 
-        this.playCutscene("desert_level_start", { Player: this.player }, {
-            onComplete: () => {
-                this.enemiesActive = true;
-            }
-        });
+        // this.playCutscene("desert_level_start", { Player: this.player }, {
+        //     onComplete: () => {
+        //         this.enemiesActive = true;
+        //     }
+        // });
     }
 
 
     onSunset() {
 
-        //NOTE: might not want a cutscene here after sunset, maybe just transition to next (Town Goons)
-
-
-        // play cutscene, etc.
-
-        // TODO FOR RICHIE: if you want to add a cutscene here after sunset, you can do that
-        // just make the onComplete transition to the next scene
-        // you might want to like clear all entities except for the player (gemini can do that)
-        // then spawn in two guys, then play the cutscene and pass those guys into the cutscene references,
-        // gemini should be able to help
-
         // transition to next scene
-        GlobalState.sceneManager.switchScene(new TownGoonsScene(Loader.levels["town_goons"].xml));
-        //GlobalState.sceneManager.switchScene(new TownBigHatScene(Loader.levels["town_big_hat"].xml));
+        GlobalState.sceneManager.switchScene(new TownBigHatScene(Loader.levels["town_big_hat"].xml));
     }
 }
