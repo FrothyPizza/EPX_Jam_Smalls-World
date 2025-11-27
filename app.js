@@ -64,6 +64,7 @@ window.addEventListener(
   "keydown",
   (e) => {
     //Loader.playMusic('TenseBase.mp3', true, 0.5);
+    //Loader.playSound("explosion.wav", 0.08);
 
     //Loader.playSound("shotgunshot.wav", 0.3);
     // Test sound here
