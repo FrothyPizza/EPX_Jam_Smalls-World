@@ -39,6 +39,8 @@ class TownBigHatScene extends LevelScene {
 
         this.bossActive = false;
 
+        Loader.playMusic("FinalBoss4.mp3", 0.3, true);
+        
         if (Loader.cutscenes && Loader.cutscenes.big_hat_initial) {
             if (CONSTANTS.SPEEDY_MODE) {
                 this.playCutscene("big_hat_level_start", { BigHat: bossEntity, Player: this.player }, {
@@ -108,6 +110,7 @@ class TownBigHatScene extends LevelScene {
         if (bosses.length > 0) {
             bossEntity = bosses[0];
         }
+        Loader.playMusic("FinalBoss4.mp3", 0.3, true);
         this.playCutscene("big_hat_level_start", { BigHat: bossEntity, Player: this.player }, {
             onComplete: () => {
                 this.bossActive = true;

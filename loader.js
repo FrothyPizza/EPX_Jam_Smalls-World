@@ -416,6 +416,7 @@ document.body.onload = () => {
       "assets/music/cowboy/TenseBase.mp3",
       "assets/music/cowboy/TenseBaseSnare.mp3",
       "assets/music/cowboy/Tenser_Sevens.mp3",
+      "assets/music/cowboy/FinalBoss4.mp3",
 
       // "assets/music/Bones and Demons -Decending baseline.mp3",
 
