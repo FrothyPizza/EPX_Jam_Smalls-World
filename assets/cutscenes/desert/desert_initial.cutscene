@@ -89,9 +89,9 @@
       "type": "dialogue",
       "speaker": "Big Hat Bandit Mark",
       "text": "You working with them now, Smalls?",
-      "hold": 120,
+      "hold": 80,
       "charsPerFrame": 0.5,
-      "box": { "x": 100, "y": 40, "width": 120, "height": 56 }
+      "box": { "x": 100, "y": 40, "width": 120, "height": 40 }
     },
     { "type": "wait", "duration": 15 },
     {
@@ -106,9 +106,9 @@
       "type": "dialogue",
       "speaker": "Deputy Clark",
       "text": "How dare you, our Sheriff just needed a BREAK!",
-      "hold": 120,
+      "hold": 80,
       "charsPerFrame": 0.5,
-      "box": { "x": 20, "y": 40, "width": 120, "height": 56 }
+      "box": { "x": 20, "y": 40, "width": 120, "height": 40 }
     },
     { "type": "wait", "duration": 15 },
 
@@ -116,9 +116,9 @@
       "type": "dialogue",
       "speaker": "Big Hat Bandit Mark",
       "text": "Looks like we gotta teach them another lesson",
-      "hold": 120,
+      "hold": 80,
       "charsPerFrame": 0.5,
-      "box": { "x": 100, "y": 40, "width": 120, "height": 56 }
+      "box": { "x": 100, "y": 40, "width": 120, "height": 40 }
     },
     { "type": "wait", "duration": 15 },
 
