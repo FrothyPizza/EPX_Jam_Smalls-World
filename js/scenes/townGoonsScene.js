@@ -111,16 +111,14 @@ class TownGoonsScene extends LevelScene {
         if (Loader.cutscenes && Loader.cutscenes.desert_initial) {
             CONSTANTS.SPEEDY_MODE = false; // for testing
             if (CONSTANTS.SPEEDY_MODE) {
-                //Can't tell if this is good, slight pause.
-                Loader.playMusic("TenseBaseSnare.mp3", 0.3, true);
+                Loader.playMusic("Tenser_Sevens.mp3", 0.3, true);
                 this.playCutscene("town_goons_start", { Player: this.player }, {
                     onComplete: () => {
                         this.enemiesActive = true;
-                        Loader.playMusic("Tenser_Sevens.mp3", 0.3, true);
                     }
                 });
             } else {
-                Loader.playMusic("TenseBaseSnare.mp3", 0.3, true);
+                Loader.playMusic("Tenser_Sevens.mp3", 0.3, true);
 
                 this.playCutscene("town_goons_initial", { LeftOutlaw: outlawLeft, RightOutlaw: outlawRight }, {
                     shouldSave: true,
@@ -128,7 +126,6 @@ class TownGoonsScene extends LevelScene {
                         // Remove the cutscene actors if they are still around (they should have walked off)
                         if (outlawLeft) this.removeEntity(outlawLeft.id);
                         if (outlawRight) this.removeEntity(outlawRight.id);
-                        Loader.playMusic("Tenser_Sevens.mp3", 0.3, true);
 
                         this.playCutscene("town_goons_start", { Player: this.player }, {
                             shouldSave: false,

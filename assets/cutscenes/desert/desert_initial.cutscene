@@ -79,26 +79,63 @@
     {
       "type": "dialogue",
       "speaker": "Big Hat Bandit Mark",
-      "text": "Well if it aint the deputys, I thought we already took care of ya little sheriff",
+      "text": "Well if it ain't the deputys and well would you look at that, I haven't that face in a while",
       "hold": 120,
       "charsPerFrame": 0.5,
-      "box": { "x": 100, "y": 40, "width": 120, "height": 48 }
+      "box": { "x": 100, "y": 40, "width": 120, "height": 56 }
     },
     { "type": "wait", "duration": 15 },
+    {
+      "type": "dialogue",
+      "speaker": "Big Hat Bandit Mark",
+      "text": "You working with them now, Smalls?",
+      "hold": 120,
+      "charsPerFrame": 0.5,
+      "box": { "x": 100, "y": 40, "width": 120, "height": 56 }
+    },
+    { "type": "wait", "duration": 15 },
+    {
+      "type": "dialogue",
+      "speaker": "Big Hat Bandit Mark",
+      "text": "Well we already took care of your little sheriff, made him run away with his little tail between his legs",
+      "hold": 120,
+      "charsPerFrame": 0.5,
+      "box": { "x": 100, "y": 40, "width": 120, "height": 56 }
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Deputy Clark",
+      "text": "How dare you, our Sheriff just needed a BREAK!",
+      "hold": 120,
+      "charsPerFrame": 0.5,
+      "box": { "x": 20, "y": 40, "width": 120, "height": 56 }
+    },
+    { "type": "wait", "duration": 15 },
+
     {
       "type": "dialogue",
       "speaker": "Big Hat Bandit Mark",
       "text": "Looks like we gotta teach them another lesson",
       "hold": 120,
       "charsPerFrame": 0.5,
-      "box": { "x": 100, "y": 40, "width": 120, "height": 48 }
+      "box": { "x": 100, "y": 40, "width": 120, "height": 56 }
     },
     { "type": "wait", "duration": 15 },
+
 
     {
       "type": "dialogue",
       "speaker": "Deputy Clark",
-      "text": "AFTER HIM!",
+      "text": "Ah screw it",
+      "hold": 40,
+      "charsPerFrame": 0.5,
+      "box": { "x": 20, "y": 50, "width": 120, "height": 24 }
+    },  
+    { "type": "wait", "duration": 15 },
+    {
+      "type": "dialogue",
+      "speaker": "Deputy Clark",
+      "text": "TAKE EM OUT!",
       "hold": 40,
       "charsPerFrame": 0.5,
       "box": { "x": 20, "y": 50, "width": 120, "height": 24 }
