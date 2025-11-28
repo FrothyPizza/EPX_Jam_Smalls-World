@@ -98,6 +98,8 @@ ECS.Systems.TownGoonEnemySystem = function(entities) {
 
         // No jumping for the cannoneer?
 
+        // Backwards-compatible alias: some scenes expect the pluralized name
+        ECS.Systems.TownGoonsEnemySystem = ECS.Systems.TownGoonEnemySystem;
         // // Jump logic
         // if (cannoneer.jumpTimer > 0) {
         //     cannoneer.jumpTimer--;

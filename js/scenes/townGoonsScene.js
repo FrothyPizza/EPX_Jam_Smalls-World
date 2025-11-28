@@ -22,7 +22,7 @@ class TownGoonsScene extends LevelScene {
     constructor(mapXml) {
         super(mapXml);
 
-        this.totalFrames = CONSTANTS.SPEEDY_MODE ? 600 : 3600; // 1 minute at 60 FPS
+        this.totalFrames = CONSTANTS.SPEEDY_MODE ? 3600 : 3600; // 1 minute at 60 FPS
         this.framesToCompletion = this.totalFrames; // 1 minute at 60 FPS
 
         this.spawners = [];
@@ -195,29 +195,29 @@ class TownGoonsScene extends LevelScene {
         });
 
         // // 2. Spawn Gunners (Max 2)
-        // const activeGunners = ECS.getEntitiesWithComponents('DesertGunOutlaw').length;
-        // if (activeGunners < 2) {
-        //     const freeSpawners = this.spawners.filter(s => s.enemyIDsThatISpawned.length === 0 && s.framesUntilNextSpawn <= 0);
+        const activeCannoneers = ECS.getEntitiesWithComponents('TownGoonsCannonOutlaw').length;
+        if (activeCannoneers < 2) {
+            const freeSpawners = this.spawners.filter(s => s.enemyIDsThatISpawned.length === 0 && s.framesUntilNextSpawn <= 0);
             
-        //     if (freeSpawners.length > 0) {
-        //         // 5% chance to spawn per frame if slot is open, to stagger them a bit
-        //         if (Math.random() < 0.05) {
-        //             const spawner = freeSpawners[Math.floor(Math.random() * freeSpawners.length)];
-        //             let isLeftSpawner = spawner.name.includes("Left");
-        //             let facingLeft = !isLeftSpawner;
+            if (freeSpawners.length > 0) {
+                // 5% chance to spawn per frame if slot is open, to stagger them a bit
+                if (Math.random() < 0.05) {
+                    const spawner = freeSpawners[Math.floor(Math.random() * freeSpawners.length)];
+                    let isLeftSpawner = spawner.name.includes("Left");
+                    let facingLeft = !isLeftSpawner;
 
-        //             let level = 'Middle';
-        //             if (spawner.name.includes('Top')) level = 'Top';
-        //             if (spawner.name.includes('Bottom')) level = 'Bottom';
+                    let level = 'Middle';
+                    if (spawner.name.includes('Top')) level = 'Top';
+                    if (spawner.name.includes('Bottom')) level = 'Bottom';
 
-        //             let enemyEntity = ECS.Blueprints.createDesertGunOutlaw(spawner.x, spawner.y, facingLeft, level);
-        //             this.addEntity(enemyEntity);
-        //             spawner.enemyIDsThatISpawned.push(enemyEntity.id);
-        //             spawner.framesUntilNextSpawn = spawner.spawnDelayFrames;
-        //             console.log(`Spawned Gunner at ${spawner.name}`);
-        //         }
-        //     }
-        // }
+                    let enemyEntity = ECS.Blueprints.createTownGoonsCannonOutlaw(spawner.x, spawner.y, facingLeft, level);
+                    this.addEntity(enemyEntity);
+                    spawner.enemyIDsThatISpawned.push(enemyEntity.id);
+                    spawner.framesUntilNextSpawn = spawner.spawnDelayFrames;
+                    console.log(`Spawned Cannoneer at ${spawner.name}`);
+                }
+            }
+        }
 
         // 3. Spawn Knife Pair (Intermittently)
         if (this.knifePairSpawnTimer > 0) {
@@ -263,11 +263,11 @@ class TownGoonsScene extends LevelScene {
         this.enemiesActive = false;
         this.framesToCompletion = this.totalFrames;
 
-        // this.playCutscene("desert_level_start", { Player: this.player }, {
-        //     onComplete: () => {
-        //         this.enemiesActive = true;
-        //     }
-        // });
+        this.playCutscene("town_goons_start", { Player: this.player }, {
+            onComplete: () => {
+                this.enemiesActive = true;
+            }
+        });
     }
 
 
