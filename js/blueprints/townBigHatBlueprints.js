@@ -120,6 +120,13 @@ ECS.Blueprints.BigHatSmallHatProjectileInteract = function(other) {
         other.addComponent(new ECS.Components.Stunned({x: 0, y: -1.5}, 20, duration, false));
 
         other.BigHatBossState.health -= 1;
+
+        // score points
+        if (GlobalState.currentScene && GlobalState.currentScene.player && GlobalState.currentScene.player.has('PlayerState')) {
+            let middlePosisitionX = (this.Position.x + other.Position.x) / 2;
+            ECS.Helpers.scorePoints(100, middlePosisitionX, this.Position.y - 10, 'yellow', 30);
+        }
+        shakeScreen(5);
         
         // Apply damage/stun to boss
         // other.addComponent(new ECS.Components.Stunned(...)); 
@@ -170,6 +177,13 @@ ECS.Blueprints.BigHatHatInteract = function(other) {
         console.log("Boss hit by returning hat!");
 
         other.BigHatBossState.health -= 1;
+
+        // score points
+        if (GlobalState.currentScene && GlobalState.currentScene.player && GlobalState.currentScene.player.has('PlayerState')) {
+            let middlePosisitionX = (this.Position.x + other.Position.x) / 2;
+            ECS.Helpers.scorePoints(200, middlePosisitionX, this.Position.y - 10, 'yellow', 30);
+        }
+        shakeScreen(5);
 
         if (other.BigHatBossState.health <= 0) {
             this.BigHatHatState.state = "DEFEATED";
