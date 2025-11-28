@@ -75,6 +75,25 @@ class TownBigHatScene extends LevelScene {
 
                 console.log("Big Hat defeated!");
 
+                // Save High Score
+                if (this.player && this.player.has('PlayerState')) {
+                    const currentScore = this.player.PlayerState.score;
+                    const storedScores = localStorage.getItem('smalls_world_high_scores');
+                    let highScores = storedScores ? JSON.parse(storedScores) : [];
+                    
+                    highScores.push(currentScore);
+                    highScores.sort((a, b) => b - a); // Descending sort
+                    highScores = highScores.slice(0, 5); // Keep top 5
+                    
+                    localStorage.setItem('smalls_world_high_scores', JSON.stringify(highScores));
+                    console.log("High score saved:", currentScore);
+                }
+
+                // Transition to Menu after a delay
+                setTimeout(() => {
+                    GlobalState.sceneManager.switchScene(new MenuScene());
+                }, 3000);
+
                 // play cutscene here (boss defeated)
                 // this.playCutscene('BigHatDefeat', { boss: bossEntity }, { shouldSave: true });
             }
