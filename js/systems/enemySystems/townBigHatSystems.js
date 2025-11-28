@@ -238,7 +238,7 @@ ECS.Systems.bigHatBossSystem = function(entities) {
                                         const player = players[0];
                                         const dx = player.Position.x - shotgun.Position.x;
                                         const dy = player.Position.y - shotgun.Position.y;
-                                        const speed = 2;
+                                        const speed = 1.5;
                                         
                                         const baseAngle = Math.atan2(dy, dx);
                                         const angleStep = 2 * (Math.PI / 180); // 2 degrees in radians
@@ -327,7 +327,7 @@ ECS.Systems.bigHatBossSystem = function(entities) {
                                     const dy = player.Position.y - entity.Position.y;
                                     const dist = Math.sqrt(dx*dx + dy*dy);
                                     
-                                    const speed = 2;
+                                    const speed = 1.5;
                                     const vx = (dx / dist) * speed;
                                     const vy = (dy / dist) * speed;
                                     
