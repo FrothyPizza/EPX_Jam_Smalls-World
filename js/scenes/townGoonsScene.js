@@ -22,7 +22,7 @@ class TownGoonsScene extends LevelScene {
     constructor(mapXml) {
         super(mapXml);
 
-        this.totalFrames = CONSTANTS.SPEEDY_MODE ? 3600 : 3600; // 1 minute at 60 FPS
+        this.totalFrames = CONSTANTS.SPEEDY_MODE ? 60 : 3600; // 1 minute at 60 FPS
         this.framesToCompletion = this.totalFrames; // 1 minute at 60 FPS
 
         this.spawners = [];
@@ -166,13 +166,13 @@ class TownGoonsScene extends LevelScene {
                 const rightSpawner = pending.rightSpawner;
                 
                 // Spawn Left Guy (Faces Right)
-                let leftEntity = ECS.Blueprints.createDesertKnifeOutlaw(leftSpawner.x, leftSpawner.y, false);
+                let leftEntity = ECS.Blueprints.createTownGoonsKnifeOutlaw(leftSpawner.x, leftSpawner.y, false);
                 this.addEntity(leftEntity);
                 leftSpawner.enemyIDsThatISpawned.push(leftEntity.id);
                 leftSpawner.framesUntilNextSpawn = leftSpawner.spawnDelayFrames;
 
                 // Spawn Right Guy (Faces Left)
-                let rightEntity = ECS.Blueprints.createDesertKnifeOutlaw(rightSpawner.x, rightSpawner.y, true);
+                let rightEntity = ECS.Blueprints.createTownGoonsKnifeOutlaw(rightSpawner.x, rightSpawner.y, true);
                 this.addEntity(rightEntity);
                 rightSpawner.enemyIDsThatISpawned.push(rightEntity.id);
                 rightSpawner.framesUntilNextSpawn = rightSpawner.spawnDelayFrames;
