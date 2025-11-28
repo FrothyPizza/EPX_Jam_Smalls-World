@@ -396,6 +396,10 @@ document.body.onload = () => {
 
       "assets/cutscenes/desert/desert_initial.cutscene",
       "assets/cutscenes/desert/desert_level_start.cutscene",
+
+      "assets/cutscenes/town_goons/town_goons_initial.cutscene",
+      "assets/cutscenes/town_goons/town_goons_start.cutscene",
+
       "assets/cutscenes/big_hat/big_hat_initial.cutscene",
       "assets/cutscenes/big_hat/big_hat_level_start.cutscene",
 
