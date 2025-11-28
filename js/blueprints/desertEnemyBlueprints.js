@@ -53,7 +53,8 @@ ECS.Blueprints.createDesertGunOutlaw = function(x, y, facingLeft = false, level 
         "Idle", 
         12
     );
-    sprite.flipX = facingLeft;
+    // sprite.flipX = facingLeft;
+    
     entity.addComponent(sprite);
 
     entity.addComponent(new ECS.Components.SpawnSide(facingLeft ? 'right' : 'left'));
