@@ -71,10 +71,16 @@ ECS.Blueprints.createTownGoonsCannonOutlaw = function(x, y, facingLeft = false, 
 
     entity.addComponent(new ECS.Components.SpawnSide(facingLeft ? 'right' : 'left'));
     
-    entity.interactWith = ECS.Blueprints.DesertOutlawInteract;
+    // entity.interactWith = ECS.Blueprints.DesertOutlawInteract;
+    // entity.interactWith = ECS.Blueprints.townGoonCannonOutlawInteract;
     
     return entity;
 }
+
+
+
+
+
 
 ECS.Blueprints.createTownGoonsCannon = function(x, y) {
     let entity = new ECS.Entity();

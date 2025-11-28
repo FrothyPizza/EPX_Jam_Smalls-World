@@ -269,6 +269,36 @@ class TownGoonsScene extends LevelScene {
             }
         }
 
+
+        // make sure that if there are two cannoneers on the same side and they're both in their strafing states, one of them drops down
+        ECS.getEntitiesWithComponents('TownGoonsCannonOutlaw').forEach(entity => {
+            if (entity.has('Stunned')) return;
+            const cannoneer = entity.TownGoonsCannonOutlaw;
+            
+            if (cannoneer.state === 'strafing_back' || cannoneer.state === 'strafing_forward') {
+                // find other cannoneers on same side in strafing state
+                const isLeftSide = entity.has('SpawnSide') && entity.SpawnSide.side === 'left';
+                const others = ECS.getEntitiesWithComponents('TownGoonsCannonOutlaw').filter(e => {
+                    if (e.id === entity.id) return false;
+                    const otherIsLeft = e.has('SpawnSide') && e.SpawnSide.side === 'left';
+                    const otherState = e.TownGoonsCannonOutlaw.state;
+                    return otherIsLeft === isLeftSide && (otherState === 'strafing_back' || otherState === 'strafing_forward');
+                });
+                if (others.length > 0) {
+                    console.log("Multiple cannoneers on same side strafing, dropping one down");
+                    // if their Y position is within 1 pixel, drop one down
+                    const other = others[0];
+                    if (Math.abs(other.Position.y - entity.Position.y) < 1) {
+                        // drop down the other cannoneer
+                        other.Position.y += 2;
+                        // other.TownGoonsCannonOutlaw.state = 'entering';
+                    }
+                }
+            }
+        });
+
+
+
         // 3. Spawn Knife Pair (Intermittently)
         if (this.knifePairSpawnTimer > 0) {
             this.knifePairSpawnTimer--;

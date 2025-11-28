@@ -53,10 +53,10 @@ ECS.Systems.TownGoonEnemySystem = function(entities) {
         if (entity.has('SpawnSide')) {
             forwardDir = entity.SpawnSide.side === 'left' ? 1 : -1;
         }
-        const speed = 0.5;
+        const speed = 0.33333333;
 
         if (cannoneer.state === 'entering') {
-            entity.Velocity.x = forwardDir * speed;
+            // entity.Velocity.x = forwardDir * speed;
             cannoneer.timer--;
             if (cannoneer.timer <= 0) {
                 cannoneer.state = 'strafing_back';

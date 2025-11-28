@@ -10,7 +10,7 @@ ECS.Components.TownGoonsCannonOutlaw = class TownGoonsCannonOutlaw {
     constructor() {
         this.state = 'entering'; // entering, strafing_back, strafing_forward
         this.timer = 5; // 60 frames entering 
-        this.strafeTime = 40; // 1 second strafing
+        this.strafeTime = 60; // 1 second strafing
         
         this.shootTimer = 0;
         this.shootInterval = 180; // Shoot every 3 seconds
