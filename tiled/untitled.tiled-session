@@ -1,5 +1,5 @@
 {
-    "activeFile": "levels/town_big_hat.tmx",
+    "activeFile": "levels/town_goons.tmx",
     "expandedProjectPaths": [
         ".",
         "levels"
@@ -346,12 +346,12 @@
         "CowboyTilemap.tsx",
         "levels/saloon.tmx",
         "levels/desert.tmx",
+        "levels/town_big_hat.tmx",
         "levels/underworld_level.tmx",
         "levels/blank_level.tmx",
         "levels/charon.tmx",
         "levels/harpy.tmx",
         "levels/town_goons.tmx",
-        "levels/town_big_hat.tmx",
         "GameJamSpriteSheet.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",

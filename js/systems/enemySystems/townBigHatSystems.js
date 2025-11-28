@@ -507,6 +507,8 @@ ECS.Systems.bigHatHatSystem = function(entities) {
                                 const bulletSpeed = 2;
                                 const vx = -0.707 * bulletSpeed;
                                 const vy = 0.707 * bulletSpeed;
+
+                                Loader.playSound("HatGunshot.wav", 0.3);
                                 
                                 const bullet = ECS.Blueprints.createBigHatBullet(pos.x + 3, pos.y + 12, vx, vy);
                                 const bullet2 = ECS.Blueprints.createBigHatBullet(pos.x + 9, pos.y + 12, vx, vy);
