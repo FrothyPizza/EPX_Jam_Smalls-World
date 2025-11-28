@@ -111,7 +111,7 @@ ECS.Systems.TownGoonEnemySystem = function(entities) {
             // bullet.addComponent(new ECS.Components.Gravity(0.08));
 
             GlobalState.currentScene.addEntity(bullet);
-            Loader.playSound("powerup.wav", 0.5);
+            Loader.playSound("shotgunshot.wav", 0.5);
 
             // get bound entities (the cannon) and play its shoot animation
             if (entity.has('BoundEntities')) {

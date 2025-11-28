@@ -40,6 +40,7 @@ class TownGoonsScene extends LevelScene {
 
         this.framesToCompletion = this.totalFrames;
         this.waitingCannoneers = [];
+        this.levelComplete = false;
 
         this.enemiesActive = false;
         let outlawLeft = null;
@@ -156,10 +157,12 @@ class TownGoonsScene extends LevelScene {
         // Decrease frames to completion to update background darkening
         if (this.framesToCompletion > 0) {
             this.framesToCompletion--;
-        } else {
+        }
+
+        const remainingCannoneers = ECS.getEntitiesWithComponents('TownGoonsCannonOutlaw').length;
+        if (remainingCannoneers === 0 && !this.levelComplete) {
+            this.levelComplete = true;
             this.onSunset();
-            // scene is over here
-            // ...
         }
 
 
@@ -320,10 +323,21 @@ class TownGoonsScene extends LevelScene {
     onStateLoaded() {
         this.enemiesActive = false;
         this.framesToCompletion = this.totalFrames;
+        this.levelComplete = false;
+        
+        this.pendingSpawns = []; // Clear pending spawns
+
+        // Reset spawners
+        this.spawners.forEach(spawner => {
+            spawner.enemyIDsThatISpawned = [];
+            spawner.framesUntilNextSpawn = 0;
+        });
 
         // Repopulate waitingCannoneers
         this.waitingCannoneers = ECS.getEntitiesWithComponents('TownGoonsCannonOutlaw')
             .filter(e => e.TownGoonsCannonOutlaw.state === 'waiting');
+            
+        console.log("State Loaded. Waiting Cannoneers:", this.waitingCannoneers.length);
 
         this.playCutscene("town_goons_start", { Player: this.player }, {
             onComplete: () => {

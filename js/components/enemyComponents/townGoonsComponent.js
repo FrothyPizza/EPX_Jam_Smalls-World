@@ -13,7 +13,7 @@ ECS.Components.TownGoonsCannonOutlaw = class TownGoonsCannonOutlaw {
         this.strafeTime = 40; // 1 second strafing
         
         this.shootTimer = 0;
-        this.shootInterval = 120; // Shoot every 2 seconds
+        this.shootInterval = 180; // Shoot every 3 seconds
 
         this.jumpTimer = 0;
         this.jumpInterval = 180; // Try to jump every 3 seconds
