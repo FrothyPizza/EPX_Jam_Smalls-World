@@ -8,5 +8,5 @@ const CONSTANTS = {
   playerMaxLives: 3,
   DRAW_HITBOXES: true,
   DRAW_HURTBOXES: true,
-  SPEEDY_MODE: false
+  SPEEDY_MODE: true
 };
