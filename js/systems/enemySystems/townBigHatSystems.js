@@ -39,7 +39,7 @@ ECS.Systems.bigHatBossSystem = function(entities) {
 
                     // Setup Hat for Phase 3
                     if (hatEntity && hatEntity.has('BigHatHatState')) {
-                        hatEntity.AnimatedSprite.animationSpeed = 6;
+                        hatEntity.AnimatedSprite.animationSpeed = 8;
                         const hatState = hatEntity.BigHatHatState;
                         hatState.state = "CENTERING";
                         hatState.cues = state.bossCues;
@@ -83,7 +83,7 @@ ECS.Systems.bigHatBossSystem = function(entities) {
 
                     // Setup Hat
                     if (hatEntity.has('BigHatHatState')) {
-                        hatEntity.AnimatedSprite.animationSpeed = 6;
+                        hatEntity.AnimatedSprite.animationSpeed = 10;
                         const hatState = hatEntity.BigHatHatState;
                         hatState.state = "DETACHING";
                         hatState.cues = state.bossCues; // Pass cues to hat

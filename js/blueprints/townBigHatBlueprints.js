@@ -1,5 +1,6 @@
 ECS.Blueprints.createBigHatBoss = function(x, y, scene, bossCues) {
     const entity = new ECS.Entity();
+    entity.blueprint = 'BigHatBoss';
     entity.addComponent(new ECS.Components.Position(x, y));
     entity.addComponent(new ECS.Components.Dimensions(16, 16));
     entity.addComponent(new ECS.Components.Velocity(0, 0));
@@ -25,10 +26,11 @@ ECS.Blueprints.createBigHatBoss = function(x, y, scene, bossCues) {
 
 ECS.Blueprints.createBigHatHat = function(x, y) {
     const entity = new ECS.Entity();
+    entity.blueprint = 'BigHatHat';
     entity.addComponent(new ECS.Components.Position(x, y));
     entity.addComponent(new ECS.Components.Dimensions(20, 20));
     entity.addComponent(new ECS.Components.BigHatHatState());
-    entity.addComponent(new ECS.Components.AnimatedSprite(Loader.spriteSheets.BigHatHat, "Idle", 8));
+    entity.addComponent(new ECS.Components.AnimatedSprite(Loader.spriteSheets.BigHatHat, "Idle", 16));
     entity.addComponent(new ECS.Components.IsEnemy(true));
     entity.addComponent(new ECS.Components.Hitbox([{x: 2, y: 0, w: 16, h: 15}]));
     entity.addComponent(new ECS.Components.Hurtbox([{x: 4, y: 2, w: 12, h: 12}]));
@@ -66,6 +68,7 @@ ECS.Helpers.addBigHatHatToBoss = function(bossEntity, scene) {
 
 ECS.Blueprints.createBigHatSmallHatProjectile = function(x, y, velocityX, velocityY) {
     const entity = new ECS.Entity();
+    entity.blueprint = 'BigHatSmallHatProjectile';
     entity.addComponent(new ECS.Components.Position(x, y));
     entity.addComponent(new ECS.Components.Dimensions(8, 8));
     entity.addComponent(new ECS.Components.Velocity(velocityX, velocityY));
