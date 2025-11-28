@@ -39,6 +39,7 @@ class TownGoonsScene extends LevelScene {
         super.init();
 
         this.framesToCompletion = this.totalFrames;
+        this.waitingCannoneers = [];
 
         this.enemiesActive = false;
         let outlawLeft = null;
@@ -62,6 +63,15 @@ class TownGoonsScene extends LevelScene {
                 // Remove behavior components so they don't act during cutscene
                 outlawRight.removeComponent('DesertKnifeOutlaw');
                 this.addEntity(outlawRight);
+            } else if (spawn.name.startsWith("CannonOutlaw")) {
+                const isLeft = spawn.x < (this.map.width * this.map.tilewidth) / 2;
+                // Create with default level 'Middle', will be updated on spawn
+                let outlaw = ECS.Blueprints.createTownGoonsCannonOutlaw(spawn.x, spawn.y, !isLeft, 'Middle', this);
+                outlaw.TownGoonsCannonOutlaw.state = 'waiting';
+                this.addEntity(outlaw);
+                this.waitingCannoneers.push(outlaw);
+            } else if (spawn.name === "CannonOutlaw") {
+                // one of the initial "waiting" spots for the cannoneer, before they drop down later
             }
         });
         
@@ -166,13 +176,13 @@ class TownGoonsScene extends LevelScene {
                 const rightSpawner = pending.rightSpawner;
                 
                 // Spawn Left Guy (Faces Right)
-                let leftEntity = ECS.Blueprints.createTownGoonsKnifeOutlaw(leftSpawner.x, leftSpawner.y, false);
+                let leftEntity = ECS.Blueprints.createTownGoonsKnifeOutlaw(leftSpawner.x, leftSpawner.y-1, false);
                 this.addEntity(leftEntity);
                 leftSpawner.enemyIDsThatISpawned.push(leftEntity.id);
                 leftSpawner.framesUntilNextSpawn = leftSpawner.spawnDelayFrames;
 
                 // Spawn Right Guy (Faces Left)
-                let rightEntity = ECS.Blueprints.createTownGoonsKnifeOutlaw(rightSpawner.x, rightSpawner.y, true);
+                let rightEntity = ECS.Blueprints.createTownGoonsKnifeOutlaw(rightSpawner.x, rightSpawner.y-1, true);
                 this.addEntity(rightEntity);
                 rightSpawner.enemyIDsThatISpawned.push(rightEntity.id);
                 rightSpawner.framesUntilNextSpawn = rightSpawner.spawnDelayFrames;
@@ -195,26 +205,63 @@ class TownGoonsScene extends LevelScene {
         });
 
         // // 2. Spawn Gunners (Max 2)
-        const activeCannoneers = ECS.getEntitiesWithComponents('TownGoonsCannonOutlaw').length;
+        const activeCannoneers = ECS.getEntitiesWithComponents('TownGoonsCannonOutlaw').filter(e => e.TownGoonsCannonOutlaw.state !== 'waiting').length;
         if (activeCannoneers < 2) {
-            const freeSpawners = this.spawners.filter(s => s.enemyIDsThatISpawned.length === 0 && s.framesUntilNextSpawn <= 0);
+            // Cannon enemies spawn on Top and Middle platforms
+            const freeSpawners = this.spawners.filter(s => 
+                s.enemyIDsThatISpawned.length === 0 && 
+                s.framesUntilNextSpawn <= 0 &&
+                (s.name.includes('Top') || s.name.includes('Middle'))
+            );
             
-            if (freeSpawners.length > 0) {
+            if (freeSpawners.length > 0 && this.waitingCannoneers.length > 0) {
                 // 5% chance to spawn per frame if slot is open, to stagger them a bit
                 if (Math.random() < 0.05) {
                     const spawner = freeSpawners[Math.floor(Math.random() * freeSpawners.length)];
-                    let isLeftSpawner = spawner.name.includes("Left");
-                    let facingLeft = !isLeftSpawner;
+                    
+                    // Find closest waiting cannoneer
+                    let closestIndex = -1;
+                    let minDist = Infinity;
+                    
+                    this.waitingCannoneers.forEach((c, index) => {
+                        const dist = Math.abs(c.Position.x - spawner.x) + Math.abs(c.Position.y - spawner.y);
+                        if (dist < minDist) {
+                            minDist = dist;
+                            closestIndex = index;
+                        }
+                    });
 
-                    let level = 'Middle';
-                    if (spawner.name.includes('Top')) level = 'Top';
-                    if (spawner.name.includes('Bottom')) level = 'Bottom';
+                    if (closestIndex !== -1) {
+                        const enemyEntity = this.waitingCannoneers[closestIndex];
+                        this.waitingCannoneers.splice(closestIndex, 1);
 
-                    let enemyEntity = ECS.Blueprints.createTownGoonsCannonOutlaw(spawner.x, spawner.y, facingLeft, level);
-                    this.addEntity(enemyEntity);
-                    spawner.enemyIDsThatISpawned.push(enemyEntity.id);
-                    spawner.framesUntilNextSpawn = spawner.spawnDelayFrames;
-                    console.log(`Spawned Cannoneer at ${spawner.name}`);
+                        // Drop down
+                        enemyEntity.Position.y += 2;
+                        enemyEntity.TownGoonsCannonOutlaw.state = 'entering';
+                        
+                        // Update properties based on spawner
+                        let level = 'Middle';
+                        if (spawner.name.includes('Top')) level = 'Top';
+                        if (spawner.name.includes('Bottom')) level = 'Bottom';
+                        enemyEntity.TownGoonsCannonOutlaw.currentLevel = level;
+
+                        let isLeftSpawner = spawner.name.includes("Left");
+                        let facingLeft = !isLeftSpawner;
+                        
+                        // Update SpawnSide
+                        if (enemyEntity.has('SpawnSide')) {
+                            enemyEntity.SpawnSide.side = facingLeft ? 'right' : 'left';
+                        }
+                        // Update Sprite Flip
+                        if (enemyEntity.has('AnimatedSprite')) {
+                            enemyEntity.AnimatedSprite.flipX = facingLeft;
+                            enemyEntity.AnimatedSprite.direction = facingLeft ? -1 : 1;
+                        }
+
+                        spawner.enemyIDsThatISpawned.push(enemyEntity.id);
+                        spawner.framesUntilNextSpawn = spawner.spawnDelayFrames;
+                        console.log(`Activated Cannoneer at ${spawner.name}`);
+                    }
                 }
             }
         }
@@ -223,8 +270,17 @@ class TownGoonsScene extends LevelScene {
         if (this.knifePairSpawnTimer > 0) {
             this.knifePairSpawnTimer--;
         } else {
-            const freeLeft = this.leftSpawners.filter(s => s.enemyIDsThatISpawned.length === 0 && s.framesUntilNextSpawn <= 0);
-            const freeRight = this.rightSpawners.filter(s => s.enemyIDsThatISpawned.length === 0 && s.framesUntilNextSpawn <= 0);
+            // Knife enemies spawn on Bottom platforms
+            const freeLeft = this.leftSpawners.filter(s => 
+                s.enemyIDsThatISpawned.length === 0 && 
+                s.framesUntilNextSpawn <= 0 &&
+                s.name.includes('Bottom')
+            );
+            const freeRight = this.rightSpawners.filter(s => 
+                s.enemyIDsThatISpawned.length === 0 && 
+                s.framesUntilNextSpawn <= 0 &&
+                s.name.includes('Bottom')
+            );
 
             if (freeLeft.length > 0 && freeRight.length > 0) {
                 const leftSpawner = freeLeft[Math.floor(Math.random() * freeLeft.length)];
@@ -256,12 +312,18 @@ class TownGoonsScene extends LevelScene {
     }
 
     updateLevelSpecificSystems() {
-        ECS.Systems.DesertEnemySystem(this.entities);
+
+        ECS.Systems.TownGoonEnemySystem(this.entities);
     }
+
 
     onStateLoaded() {
         this.enemiesActive = false;
         this.framesToCompletion = this.totalFrames;
+
+        // Repopulate waitingCannoneers
+        this.waitingCannoneers = ECS.getEntitiesWithComponents('TownGoonsCannonOutlaw')
+            .filter(e => e.TownGoonsCannonOutlaw.state === 'waiting');
 
         this.playCutscene("town_goons_start", { Player: this.player }, {
             onComplete: () => {

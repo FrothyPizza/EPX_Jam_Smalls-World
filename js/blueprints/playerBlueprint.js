@@ -127,7 +127,11 @@ ECS.Blueprints.WeaponInteract = function(other) {
             other.addComponent(new ECS.Components.RemoveFromScene(true));
             Loader.playSound("damage.wav", 0.5);
 
-            ECS.Helpers.scorePoints(100, other.Position.x, other.Position.y - 10, 'yellow', 30);
+            // if other is a town goon knife outlaw, give more points
+            if (!other.has('TownGoonsKnifeOutlaw')) {
+                ECS.Helpers.scorePoints(100, other.Position.x, other.Position.y - 10, 'yellow', 30);
+                return;
+            }
         }
     }
 }

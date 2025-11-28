@@ -1,8 +1,8 @@
 ECS.Blueprints.createTownGoonsKnifeOutlaw = function(x, y, facingLeft = false) {
     let entity = new ECS.Entity();
     entity.addComponent(new ECS.Components.Position(x, y));
-    entity.addComponent(new ECS.Components.Velocity(0, 0));
-    entity.addComponent(new ECS.Components.Gravity());
+    entity.addComponent(new ECS.Components.Velocity(0, -0.5));
+    entity.addComponent(new ECS.Components.Gravity(0.08));
     entity.addComponent(new ECS.Components.Dimensions(8, 8));
     entity.addComponent(new ECS.Components.CollidesWithMap(true));
     entity.addComponent(new ECS.Components.MapCollisionState());
@@ -10,7 +10,7 @@ ECS.Blueprints.createTownGoonsKnifeOutlaw = function(x, y, facingLeft = false) {
     entity.addComponent(new ECS.Components.Hurtbox([{x: 2, y: 2, w: 5, h: 5}]));
     entity.addComponent(new ECS.Components.IsEnemy(true));
     entity.addComponent(new ECS.Components.DamagesPlayer(true));
-    entity.addComponent(new ECS.Components.DesertKnifeOutlaw());
+    entity.addComponent(new ECS.Components.TownGoonsKnifeOutlaw());
     
     // Left side (facingLeft=false) gets Deputy, Right side (facingLeft=true) gets KnifeOutlaw
     const spriteName = facingLeft ? "KnifeOutlaw" : "KnifeOutlaw";
@@ -19,7 +19,7 @@ ECS.Blueprints.createTownGoonsKnifeOutlaw = function(x, y, facingLeft = false) {
         "Run", 
         12
     );
-    sprite.flipX = facingLeft;
+    // sprite.flipX = facingLeft;
     entity.addComponent(sprite);
 
     entity.addComponent(new ECS.Components.SpawnSide(facingLeft ? 'right' : 'left'));
@@ -29,7 +29,7 @@ ECS.Blueprints.createTownGoonsKnifeOutlaw = function(x, y, facingLeft = false) {
     return entity;
 }
 
-ECS.Blueprints.createTownGoonsCannonOutlaw = function(x, y, facingLeft = false, level = 'Middle') {
+ECS.Blueprints.createTownGoonsCannonOutlaw = function(x, y, facingLeft = false, level = 'Middle', scene = null) {
     let entity = new ECS.Entity();
     entity.addComponent(new ECS.Components.Position(x, y));
     entity.addComponent(new ECS.Components.Velocity(0, 0));
@@ -41,6 +41,19 @@ ECS.Blueprints.createTownGoonsCannonOutlaw = function(x, y, facingLeft = false, 
     entity.addComponent(new ECS.Components.Hurtbox([{x: 2, y: 2, w: 5, h: 5}]));
     entity.addComponent(new ECS.Components.IsEnemy(true));
     entity.addComponent(new ECS.Components.DamagesPlayer(true));
+
+
+    const cannon = ECS.Blueprints.createTownGoonsCannon(0, 0);
+    const targetScene = scene || GlobalState.currentScene;
+    if (targetScene) {
+        targetScene.addEntity(cannon);
+    }
+    entity.addComponent(new ECS.Components.BoundEntities());
+    entity.BoundEntities.entitiesWithOffsets.push({
+        entity: cannon,
+        offsetX: 8,
+        offsetY: -4
+    });
     
     let gunOutlaw = new ECS.Components.TownGoonsCannonOutlaw();
     gunOutlaw.currentLevel = level;
@@ -60,6 +73,19 @@ ECS.Blueprints.createTownGoonsCannonOutlaw = function(x, y, facingLeft = false, 
     
     entity.interactWith = ECS.Blueprints.DesertOutlawInteract;
     
+    return entity;
+}
+
+ECS.Blueprints.createTownGoonsCannon = function(x, y) {
+    let entity = new ECS.Entity();
+    entity.addComponent(new ECS.Components.Position(x, y));
+    entity.addComponent(new ECS.Components.Dimensions(12, 10));
+    entity.addComponent(new ECS.Components.AnimatedSprite(
+        Loader.spriteSheets.Cannon,
+        "Idle",
+        12
+    ));
+
     return entity;
 }
 
@@ -90,12 +116,14 @@ ECS.Blueprints.TownGoonsOutlawInteract = function(other) {
     }
 }
 
-ECS.Blueprints.createTownGoonsCannon = function(x, y, direction, speed) {
+ECS.Blueprints.createTownGoonsCannonBullet = function(x, y, direction, speed) {
     let entity = new ECS.Entity();
     entity.addComponent(new ECS.Components.Position(x, y));
     entity.addComponent(new ECS.Components.Velocity(speed * direction, 0));
     entity.addComponent(new ECS.Components.Dimensions(4, 3));
     entity.addComponent(new ECS.Components.DamagesPlayer(true));
+
+    entity.addComponent(new ECS.Components.Gravity(0.03));
     
     // add hitbox and hurtbox
     entity.addComponent(new ECS.Components.Hitbox([{x: 0, y: 0, w: 4, h: 3}]));
@@ -104,9 +132,9 @@ ECS.Blueprints.createTownGoonsCannon = function(x, y, direction, speed) {
     entity.addComponent(new ECS.Components.AnimatedSprite(
         Loader.spriteSheets.Bullet,
         "Idle",
-        12
+        8
     ));
-    entity.interactWith = ECS.Blueprints.DesertBulletInteract;
+    // entity.interactWith = ECS.Blueprints.DesertBulletInteract;
     return entity;
 }
 

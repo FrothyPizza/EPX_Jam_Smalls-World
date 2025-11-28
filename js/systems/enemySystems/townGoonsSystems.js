@@ -15,7 +15,7 @@ ECS.Systems.TownGoonEnemySystem = function(entities) {
             if (Math.abs(totalDistToPlayer) > 48) {
                 const dir = Math.sign(diff);
                 entity.Velocity.x = dir * speed;
-                entity.AnimatedSprite.flipX = dir < 0;
+                // entity.AnimatedSprite.flipX = dir < 0;
             } else {
                 // entity.Velocity.x = 0;
             }
@@ -25,19 +25,19 @@ ECS.Systems.TownGoonEnemySystem = function(entities) {
                 return;
             }
             // Jump up logic
-            const knife = entity.TownGoonsKnifeOutlaw;
-            const yDiff = player.Position.y - entity.Position.y;
-            if ((yDiff) < -24 && totalDistToPlayer < 40) {
-                knife.framesPlayerAbove++;
-                if (knife.framesPlayerAbove >= knife.jumpDelayFrames) {
-                    if(entity.has('MapCollisionState') && entity.MapCollisionState.bottomHit) {
-                        entity.Velocity.y = -2.6;
-                        knife.framesPlayerAbove = 0;
-                    }
-                }
-            } else {
-                knife.framesPlayerAbove = 0;
-            }
+            // const knife = entity.TownGoonsKnifeOutlaw;
+            // const yDiff = player.Position.y - entity.Position.y;
+            // if ((yDiff) < -24 && totalDistToPlayer < 40) {
+            //     knife.framesPlayerAbove++;
+            //     if (knife.framesPlayerAbove >= knife.jumpDelayFrames) {
+            //         if(entity.has('MapCollisionState') && entity.MapCollisionState.bottomHit) {
+            //             entity.Velocity.y = -2.6;
+            //             knife.framesPlayerAbove = 0;
+            //         }
+            //     }
+            // } else {
+            //     knife.framesPlayerAbove = 0;
+            // }
         }
     });
 
@@ -46,6 +46,8 @@ ECS.Systems.TownGoonEnemySystem = function(entities) {
 
         const cannoneer = entity.TownGoonsCannonOutlaw;
         
+        if (cannoneer.state === 'waiting') return;
+
         // Movement Logic
         let forwardDir = 1;
         if (entity.has('SpawnSide')) {
@@ -76,10 +78,12 @@ ECS.Systems.TownGoonEnemySystem = function(entities) {
             }
         }
         
-        const players = ECS.getEntitiesWithComponents('PlayerState');
-        if (players.length > 0) {
-            const player = players[0];
-            entity.AnimatedSprite.flipX = player.Position.x < entity.Position.x;
+        // Sprite Direction Logic
+        if (entity.has('SpawnSide')) {
+            const isLeft = entity.SpawnSide.side === 'left';
+            // Left side -> flipX = 1 (True). Right side -> flipX = 0 (False).
+            // entity.AnimatedSprite.flipX = isLeft; 
+            entity.AnimatedSprite.direction = isLeft ? 1 : -1;
         }
 
         // Shoot logic
@@ -89,14 +93,43 @@ ECS.Systems.TownGoonEnemySystem = function(entities) {
         } else {
             cannoneer.shootTimer = cannoneer.shootInterval;
             
-            const dir = entity.AnimatedSprite.flipX ? -1 : 1;
-            const bullet = ECS.Blueprints.createDesertBullet(entity.Position.x, entity.Position.y + 4, dir, 2);
+            let shootDir = 1;
+            if (entity.has('SpawnSide') && entity.SpawnSide.side === 'right') {
+                shootDir = -1;
+            }
+
+            const speed = 1.5;
+            const angle = 45 * (Math.PI / 180); // 45 degrees
+            const vx = speed * Math.cos(angle) * shootDir;
+            const vy = -speed * Math.sin(angle);
+
+            let offsetX = entity.AnimatedSprite.direction === 1 ? 14 : -6;
+
+            const bullet = ECS.Blueprints.createTownGoonsCannonBullet(entity.Position.x + offsetX, entity.Position.y + 4, shootDir, speed);
+            bullet.Velocity.x = vx;
+            bullet.Velocity.y = vy;
+            // bullet.addComponent(new ECS.Components.Gravity(0.08));
+
             GlobalState.currentScene.addEntity(bullet);
             Loader.playSound("powerup.wav", 0.5);
+
+            // get bound entities (the cannon) and play its shoot animation
+            if (entity.has('BoundEntities')) {
+                entity.BoundEntities.entitiesWithOffsets.forEach(boundObj => {
+                    const boundEntity = boundObj.entity;
+                    if (boundEntity.has('AnimatedSprite')) {
+                        boundEntity.AnimatedSprite.setAnimation('Shoot');
+                        boundEntity.AnimatedSprite.onAnimationComplete = () => {
+                            boundEntity.AnimatedSprite.setAnimation('Idle');
+                            boundEntity.AnimatedSprite.onAnimationComplete = null;
+                        };
+                    }
+                });
+            }
             // Play sound here
         }
 
-        // No jumping for the cannoneer?
+        // No jumping for the cannoneer.
 
         // Backwards-compatible alias: some scenes expect the pluralized name
         ECS.Systems.TownGoonsEnemySystem = ECS.Systems.TownGoonEnemySystem;
