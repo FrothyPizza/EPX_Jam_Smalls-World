@@ -27,6 +27,9 @@ ECS.Blueprints.createExclamation = function(x, y) {
         entity.AnimatedSprite.setAnimation("Idle");
     };
 
+    
+    Loader.playSound("Exclamation.wav", 0.5);
+
     entity.addComponent(new ECS.Components.Dimensions(8, 8));
     return entity;
 }

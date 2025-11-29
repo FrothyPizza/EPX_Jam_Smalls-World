@@ -433,6 +433,10 @@ document.body.onload = () => {
       "assets/sfx/cowboy/deathSound.wav",
       "assets/sfx/cowboy/HatGunshot.wav",
       "assets/sfx/cowboy/ItemPickup.wav",
+      "assets/sfx/cowboy/attackStart.wav",
+      "assets/sfx/cowboy/Exclamation.wav",
+      "assets/sfx/cowboy/newOutlawBump.wav",
+
 
       "assets/sfx/sam/powerup2.wav",
       "assets/sfx/sam/damage.wav",

@@ -86,7 +86,7 @@ ECS.Blueprints.DesertOutlawInteract = function(other) {
             shakeScreen(3);
             
             // Play sound here
-            Loader.playSound("hit.wav");
+            Loader.playSound("newOutlawBump.wav");
         }
     }
 }
