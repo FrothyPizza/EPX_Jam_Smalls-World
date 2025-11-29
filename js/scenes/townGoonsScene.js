@@ -376,7 +376,10 @@ class TownGoonsScene extends LevelScene {
 
     onSunset() {
 
-        // transition to next scene
-        GlobalState.sceneManager.switchScene(new TownBigHatScene(Loader.levels["town_big_hat"].xml));
+        freezeFrame(120);
+        setFrameTimeout(() => {
+            // transition to next scene
+            GlobalState.sceneManager.switchScene(new TownBigHatScene(Loader.levels["town_big_hat"].xml));
+        }, 120); // 3 second delay before switching
     }
 }

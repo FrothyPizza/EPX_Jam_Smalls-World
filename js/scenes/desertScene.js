@@ -281,8 +281,11 @@ class DesertScene extends LevelScene {
         // then spawn in two guys, then play the cutscene and pass those guys into the cutscene references,
         // gemini should be able to help
 
-        // transition to next scene
-        GlobalState.sceneManager.switchScene(new TownGoonsScene(Loader.levels["town_goons"].xml));
-        //GlobalState.sceneManager.switchScene(new TownBigHatScene(Loader.levels["town_big_hat"].xml));
+        freezeFrame(120);
+        setFrameTimeout(() => {
+            // transition to next scene
+            GlobalState.sceneManager.switchScene(new TownGoonsScene(Loader.levels["town_goons"].xml));
+            //GlobalState.sceneManager.switchScene(new TownBigHatScene(Loader.levels["town_big_hat"].xml));
+        }, 120); // 2 second delay before switching
     }
 }
