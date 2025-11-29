@@ -207,6 +207,8 @@ function moveV(entity, map, value) {
         // Play sound here (bottle bounces)
         const bounceComp = entity.BouncesOffWalls;
         bounceComp.numberOfBounces += 1;
+        
+        Loader.playSound("bottlebounce.wav", 0.5);
         // velocity.y = -Math.abs(velocity.y) * 0.7; // Reverse and reduce vertical velocity
         velocity.y = -velocity.y * 0.7; // Reverse and reduce vertical velocity
         // Slightly adjust position to avoid sticking
