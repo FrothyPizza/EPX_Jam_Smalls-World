@@ -39,13 +39,13 @@
     {
       "type": "dialogue",
       "entity": "BigHat",
-      "text": "Now, now, if it aint my old right hand",
+      "text": "Now, now, if it ain't my old right hand",
       "hold": 120
     },
     {
       "type": "dialogue",
       "entity": "BigHat",
-      "text": "Such a small world ay, didnt think Id see ya again so soon",
+      "text": "Such a small world ay, didn't think I'd see ya again so soon",
       "hold": 120
     },
     {
@@ -69,13 +69,13 @@
     {
       "type": "dialogue",
       "entity": "BigHat",
-      "text": "Well dont ya go thinkin that...",
+      "text": "Well don't ya go thinkin that...",
       "hold": 120
     },
     {
       "type": "dialogue",
       "entity": "BigHat",
-      "text": "THIS TOWN IS BIG ENOUGH FOR THE TWO O US",
+      "text": "THIS TOWN IS BIG ENOUGH FOR THE TWO O' US",
       "hold": 120
     },
     {
