@@ -91,6 +91,7 @@ class TownBigHatScene extends LevelScene {
                     console.log("High score saved:", currentScore);
                 }
 
+                hat.AnimatedSprite.setAnimation("IdlePickUp")
                 bossEntity.AnimatedSprite.setAnimation('Death');
                 // hide the shotgun (AnimatedSprite.hidden = true)
                 ECS.getEntitiesWithComponents('BigHatGun').forEach(gun => {
