@@ -91,10 +91,53 @@ class TownBigHatScene extends LevelScene {
                     console.log("High score saved:", currentScore);
                 }
 
-                // Transition to Menu after a delay
-                setTimeout(() => {
-                    GlobalState.sceneManager.switchScene(new MenuScene());
-                }, 3000);
+                bossEntity.AnimatedSprite.setAnimation('Death');
+                // hide the shotgun (AnimatedSprite.hidden = true)
+                ECS.getEntitiesWithComponents('BigHatGun').forEach(gun => {
+                    if (gun.AnimatedSprite) {
+                        gun.AnimatedSprite.hidden = true;
+                    }
+                });
+
+
+                // find player entity
+                const player = this.player;
+
+                // then, find the BigHatHat and set its interactWith method to be :
+                ECS.getEntitiesWithComponents('BigHatHatState').forEach(hat => {
+                    hat.interactWith = (entity) => {
+                        // check if entity has PlayerState
+                        if (entity.has('PlayerState')) {
+                            // if so, add BigHatHat to the player's BoundEntities
+                            if (!player.has('BoundEntities')) {
+                                player.addComponent(new ECS.Components.BoundEntities());
+                            }
+                            player.BoundEntities.entitiesWithOffsets.push({ entity: hat, offsetX: -6, offsetY: -11 });
+                            
+                            //play sound 
+                            Loader.playSound("VictoryDoot.wav", 0.6);
+                            Loader.setCurrentMusicVolume(0.0);
+
+                            hat.interactWith = null; // prevent further interaction
+
+                            // Remove physics/collision from hat so it doesn't interfere
+                            // hat.removeComponent('PhysicsBody');
+                            // hat.removeComponent('Collider');
+
+                            // then, after a delay, switch to MenuScene
+                            setTimeout(() => {
+                                GlobalState.sceneManager.switchScene(new MenuScene());
+                            }, 3000);
+                        }
+                    };
+                });
+
+
+
+                // // Transition to Menu after a delay
+                // setTimeout(() => {
+                //     GlobalState.sceneManager.switchScene(new MenuScene());
+                // }, 3000);
 
                 // play cutscene here (boss defeated)
                 // this.playCutscene('BigHatDefeat', { boss: bossEntity }, { shouldSave: true });

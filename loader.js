@@ -439,6 +439,7 @@ document.body.onload = () => {
       "assets/sfx/cowboy/OutlawSpeech1.wav",
       "assets/sfx/cowboy/OutlawSpeech2.wav",
       "assets/sfx/cowboy/BossSpeech.wav",
+      "assets/sfx/cowboy/VictoryDoot.wav",
 
 
       "assets/sfx/sam/powerup2.wav",
