@@ -46,7 +46,7 @@
     { "type": "wait", "duration": 15 },
     {
       "type": "dialogue",
-      "speaker": "Gang Lieutenant",
+      "speaker": "Gang Lieutenant Link",
       "text": "Well, well, well... If it ain't Smalls.",
       "hold": 120,
       "charsPerFrame": 0.5,
@@ -74,7 +74,7 @@
     { "type": "wait", "duration": 15 },
     {
       "type": "dialogue",
-      "speaker": "Gang Enforcer",
+      "speaker": "Big Hat Enforcer Eric",
       "text": "Boss BigHat says you're done.",
       "hold": 100,
       "charsPerFrame": 0.5,
@@ -84,7 +84,7 @@
 
     {
       "type": "dialogue",
-      "speaker": "Gang Lieutenant",
+      "speaker": "Big Hat Lieutenant Link",
       "text": "You think you can just walk back into town after everything?",
       "hold": 120,
       "charsPerFrame": 0.5,
@@ -94,7 +94,7 @@
 
     {
       "type": "dialogue",
-      "speaker": "Gang Enforcer",
+      "speaker": "Big Hat Enforcer Eric",
       "text": "After what you did? The whole gang's been looking for you.",
       "hold": 120,
       "charsPerFrame": 0.5,
@@ -104,7 +104,7 @@
 
     {
       "type": "dialogue",
-      "speaker": "Gang Lieutenant",
+      "speaker": "Big Hat Lieutenant Link",
       "text": "You ain't making it to BigHat, traitor.",
       "hold": 100,
       "charsPerFrame": 0.5,
@@ -114,11 +114,11 @@
 
     {
       "type": "dialogue",
-      "speaker": "Gang Enforcer",
-      "text": "Time to pay for your betrayal!",
-      "hold": 100,
+      "speaker": "Big Hat Enforcer Eric",
+      "text": "TIME TO PAY!",
+      "hold": 80,
       "charsPerFrame": 0.5,
-      "box": { "x": 100, "y": 50, "width": 120, "height": 40 }
+      "box": { "x": 100, "y": 50, "width": 80, "height": 40 }
     },
     { "type": "wait", "duration": 30 }
 
