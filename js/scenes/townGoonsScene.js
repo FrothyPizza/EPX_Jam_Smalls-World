@@ -52,7 +52,7 @@ class TownGoonsScene extends LevelScene {
             // desert_level_start.cutscene is what plays after this cutscene (and every time after the game saves)
             if (spawn.name === "OutlawLeft") {
                 // Left side guy (Deputy)
-                outlawLeft = ECS.Blueprints.createDesertGunOutlaw(spawn.x, spawn.y, false);
+                outlawLeft = ECS.Blueprints.createDesertGunOutlaw(spawn.x, spawn.y, true);
                 outlawLeft.name = "OutlawLeft";
                 // Remove behavior components so they don't act during cutscene
                 outlawLeft.removeComponent('DesertGunOutlaw');
