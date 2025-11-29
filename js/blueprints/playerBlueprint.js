@@ -110,6 +110,8 @@ ECS.Blueprints.PlayerInteract = function(other) {
 
         }
 
+        Loader.playSound("ItemPickup.wav");
+
         // Remove the collectible from the game world
         GlobalState.currentScene.removeEntity(other.id);
     }
