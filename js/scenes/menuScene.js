@@ -11,6 +11,11 @@ class MenuScene extends Scene {
     init() {
         super.init();
 
+        // Reset score
+        if (typeof GlobalState !== 'undefined') {
+            GlobalState.score = 0;
+        }
+
         // Create Title Screen Entity
         const titleEntity = new ECS.Entity();
         titleEntity.addComponent(new ECS.Components.Position(0, 0));
